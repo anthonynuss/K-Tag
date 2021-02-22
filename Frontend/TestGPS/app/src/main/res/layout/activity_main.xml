@@ -313,7 +313,7 @@
         app:layout_constraintVertical_bias="0.685" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/waypointCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -332,14 +332,27 @@
         app:layout_constraintTop_toTopOf="@+id/tvLabelCrumbCounter" />
 
     <Button
-        android:id="@+id/buttonShowWaypointList"
+        android:id="@+id/buttonShowMap"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Show Waypoint List"
+        android:layout_marginTop="72dp"
+        android:text="ShowMap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonNewWaypoint" />
+
+    <Button
+        android:id="@+id/buttonShowWaypointList4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Show Waypoint List"
+        app:layout_constraintBottom_toTopOf="@+id/buttonShowMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNewWaypoint"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

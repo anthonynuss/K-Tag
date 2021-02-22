@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -29,12 +30,12 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 42;
     //Text descriptions of data from GPS in the UI
-    TextView tv_Lat, tv_Long, tv_Alt, tv_Acc, tv_Speed, tv_Update, tv_Address, tv_Sensor;
+    TextView tv_Lat, tv_Long, tv_Alt, tv_Acc, tv_Speed, tv_Update, tv_Address, tv_Sensor, tv_waypointCount;
     //Switches to remember if we are tracking location or not,
     //and to switch between high performance and battery saver
     Switch s_Update, s_BattSaver;
 
-    Button b_Waypoint, b_ShowWaypointList;
+    Button b_Waypoint, b_ShowWaypointList, b_ShowMap;
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 30;
@@ -47,6 +48,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     //list of saved locations
     List<Location> savedLocations;
+    List<Double> savedLocationsLat, savedLocationsLong;
 
     //Location request is a config file for all settings related to FusedLocationProviderClient
     LocationRequest locationRequest;
@@ -69,10 +71,12 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         tv_Update = findViewById(R.id.tvUpdate);
         tv_Sensor = findViewById(R.id.tvSensor);
         tv_Address = findViewById(R.id.tvAddress);
+        tv_waypointCount = findViewById(R.id.waypointCount);
         s_Update = findViewById(R.id.switchUpdate);
         s_BattSaver = findViewById(R.id.switchBatterySaver);
         b_Waypoint = findViewById(R.id.buttonNewWaypoint);
-        b_ShowWaypointList = findViewById(R.id.buttonShowWaypointList);
+        b_ShowWaypointList = findViewById(R.id.buttonShowMap);
+        b_ShowMap = findViewById(R.id.buttonShowMap);
 
 
 
@@ -109,10 +113,31 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 MyApplication myApplication = (MyApplication)getApplicationContext();
                 savedLocations = myApplication.getMyLocations();
                 savedLocations.add(currentLocation);
+                savedLocationsLat.add(currentLocation.getLatitude());
+                savedLocationsLong.add(currentLocation.getLongitude());
             }
 
 
        });
+
+        b_ShowWaypointList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ShowSavedLocationsList.class);
+                startActivity(i);
+            }
+        });
+
+
+        b_ShowMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 
 
         s_BattSaver.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +278,11 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             tv_Address.setText("Unable to get street address");
         }
 
+        MyApplication myApplication = (MyApplication)getApplicationContext();
+        savedLocations = myApplication.getMyLocations();
+
+        //show the number of waypoints saved in the list
+        tv_waypointCount.setText(Integer.toString(savedLocations.size()));
 
     }
 
