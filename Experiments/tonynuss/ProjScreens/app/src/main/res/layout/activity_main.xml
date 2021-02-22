@@ -6,13 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="317dp"
+        android:layout_height="343dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@drawable/img_0046" />
+
+    <Button
+        android:id="@+id/gsButton"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:text="Game Setup"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleImage"
+        app:layout_constraintVertical_bias="0.050" />
+
+    <Button
+        android:id="@+id/pButton"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:text="Profile"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gsButton"
+        app:layout_constraintVertical_bias="0.050" />
+
+    <Button
+        android:id="@+id/lButton"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:text="Leaderboards"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pButton"
+        app:layout_constraintVertical_bias="0.050" />
+
+    <Button
+        android:id="@+id/sButton"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:text="Settings"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lButton"
+        app:layout_constraintVertical_bias="0.050" />
+
     <TextView
+        android:id="@+id/gunConnectedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Gun not connected"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sButton"
+        app:layout_constraintVertical_bias="0.24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
