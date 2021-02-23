@@ -12,10 +12,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private List<Double> savedLocationsLng;
+    private List<Double> savedLocationsLat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        CoordinatesList coords = (CoordinatesList) getApplicationContext();
+        savedLocationsLat = coords.getMyLocationsLat();
+        savedLocationsLng = coords.getMyLocationsLng();
     }
 
     /**
@@ -39,14 +47,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+      //  savedLocations = myApplication.getMyLocations();
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng userDot = new LatLng(v: )
+        LatLng sydney = new LatLng(-53, 151);
+       // LatLng userDot = new LatLng(v: )
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.clear();
 
+        LatLng myLocation = new LatLng(savedLocationsLat.get(0), savedLocationsLng.get(0));
+
+        mMap.addMarker(new MarkerOptions().position(myLocation).title("Here I am!"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
 
     }
 }
