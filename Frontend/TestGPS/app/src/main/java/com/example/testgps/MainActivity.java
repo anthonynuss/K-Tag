@@ -75,7 +75,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         s_Update = findViewById(R.id.switchUpdate);
         s_BattSaver = findViewById(R.id.switchBatterySaver);
         b_Waypoint = findViewById(R.id.buttonNewWaypoint);
-        b_ShowWaypointList = findViewById(R.id.buttonShowMap);
+        b_ShowWaypointList = findViewById(R.id.buttonShowWaypointList4);
         b_ShowMap = findViewById(R.id.buttonShowMap);
 
 
@@ -113,8 +113,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 MyApplication myApplication = (MyApplication)getApplicationContext();
                 savedLocations = myApplication.getMyLocations();
                 savedLocations.add(currentLocation);
-                savedLocationsLat.add(currentLocation.getLatitude());
-                savedLocationsLong.add(currentLocation.getLongitude());
+                //savedLocationsLat.add(currentLocation.getLatitude());
+                //savedLocationsLong.add(currentLocation.getLongitude());
             }
 
 
