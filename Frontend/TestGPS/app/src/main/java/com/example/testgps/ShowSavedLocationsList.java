@@ -20,10 +20,11 @@ public class ShowSavedLocationsList extends AppCompatActivity {
 
         lv_savedLocations = findViewById(R.id.lv_wayPoints);
 
-        MyApplication myApplication = (MyApplication)getApplicationContext();
-        List<Location> savedLocations = myApplication.getMyLocations();
+        CoordinatesList myApplication = (CoordinatesList)getApplicationContext();
+        List<Double> savedLocationsLat = myApplication.getMyLocationsLat();
+        List<Double> savedLocationsLng = myApplication.getMyLocationsLng();
 
-        lv_savedLocations.setAdapter(new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, savedLocations));
-
+        lv_savedLocations.setAdapter(new ArrayAdapter<Double>(this,android.R.layout.simple_list_item_1, savedLocationsLat));
+        lv_savedLocations.setAdapter(new ArrayAdapter<Double>(this,android.R.layout.simple_list_item_1, savedLocationsLng));
     }
 }

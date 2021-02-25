@@ -47,8 +47,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     Location currentLocation;
 
     //list of saved locations
-    List<Location> savedLocations;
-    List<Double> savedLocationsLat, savedLocationsLong;
+    List<Double> savedLocationsLat, savedLocationsLng;
 
     //Location request is a config file for all settings related to FusedLocationProviderClient
     LocationRequest locationRequest;
@@ -65,12 +64,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         tv_Lat = findViewById(R.id.tvLat);
         tv_Long = findViewById(R.id.tvLong);
-        tv_Alt = findViewById(R.id.tvAlt);
-        tv_Acc = findViewById(R.id.tvAcc);
-        tv_Speed = findViewById(R.id.tvSpeed);
         tv_Update = findViewById(R.id.tvUpdate);
         tv_Sensor = findViewById(R.id.tvSensor);
-        tv_Address = findViewById(R.id.tvAddress);
         tv_waypointCount = findViewById(R.id.waypointCount);
         s_Update = findViewById(R.id.switchUpdate);
         s_BattSaver = findViewById(R.id.switchBatterySaver);
@@ -107,17 +102,15 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         b_Waypoint.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //get the gps location
+                //get the gps location (specifically taking the lat and lng of the phone location)
 
                 //add the new location to the global list
-                MyApplication myApplication = (MyApplication)getApplicationContext();
-                savedLocations = myApplication.getMyLocations();
-                savedLocations.add(currentLocation);
-                //savedLocationsLat.add(currentLocation.getLatitude());
-                //savedLocationsLong.add(currentLocation.getLongitude());
+                CoordinatesList Coords = (CoordinatesList) getApplicationContext();
+                savedLocationsLat = Coords.getMyLocationsLat();
+                savedLocationsLat.add(currentLocation.getLatitude());
+                savedLocationsLng = Coords.getMyLocationsLng();
+                savedLocationsLng.add(currentLocation.getLongitude());
             }
-
-
        });
 
         b_ShowWaypointList.setOnClickListener(new View.OnClickListener() {
@@ -136,8 +129,6 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
 
 
         s_BattSaver.setOnClickListener(new View.OnClickListener() {
@@ -192,11 +183,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private void stopLocationUpdates(){
         tv_Update.setText("Location Disabled");
-        tv_Acc.setText("Location Disabled");
-        tv_Alt.setText("Location Disabled");
         tv_Lat.setText("Location Disabled");
         tv_Long.setText("Location Disabled");
-        tv_Speed.setText("Location Disabled");
 
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
@@ -221,7 +209,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     private void updateGPS(){
         //get permissions from the user to track GPS
         //get the current location from  the fused client
-        //update the UI to display the propper values on the screen
+        //update the UI to display the proper values on the screen
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient( MainActivity.this);
 
@@ -250,39 +238,17 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //update all of the text view objects with a new location.
         tv_Lat.setText(String.valueOf(location.getLatitude()));
         tv_Long.setText(String.valueOf(location.getLongitude()));
-        tv_Acc.setText(String.valueOf(location.getSpeed()));
-
-        //Some phones don't have altitude, so we display it if we offer it
-        if (location.hasAltitude()) {
-            tv_Alt.setText(String.valueOf(location.getAltitude()));
-        }
-        else{
-            tv_Alt.setText("Not Available");
-        }
-
-        //Same deal for Speed
-        if(location.hasSpeed()){
-            tv_Speed.setText(String.valueOf(location.getSpeed()));
-        }
-        else {
-            tv_Speed.setText("Not Available");
-        }
 
         Geocoder geocoder = new Geocoder(MainActivity.this);
 
-        try{
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            tv_Address.setText(addresses.get(0).getAddressLine(0));
-        }
-        catch (Exception e){
-            tv_Address.setText("Unable to get street address");
-        }
 
-        MyApplication myApplication = (MyApplication)getApplicationContext();
-        savedLocations = myApplication.getMyLocations();
+
+        CoordinatesList coords = (CoordinatesList) getApplicationContext();
+        savedLocationsLat = coords.getMyLocationsLat();
+        savedLocationsLng = coords.getMyLocationsLng();
 
         //show the number of waypoints saved in the list
-        tv_waypointCount.setText(Integer.toString(savedLocations.size()));
+        tv_waypointCount.setText(Integer.toString(savedLocationsLat.size()));
 
     }
 

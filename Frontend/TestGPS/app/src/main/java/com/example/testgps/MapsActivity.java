@@ -18,8 +18,8 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
-    List<Location> savedLocations;
+    private List<Double> savedLocationsLng;
+    private List<Double> savedLocationsLat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        MyApplication myApplication = (MyApplication)getApplicationContext(); //gets access to list
-        savedLocations = myApplication.getMyLocations(); //get locations from global list
+        CoordinatesList coords = (CoordinatesList) getApplicationContext();
+        savedLocationsLat = coords.getMyLocationsLat();
+        savedLocationsLng = coords.getMyLocationsLng();
     }
 
     /**
@@ -46,26 +47,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+      //  savedLocations = myApplication.getMyLocations();
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng sydney = new LatLng(-53, 151);
+       // LatLng userDot = new LatLng(v: )
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.clear();
 
-        //Location lastLocationPlaced
+        LatLng myLocation = new LatLng(savedLocationsLat.get(0), savedLocationsLng.get(0));
 
-        for (Location location: savedLocations) {
-            Double lat = location.getLatitude();
-            Double lng = location.getLongitude();
-
-            LatLng latLng = new LatLng(lat, lng);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title("Me"); //pin title
-            mMap.addMarker(markerOptions);
-        }
-        //mMap.clear();
-
+        mMap.addMarker(new MarkerOptions().position(myLocation).title("Here I am!"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
 
     }
 }
