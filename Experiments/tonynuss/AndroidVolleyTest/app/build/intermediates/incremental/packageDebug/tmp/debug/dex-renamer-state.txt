@@ -1,0 +1,4 @@
+#Thu Feb 25 14:32:54 CST 2021
+base.0=/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
