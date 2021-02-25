@@ -4,6 +4,7 @@ ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/m
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:2:1-24:12
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:2:1-24:12
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:2:1-24:12
+MERGED from [com.android.volley:volley:1.1.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/4dfabde9f9cf43eab198a0f0ea4b259c/jetified-volley-1.1.0/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.material:material:1.3.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/0b040ae6fd7360855475a012c5af81a6/material-1.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/73327337a728e12c5c3cdecdb4b7e327/constraintlayout-2.0.4/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.2.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/44b21666f861b2b454523071d69d07d7/appcompat-1.2.0/AndroidManifest.xml:17:1-24:12
@@ -56,6 +57,8 @@ INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/sr
 		ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:2:11-69
 application
 ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:5:5-22:19
+MERGED from [com.android.volley:volley:1.1.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/4dfabde9f9cf43eab198a0f0ea4b259c/jetified-volley-1.1.0/AndroidManifest.xml:9:5-20
+MERGED from [com.android.volley:volley:1.1.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/4dfabde9f9cf43eab198a0f0ea4b259c/jetified-volley-1.1.0/AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.material:material:1.3.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/0b040ae6fd7360855475a012c5af81a6/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.3.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/0b040ae6fd7360855475a012c5af81a6/material-1.3.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/73327337a728e12c5c3cdecdb4b7e327/constraintlayout-2.0.4/AndroidManifest.xml:9:5-20
@@ -108,6 +111,8 @@ uses-sdk
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml
 INJECTED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml
+MERGED from [com.android.volley:volley:1.1.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/4dfabde9f9cf43eab198a0f0ea4b259c/jetified-volley-1.1.0/AndroidManifest.xml:7:5-43
+MERGED from [com.android.volley:volley:1.1.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/4dfabde9f9cf43eab198a0f0ea4b259c/jetified-volley-1.1.0/AndroidManifest.xml:7:5-43
 MERGED from [com.google.android.material:material:1.3.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/0b040ae6fd7360855475a012c5af81a6/material-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.3.0] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/0b040ae6fd7360855475a012c5af81a6/material-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] /Users/tonynuss/.gradle/caches/transforms-2/files-2.1/73327337a728e12c5c3cdecdb4b7e327/constraintlayout-2.0.4/AndroidManifest.xml:5:5-7:41

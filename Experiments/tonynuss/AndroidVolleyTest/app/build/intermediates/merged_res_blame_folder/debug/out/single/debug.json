@@ -24,6 +24,10 @@
         "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/generated/res/pngs/debug/drawable-ldpi/ic_launcher_background.png"
     },
     {
+        "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable_ico_loading.GIF.flat",
+        "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/drawable/ico_loading.GIF"
+    },
+    {
         "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
         "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/generated/res/pngs/debug/drawable-anydpi-v24/ic_launcher_foreground.xml"
     },
@@ -36,12 +40,12 @@
         "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/layout_activity_i_m_a_g_e_request.xml.flat",
-        "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/layout/activity_i_m_a_g_e_request.xml"
-    },
-    {
         "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/layout_activity_string_request.xml.flat",
         "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/layout/activity_string_request.xml"
+    },
+    {
+        "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/layout_activity_i_m_a_g_e_request.xml.flat",
+        "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/layout/activity_i_m_a_g_e_request.xml"
     },
     {
         "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_launcher_background.png.flat",
@@ -66,6 +70,10 @@
     {
         "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_launcher_background.png.flat",
         "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/generated/res/pngs/debug/drawable-mdpi/ic_launcher_background.png"
+    },
+    {
+        "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable_ico_error.png.flat",
+        "source": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/res/drawable/ico_error.png"
     },
     {
         "merged": "/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_launcher_background.png.flat",

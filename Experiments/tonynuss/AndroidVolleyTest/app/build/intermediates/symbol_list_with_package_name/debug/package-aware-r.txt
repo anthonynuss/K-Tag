@@ -1649,6 +1649,8 @@ drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ico_error
+drawable ico_loading
 drawable material_cursor_drawable
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
@@ -1771,13 +1773,13 @@ id beginning
 id blocking
 id bottom
 id bounce
+id btnImageReq
 id btnImageRequest
+id btnJsonArray
+id btnJsonObj
 id btnJsonRequest
+id btnStringReq
 id btnStringRequest
-id button
-id button2
-id button3
-id button4
 id buttonPanel
 id cache_measures
 id cancel_button
@@ -1879,6 +1881,8 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id imgNetwork
+id imgView
 id info
 id invisible
 id inward
@@ -1927,6 +1931,7 @@ id month_navigation_next
 id month_navigation_previous
 id month_title
 id motion_base
+id msgResponse
 id mtrl_anchor_parent
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week
@@ -2064,8 +2069,6 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
-id textView
-id textView2
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon

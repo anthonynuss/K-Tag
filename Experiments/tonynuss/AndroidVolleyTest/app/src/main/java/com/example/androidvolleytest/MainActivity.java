@@ -22,21 +22,21 @@ public class MainActivity extends AppCompatActivity {
         strReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StringRequest.class));
+                startActivity(new Intent(MainActivity.this, StringRequestActivity.class));
             }
         });
 
         JSONReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StringRequest.class));
+                startActivity(new Intent(MainActivity.this, StringRequestActivity.class));
             }
         });
 
         imageReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, IMAGERequest.class));
+                startActivity(new Intent(MainActivity.this, ImageRequestActivity.class));
             }
         });
     }
