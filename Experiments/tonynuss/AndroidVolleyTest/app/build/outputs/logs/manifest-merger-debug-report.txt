@@ -78,10 +78,10 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/tony
 		ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
 		ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:11:9-55
-activity#com.example.androidvolleytest.ImageReq
-ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:9-55
+activity#com.example.androidvolleytest.IMAGERequest
+ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:9-59
 	android:name
-		ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:19-43
+		ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:19-47
 activity#com.example.androidvolleytest.JSONRequest
 ADDED from /Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:13:9-49
 	android:name

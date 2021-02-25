@@ -28,9 +28,9 @@
 19        android:testOnly="true"
 20        android:theme="@style/Theme.AndroidVolleyTest" >
 20-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:11:9-55
-21        <activity android:name="com.example.androidvolleytest.ImageReq" />
-21-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:9-55
-21-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:19-43
+21        <activity android:name="com.example.androidvolleytest.IMAGERequest" />
+21-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:9-59
+21-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:12:19-47
 22        <activity android:name="com.example.androidvolleytest.JSONRequest" />
 22-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:13:9-49
 22-->/Users/tonynuss/mc_2/Experiments/tonynuss/AndroidVolleyTest/app/src/main/AndroidManifest.xml:13:19-46

@@ -1,13 +1,13 @@
-com/example/androidvolleytest/ImageReq.java
- com.example.androidvolleytest.ImageReq
 com/example/androidvolleytest/JSONRequest.java
  com.example.androidvolleytest.JSONRequest
-com/example/androidvolleytest/BuildConfig.java
- com.example.androidvolleytest.BuildConfig
-com/example/androidvolleytest/StringRequest.java
- com.example.androidvolleytest.StringRequest
 com/example/androidvolleytest/MainActivity.java
  com.example.androidvolleytest.MainActivity
  com.example.androidvolleytest.MainActivity$1
  com.example.androidvolleytest.MainActivity$2
  com.example.androidvolleytest.MainActivity$3
+com/example/androidvolleytest/IMAGERequest.java
+ com.example.androidvolleytest.IMAGERequest
+com/example/androidvolleytest/StringRequest.java
+ com.example.androidvolleytest.StringRequest
+com/example/androidvolleytest/BuildConfig.java
+ com.example.androidvolleytest.BuildConfig

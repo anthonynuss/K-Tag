@@ -2163,7 +2163,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
-layout activity_image_req
+layout activity_i_m_a_g_e_request
 layout activity_j_s_o_n_request
 layout activity_main
 layout activity_string_request
