@@ -30,24 +30,21 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 42;
     //Text descriptions of data from GPS in the UI
-    TextView tv_Lat, tv_Long, tv_Alt, tv_Acc, tv_Speed, tv_Update, tv_Address, tv_Sensor, tv_waypointCount;
+    TextView tv_Lat, tv_Long, tv_Update, tv_Sensor;
     //Switches to remember if we are tracking location or not,
     //and to switch between high performance and battery saver
-    Switch s_Update, s_BattSaver;
+    Switch s_Update, s_HighPerformance;
 
-    Button b_Waypoint, b_ShowWaypointList, b_ShowMap;
+    Button b_Waypoint, b_ShowMap;
 
     //variables to set the default and fast update intervals
-    public static final int DEFAULT_UPDATE_INTERVAL = 30;
-    public static final int FAST_UPDATE_INTERVAL = 5;
+    public static final int DEFAULT_UPDATE_INTERVAL = 3;
+    public static final int FAST_UPDATE_INTERVAL = 1;
 
     boolean updateOn = false;
 
     //current location
     Location currentLocation;
-
-    //list of saved locations
-    List<Double> savedLocationsLat, savedLocationsLng;
 
     //Location request is a config file for all settings related to FusedLocationProviderClient
     LocationRequest locationRequest;
@@ -66,11 +63,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         tv_Long = findViewById(R.id.tvLong);
         tv_Update = findViewById(R.id.tvUpdate);
         tv_Sensor = findViewById(R.id.tvSensor);
-        tv_waypointCount = findViewById(R.id.waypointCount);
+
         s_Update = findViewById(R.id.switchUpdate);
-        s_BattSaver = findViewById(R.id.switchBatterySaver);
+        s_HighPerformance = findViewById(R.id.switchBatterySaver);
         b_Waypoint = findViewById(R.id.buttonNewWaypoint);
-        b_ShowWaypointList = findViewById(R.id.buttonShowWaypointList4);
         b_ShowMap = findViewById(R.id.buttonShowMap);
 
 
@@ -78,50 +74,30 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //set all properties of LocationRequest
         locationRequest = new LocationRequest();
 
-        //How often the default location request occurs (30 seconds)
+        //How often the default location request occurs (3 seconds)
         locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
 
-        //How fast the location request occurs at max performance (5 seconds)
+        //How fast the location request occurs at max performance (1 seconds)
         locationRequest.setFastestInterval(1000 * FAST_UPDATE_INTERVAL);
 
         //Method by which the location is collected
         locationRequest.setPriority(locationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        //This even is triggered whenever the update interval is met
+        //This event is triggered whenever the update interval is met
         locationCallBack = new LocationCallback() {
 
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                //save the location
-
+                //sending the new location value to the lat and lng UI
                 updateUIValues(locationResult.getLastLocation());
             }
         };
 
-        b_Waypoint.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                //get the gps location (specifically taking the lat and lng of the phone location)
-
-                //add the new location to the global list
-                CoordinatesList Coords = (CoordinatesList) getApplicationContext();
-                savedLocationsLat = Coords.getMyLocationsLat();
-                savedLocationsLat.add(currentLocation.getLatitude());
-                savedLocationsLng = Coords.getMyLocationsLng();
-                savedLocationsLng.add(currentLocation.getLongitude());
-            }
-       });
-
-        b_ShowWaypointList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ShowSavedLocationsList.class);
-                startActivity(i);
-            }
-        });
 
 
+
+        //This button starts the map activity
         b_ShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,10 +107,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         });
 
 
-        s_BattSaver.setOnClickListener(new View.OnClickListener() {
+        s_HighPerformance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (s_BattSaver.isChecked()) {
+                if (s_HighPerformance.isChecked()) {
                     //most accurate - use GPS
                     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                     tv_Sensor.setText("Using GPS sensors");
@@ -220,7 +196,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 public void onSuccess(Location location) {
                     // we got permission. Put the values of location into the UI components
                     updateUIValues(location);
-                    currentLocation = location;
+                    CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
+                    myLocation.location = location;
                 }
             });
         }
@@ -238,17 +215,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //update all of the text view objects with a new location.
         tv_Lat.setText(String.valueOf(location.getLatitude()));
         tv_Long.setText(String.valueOf(location.getLongitude()));
+        //CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
 
-        Geocoder geocoder = new Geocoder(MainActivity.this);
-
-
-
-        CoordinatesList coords = (CoordinatesList) getApplicationContext();
-        savedLocationsLat = coords.getMyLocationsLat();
-        savedLocationsLng = coords.getMyLocationsLng();
-
-        //show the number of waypoints saved in the list
-        tv_waypointCount.setText(Integer.toString(savedLocationsLat.size()));
 
     }
 

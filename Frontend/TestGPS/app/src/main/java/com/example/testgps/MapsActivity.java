@@ -18,11 +18,13 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private List<Double> savedLocationsLng;
-    private List<Double> savedLocationsLat;
+   //private List<Double> savedLocationsLng;
+    //private List<Double> savedLocationsLat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -30,9 +32,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        CoordinatesList coords = (CoordinatesList) getApplicationContext();
-        savedLocationsLat = coords.getMyLocationsLat();
-        savedLocationsLng = coords.getMyLocationsLng();
+
+        //CoordinatesList coords = (CoordinatesList) getApplicationContext();
+        //savedLocationsLat = coords.getMyLocationsLat();
+        //savedLocationsLng = coords.getMyLocationsLng();
     }
 
     /**
@@ -47,18 +50,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        int i = 0;
+        float zoomLevel = 20.0f;
       //  savedLocations = myApplication.getMyLocations();
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-53, 151);
        // LatLng userDot = new LatLng(v: )
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.clear();
 
-        LatLng myLocation = new LatLng(savedLocationsLat.get(0), savedLocationsLng.get(0));
+        //HERE IS WHERE OUR CODE ACTUALLY STARTS!
+        CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
+        LatLng location = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng());
 
-        mMap.addMarker(new MarkerOptions().position(myLocation).title("Here I am!"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+        //trying to find a way to update location as the lat lang elements are updated
+        if(myLocation.updateFlag == true){
+             location = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng());
+        }
 
+                mMap.addMarker(new MarkerOptions().position(location).title("Here I am!"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+              //  myLocation.updateFlag = false;
+
+
+        }
     }
-}
