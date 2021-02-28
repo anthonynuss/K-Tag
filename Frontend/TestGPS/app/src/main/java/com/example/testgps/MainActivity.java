@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +39,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     Button b_Waypoint, b_ShowMap;
 
     //variables to set the default and fast update intervals
-    public static final int DEFAULT_UPDATE_INTERVAL = 3;
+    public static final int DEFAULT_UPDATE_INTERVAL = 1;
     public static final int FAST_UPDATE_INTERVAL = 1;
 
     boolean updateOn = false;
@@ -140,6 +141,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         updateGPS();
     } // end onCreate method
 
+
+
     private void startLocationUpdates() {
         tv_Update.setText("Location is being tracked");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -153,6 +156,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
+
         updateGPS();
     }
 
@@ -191,13 +195,16 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //user provided the permission
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+           // fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                fusedLocationProviderClient.getCurrentLocation(100, null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     // we got permission. Put the values of location into the UI components
-                    updateUIValues(location);
+
                     CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
                     myLocation.location = location;
+                    updateUIValues(location);
+
                 }
             });
         }

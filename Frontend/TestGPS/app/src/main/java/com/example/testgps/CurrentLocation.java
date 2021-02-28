@@ -37,6 +37,7 @@ public class CurrentLocation extends Application {
     public void onCreate(){
         super.onCreate();
         singleton = this;
-        updateFlag = true;
+        Lat = 0.0;
+        Lng = 0.0;
     }
 }
