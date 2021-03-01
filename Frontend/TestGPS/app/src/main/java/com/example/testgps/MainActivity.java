@@ -38,7 +38,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     //and to switch between high performance and battery saver
     Switch s_Update, s_HighPerformance;
 
-    Button b_Waypoint, b_ShowMap;
+    Button b_Waypoint, b_ShowMap, b_VolleyTest;
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 1;
@@ -71,6 +71,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         s_HighPerformance = findViewById(R.id.switchBatterySaver);
         b_Waypoint = findViewById(R.id.buttonNewWaypoint);
         b_ShowMap = findViewById(R.id.buttonShowMap);
+        b_VolleyTest = findViewById(R.id.VolleyTest);
 
 
 
@@ -108,6 +109,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+
 
 
         s_HighPerformance.setOnClickListener(new View.OnClickListener() {
