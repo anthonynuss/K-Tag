@@ -10,6 +10,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
@@ -25,8 +27,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+
+
+
+
 //THIS VERSION OF OUR CODE HAS FUSEDLOCATIONSERVCIES DIRECLTY IN THE MAP ACTIVITY
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String TAG = "MapActivity";
 
     private GoogleMap mMap;
     float zoomLevel = 20.0f;
@@ -43,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.v(TAG, "entered on create");
         //seting properites of LocationRequest
         locationRequest = new LocationRequest();
         //How often defualt location request occurs
@@ -59,9 +67,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 //sending the new location value to the lat and lng UI
+                Log.v(TAG, "We are inside the callback function");
                 updateUIValues(locationResult.getLastLocation());
             }
         };
+
+
 
 
         setContentView(R.layout.activity_maps);
@@ -70,9 +81,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        startLocationUpdates();
+
+        Log.v(TAG, "Logs work!");
         updateGPS();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(TAG, "Inside onResume");
+        startLocationUpdates();
+
+    }
+
 
 
     private void updateGPS() {
@@ -110,11 +131,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void updateUIValues(Location location) {
+    private void updateUIValues(Location location){
         CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-        LatLng coords = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng());
+        LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+        Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
         mMap.addMarker(new MarkerOptions().position(coords).title("Here I am!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLevel));
+
+
+
     }
 
     private void startLocationUpdates() {
@@ -129,7 +154,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
+
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, Looper.getMainLooper());
+
         updateGPS();
     }
 
@@ -141,7 +168,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myLocation.getMyLocationLng();
         }
     };
-
 
     /**
      * Manipulates the map once available.
@@ -164,6 +190,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(location).title("Here I am!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
 
+        LatLng coords1 = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng() - 5);
+        mMap.addMarker(new MarkerOptions().position(coords1).title("Here I am!"));
     }
 
 
