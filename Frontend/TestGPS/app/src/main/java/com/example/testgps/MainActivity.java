@@ -10,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -22,6 +24,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.List;
@@ -38,9 +41,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     Button b_Waypoint, b_ShowMap;
 
     //variables to set the default and fast update intervals
-    public static final int DEFAULT_UPDATE_INTERVAL = 3;
+    public static final int DEFAULT_UPDATE_INTERVAL = 1;
     public static final int FAST_UPDATE_INTERVAL = 1;
-
+    private static final String TAG = "MainActivity";
     boolean updateOn = false;
 
     //current location
@@ -140,6 +143,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         updateGPS();
     } // end onCreate method
 
+
+
     private void startLocationUpdates() {
         tv_Update.setText("Location is being tracked");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -153,6 +158,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
+
         updateGPS();
     }
 
@@ -191,13 +197,13 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //user provided the permission
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+           // fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                fusedLocationProviderClient.getCurrentLocation(100, null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     // we got permission. Put the values of location into the UI components
                     updateUIValues(location);
-                    CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-                    myLocation.location = location;
+
                 }
             });
         }
@@ -213,11 +219,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private void updateUIValues(Location location) {
         //update all of the text view objects with a new location.
+        LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+        Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
         tv_Lat.setText(String.valueOf(location.getLatitude()));
         tv_Long.setText(String.valueOf(location.getLongitude()));
-        //CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-
-
     }
 
 }
