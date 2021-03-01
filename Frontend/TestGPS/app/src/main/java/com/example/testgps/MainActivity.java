@@ -202,9 +202,6 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 @Override
                 public void onSuccess(Location location) {
                     // we got permission. Put the values of location into the UI components
-
-                    CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-                    myLocation.location = location;
                     updateUIValues(location);
 
                 }
@@ -222,14 +219,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private void updateUIValues(Location location) {
         //update all of the text view objects with a new location.
-        CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
         tv_Lat.setText(String.valueOf(location.getLatitude()));
         tv_Long.setText(String.valueOf(location.getLongitude()));
-        //CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-
-
     }
 
 }

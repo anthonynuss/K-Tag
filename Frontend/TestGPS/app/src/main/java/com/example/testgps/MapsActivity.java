@@ -117,8 +117,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             fusedLocationProviderClient.getCurrentLocation(100, null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-                    myLocation.location = location;
                     updateUIValues(location);
                 }
             });
@@ -132,7 +130,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateUIValues(Location location){
-        CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
         mMap.addMarker(new MarkerOptions().position(coords).title("Here I am!"));
@@ -160,14 +157,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         updateGPS();
     }
 
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-            myLocation.getMyLocationLat();
-            myLocation.getMyLocationLng();
-        }
-    };
 
     /**
      * Manipulates the map once available.
@@ -183,15 +172,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         //HERE IS WHERE OUR CODE ACTUALLY STARTS!
-        CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-        LatLng location = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng());
 
 
-        mMap.addMarker(new MarkerOptions().position(location).title("Here I am!"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
 
-        LatLng coords1 = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng() - 5);
-        mMap.addMarker(new MarkerOptions().position(coords1).title("Here I am!"));
+        //mMap.addMarker(new MarkerOptions().position(location).title("Here I am!"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+
+        //LatLng coords1 = new LatLng(myLocation.getMyLocationLat(), myLocation.getMyLocationLng() - 5);
+        //mMap.addMarker(new MarkerOptions().position(coords1).title("Here I am!"));
     }
 
 
