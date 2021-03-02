@@ -1,5 +1,6 @@
 package lazertag.users;
 
+import lazertag.users.Team.Team;
 import lazertag.users.Team.TeamRepository;
 import lazertag.users.User.User;
 import org.springframework.boot.CommandLineRunner;
@@ -23,9 +24,20 @@ class Main {
     CommandLineRunner initUser(UserRepository userRepository, TeamRepository teamRepository) {
         return args -> {
 
-            User user1 = new User("John", "john@somemail.com", new Date());
-            User user2 = new User("Jane", "jane@somemail.com", new Date());
-            User user3 = new User("Justin", "justin@somemail.com", new Date());
+
+            //Team team1 = new Team("The Pirates", new Date());
+
+            User user1 = new User("John", "password", new Date());
+            User user2 = new User("Jane", "password3", new Date());
+            User user3 = new User("Justin", "justin432", new Date());
+
+
+
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(user3);
+
+            //teamRepository.save(team1);
 
             /*
             user1.setLaptop(laptop1);

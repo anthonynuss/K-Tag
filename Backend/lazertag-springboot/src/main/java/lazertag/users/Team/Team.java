@@ -30,7 +30,7 @@ public class Team {
      */
     @ManyToOne
     @JsonIgnore
-    private User[] users;
+    private User[] users = new User[32];
 
 
     // =============================== Constructors ================================== //
@@ -47,6 +47,11 @@ public class Team {
         this.name = name;
         this.captain = captain;
         this.addUser(captain);
+        this.creationDate = creationDate;
+    }
+
+    public Team(String name, Date creationDate) {
+        this.name = name;
         this.creationDate = creationDate;
     }
 
