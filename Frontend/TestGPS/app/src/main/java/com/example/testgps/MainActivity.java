@@ -19,10 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.testgps.app.AppController;
 import com.example.testgps.utils.Const;
@@ -33,6 +35,11 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
@@ -52,7 +59,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     boolean updateOn = false;
 
     //stuff for volley req
-    private String tag_string_req = "string_req";
+    private String tag_json_obj = "jobj_req";
     private ProgressDialog pDialog;
 
     //current location
@@ -162,7 +169,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         b_VolleyTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeStringReq();
+                makeJsonObjReq();
             }
         });
 
@@ -268,23 +275,63 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             pDialog.hide();
     }
 
-    /**
-     * String request for volley
-     */
-    private void makeStringReq() {
-        showProgressDialog();
 
-        StringRequest strReq = new StringRequest(Request.Method.GET, Const.URL_STRING_REQ, response -> {
-            Log.d(TAG, response.toString());
-            volleyRec.setText(response.toString());
-            hideProgressDialog();
-        }, error -> {
-            VolleyLog.d(TAG, "Error: " + error.getMessage());
-            hideProgressDialog();
-        });
+    /**
+     * Making json object request
+     * */
+    private void makeJsonObjReq() {
+        showProgressDialog();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                Const.URL_JSON_OBJECT, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        volleyRec.setText(response.toString());
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            //i think for get?
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            //then for Put?
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("name", "Androidhive");
+                params.put("email", "abc@androidhive.info");
+                params.put("pass", "password123");
+
+                return params;
+            }
+
+        };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        AppController.getInstance().addToRequestQueue(jsonObjReq,
+                tag_json_obj);
+
+        // Cancelling request
+        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
     }
 
-}
+};
+
+
+
