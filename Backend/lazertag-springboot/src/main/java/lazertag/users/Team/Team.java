@@ -116,7 +116,7 @@ public class Team {
         return creationDate;
     }
 
-    public void setCreationDate(int Date) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
