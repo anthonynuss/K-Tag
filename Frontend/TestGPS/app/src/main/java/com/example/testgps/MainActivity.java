@@ -50,7 +50,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     //and to switch between high performance and battery saver
     Switch s_Update, s_HighPerformance;
 
-    Button b_Waypoint, b_ShowMap, b_VolleyTest;
+    Button b_ShowMap, b_VolleyTest, b_enterInfo;
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 1;
@@ -86,10 +86,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         s_Update = findViewById(R.id.switchUpdate);
         s_HighPerformance = findViewById(R.id.switchBatterySaver);
-        b_Waypoint = findViewById(R.id.buttonNewWaypoint);
         b_ShowMap = findViewById(R.id.buttonShowMap);
         b_VolleyTest = findViewById(R.id.VolleyTest);
-
+        b_enterInfo = findViewById(R.id.buttonEnterInfo);
 
 
         //set all properties of LocationRequest
@@ -170,6 +169,14 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 makeJsonObjReq();
+            }
+        });
+
+        b_enterInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, InfoActivity.class);
+                startActivity(i);
             }
         });
 

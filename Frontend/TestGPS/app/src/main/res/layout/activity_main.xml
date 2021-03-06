@@ -187,11 +187,11 @@
         app:layout_constraintTop_toTopOf="@+id/tvLabelCrumbCounter" />
 
     <Button
-        android:id="@+id/buttonNewWaypoint"
+        android:id="@+id/buttonEnterInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="New Waypoint"
+        android:text="Enter info!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -206,7 +206,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNewWaypoint" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonEnterInfo" />
 
     <Button
         android:id="@+id/VolleyTest"
@@ -218,7 +218,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonNewWaypoint"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEnterInfo"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
