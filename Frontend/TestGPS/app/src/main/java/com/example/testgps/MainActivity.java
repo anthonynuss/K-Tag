@@ -157,17 +157,17 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         });
 
         s_Update.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            if (s_Update.isChecked()) {
-                                                //turn on location tracking
-                                                startLocationUpdates();
-                                            } else {
-                                                //turn off tracking
-                                                stopLocationUpdates();
-                                            }
-                                        }
-                                    }
+            @Override
+            public void onClick(View v) {
+                if (s_Update.isChecked()) {
+                    //turn on location tracking
+                    startLocationUpdates();
+                } else {
+                    //turn off tracking
+                    stopLocationUpdates();
+                }
+            }
+        }
 
 
         );
@@ -317,19 +317,36 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 hideProgressDialog();
             }
-        }) {
+        });
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+    private void putJsonObjReq() {
+        showProgressDialog();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                Const.URL_JSON_OBJECT, null,
+                new Response.Listener<JSONObject>() {
 
-            /**
-             * Passing some request headers
-             * */
-            //i think for get?
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        volleyRec.setText(response.toString());
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
+            }
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
-            //then for Put?
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
@@ -339,16 +356,12 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
                 return params;
             }
-
         };
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq,
-                tag_json_obj);
-
-        // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
+
+        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
 
 };
 
