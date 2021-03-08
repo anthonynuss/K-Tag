@@ -336,7 +336,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.v(TAG, "Error: " + error.getMessage());
                 hideProgressDialog();
             }
         });
