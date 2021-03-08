@@ -2,7 +2,7 @@ package lazertag.users.User;
 
 import java.util.List;
 
-import lazertag.users.Team.TeamRepository;
+//import lazertag.users.Team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +23,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    TeamRepository teamRepository;
+    //team things
+    //@Autowired
+    //TeamRepository teamRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
@@ -55,6 +56,8 @@ public class UserController {
         userRepository.save(request);
         return userRepository.findById(id);
     }   
+    
+    
 
     /* add
     @PutMapping("/users/{userId}/team/{teamId}")
