@@ -127,6 +127,18 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         });
 
 
+        //Starting the login page
+        b_enterInfo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, InfoActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+
+
 
 
 
