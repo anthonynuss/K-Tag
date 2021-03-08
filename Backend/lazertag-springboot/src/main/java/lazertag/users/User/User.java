@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import lazertag.users.Team.Team;
+//import lazertag.users.Team.Team;
 
 @Entity
 public class User {
@@ -25,19 +25,19 @@ public class User {
      * to create the child entity if not present already (in this case it is laptop)
      * @JoinColumn specifies the ownership of the key i.e. The User table will contain a foreign key from the laptop table and the column name will be laptop_id
      */
+    /*team things
     @ManyToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "team_name")
-    private Team team;
+    private Team team;*/
 
      // =============================== Constructors ================================== //
-
-
+    /* team things
     public User(String name, String password, Date joiningDate, Team team) {
         this.name = name;
         this.password = password;
         this.joiningDate = joiningDate;
         this.team = team;
-    }
+    }*/
 
     public User(String name, String password, Date joiningDate) {
         this.name = name;
@@ -89,11 +89,12 @@ public class User {
     }
 
     //get-set user's team
+    /* team things
     public Team getTeam(){
         return team;
     }
 
     public void setTeam(Team team){
         this.team = team;
-    }
+    }*/
 }
