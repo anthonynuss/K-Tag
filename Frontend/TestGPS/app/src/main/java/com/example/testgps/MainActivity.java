@@ -45,12 +45,17 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 42;
     //Text descriptions of data from GPS in the UI
-    TextView tv_Lat, tv_Long, tv_Update, tv_Sensor, volleyRec;
+    TextView tv_Lat, tv_Long, tv_Update, tv_Sensor, volleyRec, user_name;
     //Switches to remember if we are tracking location or not,
     //and to switch between high performance and battery saver
     Switch s_Update, s_HighPerformance;
 
     Button b_ShowMap, b_VolleyTest, b_enterInfo;
+
+    String userName = "";
+    String passWord = "";
+    long millis;
+    java.sql.Date date;
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 1;
@@ -83,12 +88,14 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         tv_Update = findViewById(R.id.tvUpdate);
         tv_Sensor = findViewById(R.id.tvSensor);
         volleyRec = findViewById(R.id.volleyRec);
+        user_name = findViewById(R.id.userName);
 
         s_Update = findViewById(R.id.switchUpdate);
         s_HighPerformance = findViewById(R.id.switchBatterySaver);
         b_ShowMap = findViewById(R.id.buttonShowMap);
         b_VolleyTest = findViewById(R.id.VolleyTest);
         b_enterInfo = findViewById(R.id.buttonEnterInfo);
+
 
 
         //set all properties of LocationRequest
@@ -114,6 +121,21 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             }
         };
 
+
+        user_name.setText("Enter Info!");
+        //gets user info from InfoActivity
+        Intent i = getIntent();
+
+        if(getIntent().getExtras() != null)
+
+        {
+            userName = i.getStringExtra("Uname");
+            passWord = i.getStringExtra("Pname");
+            user_name.setText(userName); //Updates user name
+            millis =System.currentTimeMillis();
+            date = new java.sql.Date(millis);
+            //postJsonObjReq(); uncomment to post Json obj req
+        }
 
 
 
@@ -180,7 +202,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         b_VolleyTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeJsonObjReq();
+                getJsonObjReq();
             }
         });
 
@@ -296,9 +318,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
 
     /**
-     * Making json object request
+     * getting json object request
      * */
-    private void makeJsonObjReq() {
+    private void getJsonObjReq() {
         showProgressDialog();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECT, null,
@@ -320,7 +342,11 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         });
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-    private void putJsonObjReq() {
+
+    /**
+     * putting a json object
+     */
+    private void postJsonObjReq() {
         showProgressDialog();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECT, null,
@@ -350,9 +376,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("pass", "password123");
+                params.put("name", userName);
+                params.put("password", passWord);
+                params.put("joiningDate", date.toString());
 
                 return params;
             }

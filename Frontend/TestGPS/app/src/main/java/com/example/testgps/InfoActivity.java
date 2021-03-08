@@ -18,7 +18,7 @@ public class InfoActivity extends AppCompatActivity {
 
     TextView ip_userName, ip_password;
     String userName, password;
-    Button b_Login, b_Home;
+    Button b_Login;
     private static final String TAG = "InfoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +29,22 @@ public class InfoActivity extends AppCompatActivity {
         ip_userName = findViewById(R.id.ip_userName);
         ip_password = findViewById(R.id.ip_password);
         b_Login = findViewById(R.id.b_Login);
-        b_Home = findViewById(R.id.b_Home);
 
         b_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //getting username and password from the login page
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
+                Intent i = new Intent(InfoActivity.this, MainActivity.class);
+                i.putExtra("Uname", userName);
+                i.putExtra("Pword", password);
                 Log.v(TAG, "UserName: " + userName);
                 Log.v(TAG, "Password: " + password);
+                startActivity(i);
+            }
+        });
 
-            }
-        });
-        //returning to main screen
-        b_Home.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(InfoActivity.this, MainActivity.class);
-                        startActivity(i);
-            }
-        });
     }
 }
