@@ -130,11 +130,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateUIValues(Location location){
+        //Clearing old marker, so that only one marker is on the map at a time
+        mMap.clear();
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
         mMap.addMarker(new MarkerOptions().position(coords).title("Here I am!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLevel));
-
 
 
     }
