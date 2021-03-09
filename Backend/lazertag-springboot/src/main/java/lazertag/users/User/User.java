@@ -1,6 +1,6 @@
 package lazertag.users.User;
 
-import java.util.Date;
+//import java.util.Date;
 
 import javax.persistence.*;
 
@@ -18,7 +18,9 @@ public class User {
     private int id;
     private String name;
     private String password;
-    private Date joiningDate;
+    //private Date joiningDate;
+    private double lat;
+    private double lng;
 
     /*
      * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User), the cascade option tells springboot
@@ -37,12 +39,17 @@ public class User {
         this.password = password;
         this.joiningDate = joiningDate;
         this.team = team;
-    }*/
+    }
 
     public User(String name, String password, Date joiningDate) {
         this.name = name;
         this.password = password;
         this.joiningDate = joiningDate;
+    }*/
+    
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public User() {
@@ -80,13 +87,34 @@ public class User {
     }
 
     //get-set user join date
+    /*
     public Date getJoiningDate(){
         return joiningDate;
     }
 
     public void setJoiningDate(Date joiningDate){
         this.joiningDate = joiningDate;
+    }*/
+    
+    
+    //get-set user location
+    
+    public double getLatitude(){
+        return lat;
     }
+
+    public void setLatitude(double lat){
+        this.lat = lat;
+    }
+    
+    public double getLongitude(){
+        return lng;
+    }
+
+    public void setLongitude(double lng){
+        this.lng = lng;
+    }
+
 
     //get-set user's team
     /* team things
