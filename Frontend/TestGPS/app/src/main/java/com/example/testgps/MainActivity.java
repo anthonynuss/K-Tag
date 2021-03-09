@@ -21,11 +21,14 @@ import androidx.core.app.ActivityCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.testgps.app.AppController;
 import com.example.testgps.utils.Const;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,6 +39,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -121,6 +125,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             }
         };
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
 
         user_name.setText("Enter Info!");
         //gets user info from InfoActivity
@@ -130,11 +137,11 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         {
             userName = i.getStringExtra("Uname");
-            passWord = i.getStringExtra("Pname");
+            passWord = i.getStringExtra("Pword");
             user_name.setText(userName); //Updates user name
             millis =System.currentTimeMillis();
             date = new java.sql.Date(millis);
-            //postJsonObjReq(); uncomment to post Json obj req
+            postJsonObjReq(); //uncomment to post Json obj req
         }
 
 
@@ -195,9 +202,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         );
 
         //volley stuff
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.setCancelable(false);
+
 
         b_VolleyTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -322,13 +327,13 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
      * */
     private void getJsonObjReq() {
         showProgressDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
                 Const.URL_JSON_OBJECT, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        Log.v(TAG, response.toString());
                         volleyRec.setText(response.toString());
                         hideProgressDialog();
                     }
@@ -348,46 +353,32 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
      */
     private void postJsonObjReq() {
         showProgressDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Const.URL_JSON_OBJECT, null,
-                new Response.Listener<JSONObject>() {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("name", userName);
+            object.put("password", passWord);
+            //object.put("joiningDate", "datetoString");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECTPOST, object,
+                new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        volleyRec.setText(response.toString());
-                        hideProgressDialog();
+                        Log.v(TAG, response.toString());
+
                     }
                 }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hideProgressDialog();
+                volleyRec.setText("Error getting response");
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", userName);
-                params.put("password", passWord);
-                params.put("joiningDate", date.toString());
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+        });
+        hideProgressDialog();
+        requestQueue.add(jsonObjectRequest);
     }
-
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
 
 };
 
