@@ -11,13 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 
- * @author Vivek Bengre
- * 
- */ 
 
-@RestController
+ @RestController
 public class UserController {
 
     @Autowired
@@ -58,7 +53,7 @@ public class UserController {
     }   
     
     
-
+    
     /* add
     @PutMapping("/users/{userId}/team/{teamId}")
     String assignTeamToUser(@PathVariable int userId,@PathVariable int teamId){
