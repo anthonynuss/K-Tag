@@ -5,6 +5,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +16,14 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.testgps.app.AppController;
+import com.example.testgps.utils.Const;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -29,8 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 //THIS VERSION OF OUR CODE HAS FUSEDLOCATIONSERVCIES DIRECLTY IN THE MAP ACTIVITY
@@ -49,6 +59,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int DEFAULT_INTERVAL = 1;
     public static final int FAST_INTERVAL = 1;
 
+
+    //stuff for volley req
+    private String tag_json_obj = "jobj_req";
+    private ProgressDialog pDialog;
+    private String userName = "";
+    private String passWord = "";
+    JSONObject friendObject;
+    double friendLat;
+    double friendLng;
+    double myLat;
+    double myLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +91,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 super.onLocationResult(locationResult);
                 //sending the new location value to the lat and lng UI
                 Log.v(TAG, "We are inside the callback function");
-                updateUIValues(locationResult.getLastLocation());
+                try {
+                    updateUIValues(locationResult.getLastLocation());
+                } catch (JSONException e) {
+                    Log.v(TAG, "stack Trace printed");
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -84,8 +110,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
+        Intent j = getIntent();
+        if(getIntent().getExtras() != null)
+
+        {
+            userName = j.getStringExtra("Uname");
+            passWord = j.getStringExtra("Pword");
+
+            //postJsonObjReq(); //uncomment to post Json obj req
+        }
+
         Log.v(TAG, "Logs work!");
+        getJsonObjReq();
         updateGPS();
+
     }
 
     @Override
@@ -119,7 +161,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             fusedLocationProviderClient.getCurrentLocation(100, null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    updateUIValues(location);
+                    try {
+                        updateUIValues(location);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 
@@ -131,13 +177,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void updateUIValues(Location location){
+    private void updateUIValues(Location location) throws JSONException {
+
+        getJsonObjReq();
+        myLat = location.getLatitude();
+        myLng = location.getLongitude();
+
         //Clearing old marker, so that only one marker is on the map at a time
         mMap.clear();
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng friend = new LatLng(friendLat, friendLng);
         Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
+        Log.v(TAG, "Friend lat: " + friendLat + "Lng: " + friendLng);
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).position(coords).title("Here I am!"));
+        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).position(friend).title("This is my friend!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLevel));
+        postJsonObjReq();
        
 
 
@@ -201,5 +256,92 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
 
         }
+    }
+
+    /**
+     * Volley Stuff
+     */
+
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    private void getJsonObjReq() {
+        showProgressDialog();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                Const.URL_JSON_OBJECT, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG, response.toString());
+                        Log.v(TAG, "the friend is initialized!");
+                        friendObject = response;
+                        try {
+                           //Parsing the friend object to receive lat and lng coords
+                           friendLat = friendObject.isNull("latitude") ? null : friendObject.getDouble("latitude");
+                           friendLng = friendObject.isNull("longitude") ? null : friendObject.getDouble("longitude");
+                            Log.v(TAG, "friendLat: "+ friendLat);
+                            Log.v(TAG, "friendLng: " + friendLng);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //try {
+                          //   friendLat = Double.parseDouble(friendObject.getJSONObject("latitude").toString());
+                           //  friendLng = Double.parseDouble(friendObject.getJSONObject("longitude").toString());
+                        //} catch (JSONException e) {
+                         //   e.printStackTrace();
+                      //  }
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
+            }
+        });
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    /**
+     * putting a json object
+     */
+    private void postJsonObjReq() {
+        showProgressDialog();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("name", userName);
+            object.put("password", passWord);
+            object.put("latitude", myLng);
+            object.put("longitude", myLat);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECTPOST, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG, response.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               // volleyRec.setText("Error getting response");
+            }
+        });
+        hideProgressDialog();
+        requestQueue.add(jsonObjectRequest);
     }
 }

@@ -67,7 +67,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     boolean updateOn = false;
 
-    //stuff for volley req
+    //stuff for volley req//MOVED
     private String tag_json_obj = "jobj_req";
     private ProgressDialog pDialog;
 
@@ -357,6 +357,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         try {
             object.put("name", userName);
             object.put("password", passWord);
+            object.put("longitude", "0.0001");
+            object.put("latitude", "1.221");
             //object.put("joiningDate", "datetoString");
         } catch (JSONException e) {
             e.printStackTrace();
