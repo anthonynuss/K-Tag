@@ -1,7 +1,6 @@
 package com.example.testgps;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.testgps.app.AppController;
 import com.example.testgps.utils.Const;
@@ -42,34 +37,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 42;
-    //Text descriptions of data from GPS in the UI
-    TextView tv_Lat, tv_Long, tv_Update, tv_Sensor, volleyRec, user_name;
-    //Switches to remember if we are tracking location or not,
-    //and to switch between high performance and battery saver
-    Switch s_Update, s_HighPerformance;
 
-    Button b_ShowMap, b_VolleyTest, b_enterInfo;
+    TextView tv_Lat, tv_Long, my_location, user_name; //textViews for screen
 
-    String userName = null;
-    String passWord = null;
-    long millis;
-    java.sql.Date date;
+    Button b_ShowMap, b_VolleyTest, b_enterInfo; //buttons for screen
+
+    String userName = ""; //Hasn't entered info yet
+    String passWord = "";
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 1;
     public static final int FAST_UPDATE_INTERVAL = 1;
     private static final String TAG = "MainActivity";
     boolean updateOn = false;
-
-    //stuff for volley req//MOVED
-    private String tag_json_obj = "jobj_req";
-    private ProgressDialog pDialog;
 
     //current location
     Location currentLocation;
@@ -87,20 +71,16 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //textviews
         tv_Lat = findViewById(R.id.tvLat);
         tv_Long = findViewById(R.id.tvLong);
-        tv_Update = findViewById(R.id.tvUpdate);
-        tv_Sensor = findViewById(R.id.tvSensor);
-        volleyRec = findViewById(R.id.volleyRec);
+        my_location = findViewById(R.id.myLocation);
         user_name = findViewById(R.id.userName);
 
-        s_Update = findViewById(R.id.switchUpdate);
-        s_HighPerformance = findViewById(R.id.switchBatterySaver);
+        //buttons
         b_ShowMap = findViewById(R.id.buttonShowMap);
-        b_VolleyTest = findViewById(R.id.VolleyTest);
+        b_VolleyTest = findViewById(R.id.VolleyTest); //not used right now
         b_enterInfo = findViewById(R.id.buttonEnterInfo);
-
-
 
         //set all properties of LocationRequest
         locationRequest = new LocationRequest();
@@ -125,15 +105,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             }
         };
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.setCancelable(false);
-
-        user_name.setText("Enter Info!");
         //gets user info from InfoActivity
         Intent i = getIntent();
         if(getIntent().getExtras() != null)
-
         {
             userName = i.getStringExtra("Uname");
             passWord = i.getStringExtra("Pword");
@@ -144,21 +118,18 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
 
             user_name.setText(userName); //Updates user name
-            millis =System.currentTimeMillis();
-            date = new java.sql.Date(millis);
-           // postJsonObjReq(); //uncomment to post Json obj req
         }
-
-
 
         //This button starts the map activity
         b_ShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                i.putExtra("Uname", userName);
-                i.putExtra("Pword", passWord);
-                startActivity(i);
+                if(userName == ""){
+                    user_name.setText("PLEASE ENTER INFO");
+                }else {
+                    Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -172,70 +143,17 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-        s_HighPerformance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (s_HighPerformance.isChecked()) {
-                    //most accurate - use GPS
-                    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                    tv_Sensor.setText("Using GPS sensors");
-                } else {
-                    locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-                    tv_Sensor.setText("Using Towers + WiFi");
-                }
-            }
-        });
-
-        s_Update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (s_Update.isChecked()) {
-                    //turn on location tracking
-                    startLocationUpdates();
-                } else {
-                    //turn off tracking
-                    stopLocationUpdates();
-                }
-            }
-        }
-
-
-        );
-
-        //volley stuff
-
-
-        b_VolleyTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getJsonObjReq();
-            }
-        });
-
-        b_enterInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, InfoActivity.class);
-                startActivity(i);
-            }
-        });
+        //locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); //button that used to be "Location Updates
+        //startLocationUpdates();
 
         updateGPS();
     } // end onCreate method
 
 
-
-
-
-
+    /**
+     * Call this method to start location updates
+     */
     private void startLocationUpdates() {
-        tv_Update.setText("Location is being tracked");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -251,9 +169,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         updateGPS();
     }
 
-
+    /**
+     * Call this method to stop location updates
+     */
     private void stopLocationUpdates(){
-        tv_Update.setText("Location Disabled");
         tv_Lat.setText("Location Disabled");
         tv_Long.setText("Location Disabled");
 
@@ -277,6 +196,9 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates gps
+     */
     private void updateGPS(){
         //get permissions from the user to track GPS
         //get the current location from  the fused client
@@ -303,90 +225,18 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             }
         }
 
-
     }
 
+    /**
+     * Updates my location text views
+     * @param location my location
+     */
     private void updateUIValues(Location location) {
         //update all of the text view objects with a new location.
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
-        tv_Lat.setText(String.valueOf(location.getLatitude()));
-        tv_Long.setText(String.valueOf(location.getLongitude()));
-    }
-
-
-    /**
-     * for volley
-     */
-    private void showProgressDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (pDialog.isShowing())
-            pDialog.hide();
-    }
-
-
-    /**
-     * getting json object request
-     * */
-    private void getJsonObjReq() {
-        showProgressDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
-                Const.URL_JSON_OBJECT, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.v(TAG, response.toString());
-                        volleyRec.setText(response.toString());
-                        hideProgressDialog();
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Error: " + error.getMessage());
-                hideProgressDialog();
-            }
-        });
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-    }
-
-    /**
-     * putting a json object
-     */
-    private void postJsonObjReq() {
-        showProgressDialog();
-        JSONObject object = new JSONObject();
-        try {
-            object.put("name", userName);
-            object.put("password", passWord);
-            object.put("longitude", "0.0001");
-            object.put("latitude", "1.221");
-            //object.put("joiningDate", "datetoString");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT, object,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.v(TAG, response.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                volleyRec.setText("Error getting response");
-            }
-        });
-        hideProgressDialog();
-        requestQueue.add(jsonObjectRequest);
+        tv_Lat.setText("Latitude: "+String.valueOf(location.getLatitude()));
+        tv_Long.setText("Longitude: "+String.valueOf(location.getLongitude()));
     }
 
 };
