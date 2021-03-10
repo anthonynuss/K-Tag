@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import lazertag.users.Team.Team;
+//import lazertag.users.Team.Team;
 
 @Entity
 public class Admin {
@@ -25,18 +25,18 @@ public class Admin {
      * to create the child entity if not present already (in this case it is laptop)
      * @JoinColumn specifies the ownership of the key i.e. The User table will contain a foreign key from the laptop table and the column name will be laptop_id
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    //@ManyToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "team_name")
-    private Team team;//TODO: Decide if Admins have a team assigned to them
+    //private Team team;//TODO: Decide if Admins have a team assigned to them
 
      // =============================== Constructors ================================== //
 
 
-    public Admin(String name, String password, Date joiningDate, Team team) {
+    public Admin(String name, String password, Date joiningDate) {
         this.name = name;
         this.password = password;
         this.joiningDate = joiningDate;
-        this.team = team;
+        //this.team = team;
     }
 
     public Admin() {
@@ -82,6 +82,7 @@ public class Admin {
         this.joiningDate = joiningDate;
     }
 
+    /*
     //get-set user's team
     public Team getTeam(){
         return team;
@@ -89,7 +90,7 @@ public class Admin {
 
     public void setTeam(Team team){
         this.team = team;
-    }
+    }*/
 
     
 }
