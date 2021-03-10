@@ -26,16 +26,28 @@ public class UserController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
+    /*
+     * GET:
+     * returns the data of all users in the database
+     */
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
+    /*
+     * GET:
+     * Returns the data of the user with the given id
+     */
     @GetMapping(path = "/users/{id}")
     User getUserById(@PathVariable int id){
         return userRepository.findById(id);
     }
     
+    /*
+     * GET:
+     * Searches through the database for the given username and returns the user data of said username.
+     */
     @GetMapping("/user/{usern}")
     User getUserbyName(@PathVariable String usern, @RequestBody User request){
     	if(userRepository.count()==0) {
@@ -58,7 +70,11 @@ public class UserController {
     	}
         return userRepository.findById(id);
     }   
-
+    
+    /*
+     * POST:
+     * Creates a user based on the JSON object given
+     */
     @PostMapping(path = "/users")
     String createUser(@RequestBody User user){
         if (user == null)
@@ -67,6 +83,10 @@ public class UserController {
         return success;
     }
 
+    /*
+     * PUT:
+     * Updates the non-null, non-0 data in the user with the given id
+     */
     @PutMapping("/users/{id}")
     User updateUser(@PathVariable int id, @RequestBody User request){
         User user = userRepository.findById(id);
@@ -84,6 +104,11 @@ public class UserController {
         return userRepository.findById(id);
     }   
     
+    /*
+     * PUT:
+     * Updates the non-null, non-0 data in the user with the given username. If a user with said username does not exist,
+     * it will create a new user with the given data
+     */
     @PutMapping("/user/{usern}")
     User updateOrCreateUserName(@PathVariable String usern, @RequestBody User request){
     	if(userRepository.count()==0) {
@@ -92,6 +117,9 @@ public class UserController {
             userRepository.save(request);
             return request;
     	}
+    	/*
+    	 * finds first user in database with given name
+    	 */
     	User user = userRepository.findById(1);
     	int id = 0;
     	for(int i=1;i<userRepository.count();i++) {
@@ -101,12 +129,18 @@ public class UserController {
     			break;
     		}
     	}
+    	/*
+    	 * if user with given username is not found, a new user created if the RequestBody is not null
+    	 */
     	if(id==0) {
     		if (request == null)
                 return null;
             userRepository.save(request);
             return request;
     	}
+    	/*
+    	 * the actual PUT function that replaces non-null and non-0 values with the ones given in the RequestBody
+    	 */
     	else {
     		if(request.getName() != null && request.getName() != "") 
             	user.setName(request.getName());
@@ -121,7 +155,10 @@ public class UserController {
     	}
     }   
     
-    
+    /*
+     * PUT:
+     * This is supposed to set the user's team. Teams do not work yet. This will be implemented later
+     */
     /* add
     @PutMapping("/users/{userId}/team/{teamId}")
     String assignTeamToUser(@PathVariable int userId,@PathVariable int teamId){
@@ -135,7 +172,10 @@ public class UserController {
         return success;
     }*/
 
-    
+    /*
+     * DELETE:
+     * deletes the user with the given id. Shouldn't be used yet
+     */
     @DeleteMapping(path = "/users/{id}")
     String deleteUser(@PathVariable int id){
         userRepository.deleteById(id);

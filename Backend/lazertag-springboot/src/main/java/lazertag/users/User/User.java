@@ -9,13 +9,9 @@ import javax.persistence.*;
 @Entity
 public class User {
 
-    /* 
-     * The annotation @ID marks the field below as the primary key for the table created by springboot
-     * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id; //
     private String name;
     private String password;
     //private Date joiningDate;
@@ -23,11 +19,9 @@ public class User {
     private double lng;
 
     /*
-     * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User), the cascade option tells springboot
-     * to create the child entity if not present already (in this case it is laptop)
-     * @JoinColumn specifies the ownership of the key i.e. The User table will contain a foreign key from the laptop table and the column name will be laptop_id
-     */
-    /*team things
+     * Team object creation and constructors that use Teams and join dates are not working correctly as the moment.
+     * These are features that will work later.
+     * 
     @ManyToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "team_name")
     private Team team;*/
@@ -47,6 +41,9 @@ public class User {
         this.joiningDate = joiningDate;
     }*/
     
+    /*
+     * Creates a user object with the given username and password
+     */
     public User(String name, String password) {
         this.name = name;
         this.password = password;
@@ -60,33 +57,51 @@ public class User {
     // =============================== Getters and Setters for each field ================================== //
 
 
+    /*
+     * gets the user's ID
+     */
     public int getId(){
         return id;
     }
 
+    /*
+     * sets the user's ID
+     */
     public void setId(int id){
         this.id = id;
     }
 
-    //get-set user name
+    /*
+     * gets the user's name
+     */
     public String getName(){
         return name;
     }
 
+    /*
+     * sets the user's name
+     */
     public void setName(String name){
         this.name = name;
     }
 
-    //get-set user password
+    /*
+     * gets the user's password
+     */
     public String getPassword(){
         return password;
     }
 
+    /*
+     * sets the user's password
+     */
     public void setPassword(String password){
         this.password = password;
     }
 
-    //get-set user join date
+    /*
+     * gets and sets the user's date they joined. Does not work yet. will be implemented later
+     */
     /*
     public Date getJoiningDate(){
         return joiningDate;
@@ -97,31 +112,47 @@ public class User {
     }*/
     
     
-    //get-set user location
-    
+    /*
+     * gets the user's latitude
+     */
     public double getLatitude(){
         return lat;
     }
 
+    /*
+     * sets the user's latitude
+     */
     public void setLatitude(double lat){
         this.lat = lat;
     }
     
+    /*
+     * gets the user's longitude
+     */
     public double getLongitude(){
         return lng;
     }
 
+    /*
+     * sets the user's longitude
+     */
     public void setLongitude(double lng){
         this.lng = lng;
     }
 
 
-    //get-set user's team
+    /*
+     * gets the user's team. Teams do not work yet, will be implemented later
+     */
     /* team things
     public Team getTeam(){
         return team;
     }
 
+	/*
+     * sets the user's team. Teams do not work yet, will be implemented later
+     */
+    /*
     public void setTeam(Team team){
         this.team = team;
     }*/
