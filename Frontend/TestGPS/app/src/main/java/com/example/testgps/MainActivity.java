@@ -128,6 +128,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                     user_name.setText("PLEASE ENTER INFO");
                 }else {
                     Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                    i.putExtra("Uname", userName);
+                    i.putExtra("Pword", passWord);
                     startActivity(i);
                 }
             }
