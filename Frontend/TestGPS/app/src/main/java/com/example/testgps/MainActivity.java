@@ -56,8 +56,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     Button b_ShowMap, b_VolleyTest, b_enterInfo;
 
-    String userName = "";
-    String passWord = "";
+    String userName = null;
+    String passWord = null;
     long millis;
     java.sql.Date date;
 
@@ -132,16 +132,21 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         user_name.setText("Enter Info!");
         //gets user info from InfoActivity
         Intent i = getIntent();
-
         if(getIntent().getExtras() != null)
 
         {
             userName = i.getStringExtra("Uname");
             passWord = i.getStringExtra("Pword");
+            Log.v(TAG, "password: " + passWord);
+            Intent j = new Intent(MainActivity.this, MapsActivity.class);
+
+
+
+
             user_name.setText(userName); //Updates user name
             millis =System.currentTimeMillis();
             date = new java.sql.Date(millis);
-            postJsonObjReq(); //uncomment to post Json obj req
+           // postJsonObjReq(); //uncomment to post Json obj req
         }
 
 
@@ -151,6 +156,8 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                i.putExtra("Uname", userName);
+                i.putExtra("Pword", passWord);
                 startActivity(i);
             }
         });
@@ -365,7 +372,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECTPOST, object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

@@ -63,8 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //stuff for volley req
     private String tag_json_obj = "jobj_req";
     private ProgressDialog pDialog;
-    private String userName = "";
-    private String passWord = "";
+    private String userName;
+    private String passWord;
     JSONObject friendObject;
     double friendLat;
     double friendLng;
@@ -75,6 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v(TAG, "entered on create");
+        Log.v(TAG, "This is our userName" +  userName);
         //seting properites of LocationRequest
         locationRequest = new LocationRequest();
         //How often defualt location request occurs
@@ -114,13 +115,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
         Intent j = getIntent();
         if(getIntent().getExtras() != null)
 
         {
+            Log.v(TAG, "We see the password" + passWord);
             userName = j.getStringExtra("Uname");
             passWord = j.getStringExtra("Pword");
-
+            Log.v(TAG, "Uname = " + userName);
             //postJsonObjReq(); //uncomment to post Json obj req
         }
 
@@ -134,6 +137,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         Log.v(TAG, "Inside onResume");
+
         startLocationUpdates();
 
     }
@@ -321,14 +325,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             object.put("name", userName);
             object.put("password", passWord);
-            object.put("latitude", myLng);
-            object.put("longitude", myLat);
+            object.put("latitude", myLat);
+            object.put("longitude", myLng);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECTPOST, object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
