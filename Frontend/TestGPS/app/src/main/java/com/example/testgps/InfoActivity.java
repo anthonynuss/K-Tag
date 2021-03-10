@@ -38,8 +38,10 @@ public class InfoActivity extends AppCompatActivity {
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
                 Intent i = new Intent(InfoActivity.this, MainActivity.class);
+
                 i.putExtra("Uname", userName);
                 i.putExtra("Pword", password);
+
                 Log.v(TAG, "UserName: " + userName);
                 Log.v(TAG, "Password: " + password);
                 startActivity(i);

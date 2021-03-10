@@ -111,6 +111,12 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         {
             userName = i.getStringExtra("Uname");
             passWord = i.getStringExtra("Pword");
+            Log.v(TAG, "password: " + passWord);
+            Intent j = new Intent(MainActivity.this, MapsActivity.class);
+
+
+
+
             user_name.setText(userName); //Updates user name
         }
 
