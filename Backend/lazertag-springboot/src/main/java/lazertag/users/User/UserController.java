@@ -35,6 +35,29 @@ public class UserController {
     User getUserById(@PathVariable int id){
         return userRepository.findById(id);
     }
+    
+    @GetMapping("/user/{usern}")
+    User getUserbyName(@PathVariable String usern, @RequestBody User request){
+    	if(userRepository.count()==0) {
+    		User temp = null;
+    		return temp;
+    	}
+    	User user = userRepository.findById(1);
+    	int id = 0;
+    	for(int i=1;i<userRepository.count()+1;i++) {
+    		user = userRepository.findById(i);
+    		if(user.getName().equals(usern)) {
+    			id = i;
+    			break;
+    		}
+    	}
+    	if(id==0) {
+    		if (request == null)
+                return null;
+            return null;
+    	}
+        return userRepository.findById(id);
+    }   
 
     @PostMapping(path = "/users")
     String createUser(@RequestBody User user){
@@ -49,10 +72,54 @@ public class UserController {
         User user = userRepository.findById(id);
         if(user == null)
             return null;
-        userRepository.save(request);
+        if(request.getName() != null && request.getName() != "") 
+        	user.setName(request.getName());
+        if(request.getPassword() != null && request.getPassword() != "") 
+        	user.setPassword(request.getPassword());
+        if(request.getLongitude() != 0.0) 
+        	user.setLongitude(request.getLongitude());
+        if(request.getLatitude() != 0.0) 
+        	user.setLatitude(request.getLatitude());
+        userRepository.save(user);
         return userRepository.findById(id);
     }   
     
+    @PutMapping("/user/{usern}")
+    User updateOrCreateUserName(@PathVariable String usern, @RequestBody User request){
+    	if(userRepository.count()==0) {
+    		if (request == null)
+                return null;
+            userRepository.save(request);
+            return request;
+    	}
+    	User user = userRepository.findById(1);
+    	int id = 0;
+    	for(int i=1;i<userRepository.count();i++) {
+    		user = userRepository.findById(i);
+    		if(user.getName().equals(usern)) {
+    			id = i;
+    			break;
+    		}
+    	}
+    	if(id==0) {
+    		if (request == null)
+                return null;
+            userRepository.save(request);
+            return request;
+    	}
+    	else {
+    		if(request.getName() != null && request.getName() != "") 
+            	user.setName(request.getName());
+            if(request.getPassword() != null && request.getPassword() != "") 
+            	user.setPassword(request.getPassword());
+            if(request.getLongitude() != 0.0) 
+            	user.setLongitude(request.getLongitude());
+            if(request.getLatitude() != 0.0) 
+            	user.setLatitude(request.getLatitude());
+            userRepository.save(user);
+            return userRepository.findById(id);
+    	}
+    }   
     
     
     /* add
