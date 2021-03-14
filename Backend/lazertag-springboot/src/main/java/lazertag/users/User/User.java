@@ -3,6 +3,7 @@ package lazertag.users.User;
 //import java.util.Date;
 
 import javax.persistence.*;
+import io.swagger.annotations.*;
 
 //import lazertag.users.Team.Team;
 
@@ -12,10 +13,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //
+    @ApiModelProperty(notes = "Name of the User",name="name",required=true,value="name")
     private String name;
+    @ApiModelProperty(notes = "Password of the User",name="password",required=true,value="password")
     private String password;
     //private Date joiningDate;
+    @ApiModelProperty(notes = "Latitude of the User",name="latitude",required=false,value="lat")
     private double lat;
+    @ApiModelProperty(notes = "Longitude of the User",name="longitude",required=false,value="long")
     private double lng;
 
     /*
