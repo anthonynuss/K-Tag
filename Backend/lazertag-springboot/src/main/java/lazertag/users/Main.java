@@ -13,6 +13,7 @@ import java.util.Date;
 
 
 @SpringBootApplication
+@EnableSwagger2
 public class Main {
 
     public static void main(String[] args) {
