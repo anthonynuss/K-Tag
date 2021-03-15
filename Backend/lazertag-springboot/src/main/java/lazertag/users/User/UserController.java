@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.*;
 
-
+@Api(value = "UserController", description = "REST APIs related to User Entity")
 @RestController
 public class UserController {
 
@@ -30,6 +31,12 @@ public class UserController {
      * GET:
      * returns the data of all users in the database
      */
+    @ApiOperation(value = "Get list of users in the System ", response = Iterable.class, tags = "getUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
         return userRepository.findAll();
@@ -39,6 +46,12 @@ public class UserController {
      * GET:
      * Returns the data of the user with the given id
      */
+    @ApiOperation(value = "Get a user in the system with an ID ", response = Iterable.class, tags = "getUserID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @GetMapping(path = "/users/{id}")
     User getUserById(@PathVariable int id){
         return userRepository.findById(id);
@@ -48,6 +61,12 @@ public class UserController {
      * GET:
      * Searches through the database for the given username and returns the user data of said username.
      */
+    @ApiOperation(value = "Get list of users in the System ", response = Iterable.class, tags = "getUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @GetMapping("/user/{usern}")
     User getUserbyName(@PathVariable String usern, @RequestBody User request){
     	if(userRepository.count()==0) {
@@ -75,6 +94,12 @@ public class UserController {
      * POST:
      * Creates a user based on the JSON object given
      */
+    @ApiOperation(value = "Create a user in the system ", response = Iterable.class, tags = "createUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @PostMapping(path = "/users")
     String createUser(@RequestBody User user){
         if (user == null)
@@ -87,6 +112,12 @@ public class UserController {
      * PUT:
      * Updates the non-null, non-0 data in the user with the given id
      */
+    @ApiOperation(value = "Updates user coordinates data with given user ID", response = Iterable.class, tags = "updateUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @PutMapping("/users/{id}")
     User updateUser(@PathVariable int id, @RequestBody User request){
         User user = userRepository.findById(id);
@@ -109,6 +140,12 @@ public class UserController {
      * Updates the non-null, non-0 data in the user with the given username. If a user with said username does not exist,
      * it will create a new user with the given data
      */
+    @ApiOperation(value = "Updates user coordinates data with given username", response = Iterable.class, tags = "updateUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @PutMapping("/user/{usern}")
     User updateOrCreateUserName(@PathVariable String usern, @RequestBody User request){
     	if(userRepository.count()==0) {
@@ -176,6 +213,12 @@ public class UserController {
      * DELETE:
      * deletes the user with the given id. Shouldn't be used yet
      */
+    @ApiOperation(value = "Deletes a user with a given user ID", response = Iterable.class, tags = "updateUser")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @DeleteMapping(path = "/users/{id}")
     String deleteUser(@PathVariable int id){
         userRepository.deleteById(id);
