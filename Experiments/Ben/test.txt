@@ -1,2 +1,0 @@
-Hello! This is my first pushed file!
-If you are reading this it worked!
