@@ -1,0 +1,4 @@
+lazertag\users\User\User.class
+lazertag\users\User\UserRepository.class
+lazertag\users\User\UserController.class
+lazertag\users\Main.class
