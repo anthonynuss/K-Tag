@@ -4,8 +4,8 @@ package com.example.testgps.utils;
  * sample links for our network calls
  */
 public class Const {
-    public static final String URL_JSON_OBJECT = "http://coms-309-009.cs.iastate.edu:8080/users/1";
-    public static final String URL_JSON_OBJECTPOST = "http://coms-309-009.cs.iastate.edu:8080/users";
-    public static final String URL_STRING_REQ = "https://api.androidhive.info/volley/string_response.html";
-    public static final String URL_IMAGE = "https://api.androidhive.info/volley/volley-image.jpg";
+    public static final String URL_JSON_OBJECT = "http://coms-309-009.cs.iastate.edu:8080/user/";
+    public static final String URL_JSON_OBJECTIDPATH = "http://coms-309-009.cs.iastate.edu:8080/users/";
+    public static final String URL_JSON_OBJECTServer = "http://coms-309-009.cs.iastate.edu:8080/users";
+
 }

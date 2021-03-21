@@ -7,19 +7,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+/**
+ * @author Anthony Nuss
+ * Login page for user, asks for user info to login
+ */
 
 public class InfoActivity extends AppCompatActivity {
 
-    //TODO
-    //Make is so this data is sent somewhere
-    //Declairing user input fields
 
+    //variables to hold and print username and password
     TextView ip_userName, ip_password;
     String userName, password;
+    //login button to end intent
     Button b_Login;
+    //log.v tag for debugging
     private static final String TAG = "InfoActivity";
+
+    /**
+     * onCreate sets text views for user to enter info and button to login
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +39,11 @@ public class InfoActivity extends AppCompatActivity {
         b_Login = findViewById(R.id.b_Login);
 
         b_Login.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * onClick sets user enterd info into variables to be used in other classes
+             * @param v
+             */
             @Override
             public void onClick(View v) {
 
@@ -38,7 +51,7 @@ public class InfoActivity extends AppCompatActivity {
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
                 Intent i = new Intent(InfoActivity.this, MainActivity.class);
-
+                //setting the username and password into intent i (the main activity)
                 i.putExtra("Uname", userName);
                 i.putExtra("Pword", password);
 
