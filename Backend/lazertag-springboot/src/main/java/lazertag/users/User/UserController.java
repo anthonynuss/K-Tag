@@ -31,7 +31,7 @@ public class UserController {
      * GET:
      * returns the data of all users in the database
      */
-    @ApiOperation(value = "Get list of users in the System ", response = Iterable.class, tags = "getUser")
+    @ApiOperation(value = "Get list of users in the System ", response = User.class, tags = "getUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
@@ -46,7 +46,7 @@ public class UserController {
      * GET:
      * Returns the data of the user with the given id
      */
-    @ApiOperation(value = "Get a user in the system with an ID ", response = Iterable.class, tags = "getUserID")
+    @ApiOperation(value = "Get a user in the system with an ID ", response = User.class, tags = "getUserID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
@@ -61,17 +61,16 @@ public class UserController {
      * GET:
      * Searches through the database for the given username and returns the user data of said username.
      */
-    @ApiOperation(value = "Get list of users in the System ", response = Iterable.class, tags = "getUser")
+    @ApiOperation(value = "Get list of users in the System ", response = User.class, tags = "getUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
             @ApiResponse(code = 403, message = "forbidden"),
             @ApiResponse(code = 404, message = "not found") })
     @GetMapping("/user/{usern}")
-    User getUserbyName(@PathVariable String usern, @RequestBody User request){
+    User getUserbyName(@PathVariable String usern){
     	if(userRepository.count()==0) {
-    		User temp = null;
-    		return temp;
+    		return null;
     	}
     	User user = userRepository.findById(1);
     	int id = 0;
@@ -83,8 +82,6 @@ public class UserController {
     		}
     	}
     	if(id==0) {
-    		if (request == null)
-                return null;
             return null;
     	}
         return userRepository.findById(id);
@@ -94,7 +91,7 @@ public class UserController {
      * POST:
      * Creates a user based on the JSON object given
      */
-    @ApiOperation(value = "Create a user in the system ", response = Iterable.class, tags = "createUser")
+    @ApiOperation(value = "Create a user in the system ", response = User.class, tags = "createUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
@@ -112,7 +109,7 @@ public class UserController {
      * PUT:
      * Updates the non-null, non-0 data in the user with the given id
      */
-    @ApiOperation(value = "Updates user coordinates data with given user ID", response = Iterable.class, tags = "updateUser")
+    @ApiOperation(value = "Updates user coordinates data with given user ID", response = User.class, tags = "updateUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
@@ -140,7 +137,7 @@ public class UserController {
      * Updates the non-null, non-0 data in the user with the given username. If a user with said username does not exist,
      * it will create a new user with the given data
      */
-    @ApiOperation(value = "Updates user coordinates data with given username", response = Iterable.class, tags = "updateUser")
+    @ApiOperation(value = "Updates user coordinates data with given username", response = User.class, tags = "updateUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
@@ -213,7 +210,7 @@ public class UserController {
      * DELETE:
      * deletes the user with the given id. Shouldn't be used yet
      */
-    @ApiOperation(value = "Deletes a user with a given user ID", response = Iterable.class, tags = "updateUser")
+    @ApiOperation(value = "Deletes a user with a given user ID", response = User.class, tags = "updateUser")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),
