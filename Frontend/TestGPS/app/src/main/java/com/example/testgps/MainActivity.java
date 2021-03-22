@@ -49,7 +49,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     TextView tv_Lat, tv_Long, my_location, user_name; //textViews for screen
 
-    Button b_ShowMap, b_profile, b_enterInfo; //buttons for screen
+    Button b_ShowMap, b_profile, b_enterInfo, b_leaderboard; //buttons for screen
 
     String userName = ""; //Hasn't entered info yet
     String passWord = "";
@@ -90,6 +90,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         b_ShowMap = findViewById(R.id.buttonShowMap);
         b_profile = findViewById(R.id.buttonProfile);
         b_enterInfo = findViewById(R.id.buttonEnterInfo);
+        b_leaderboard = findViewById(R.id.buttonLeaderboard);
 
         //set all properties of LocationRequest
         locationRequest = new LocationRequest();
@@ -171,6 +172,14 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 Intent k = new Intent(MainActivity.this, ProfileActivity.class);
                 k.putExtra("Uname", userName);
                 k.putExtra("Pword", passWord);
+                startActivity(k);
+            }
+        });
+
+        b_leaderboard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent k = new Intent(MainActivity.this, LeaderboardActivity.class);
                 startActivity(k);
             }
         });
