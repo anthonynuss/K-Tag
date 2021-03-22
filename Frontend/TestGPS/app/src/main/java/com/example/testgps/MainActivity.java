@@ -37,14 +37,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * @author Anthony Nuss
+ *
+ * Main screen for user. Gives options to start game, login, and other commands
+ * @param <LocationCallBack>
+ */
 public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 42;
 
     TextView tv_Lat, tv_Long, my_location, user_name; //textViews for screen
 
-    Button b_ShowMap, b_VolleyTest, b_enterInfo; //buttons for screen
+    Button b_ShowMap, b_profile, b_enterInfo; //buttons for screen
 
     String userName = ""; //Hasn't entered info yet
     String passWord = "";
@@ -66,6 +71,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     //Google's API for location services the app lives off this G
     FusedLocationProviderClient fusedLocationProviderClient;
 
+    /**
+     * onCreate gets users information and sets display elements
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +88,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
         //buttons
         b_ShowMap = findViewById(R.id.buttonShowMap);
-        b_VolleyTest = findViewById(R.id.VolleyTest); //not used right now
+        b_profile = findViewById(R.id.buttonProfile);
         b_enterInfo = findViewById(R.id.buttonEnterInfo);
 
         //set all properties of LocationRequest
@@ -97,6 +106,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //This event is triggered whenever the update interval is met
         locationCallBack = new LocationCallback() {
 
+            /**
+             * Sets the users current location
+             * @param locationResult
+             */
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
@@ -106,11 +119,11 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         };
 
         //gets user info from InfoActivity
-        Intent i = getIntent();
+        Intent k = getIntent();
         if(getIntent().getExtras() != null)
         {
-            userName = i.getStringExtra("Uname");
-            passWord = i.getStringExtra("Pword");
+            userName = k.getStringExtra("Uname");
+            passWord = k.getStringExtra("Pword");
             Log.v(TAG, "password: " + passWord);
             Intent j = new Intent(MainActivity.this, MapsActivity.class);
 
@@ -120,28 +133,45 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             user_name.setText(userName); //Updates user name
         }
 
-        //This button starts the map activity
+        /**
+         * Sends user and info to the map page if and only if users info is entered
+         */
         b_ShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(userName == ""){
                     user_name.setText("PLEASE ENTER INFO");
                 }else {
-                    Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                    i.putExtra("Uname", userName);
-                    i.putExtra("Pword", passWord);
-                    startActivity(i);
+                    Intent k = new Intent(MainActivity.this, MapsActivity.class);
+                    k.putExtra("Uname", userName);
+                    k.putExtra("Pword", passWord);
+                    startActivity(k);
                 }
             }
         });
 
 
-        //Starting the login page
+        /**
+         * onClick sends user to Info page
+         */
         b_enterInfo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(i);
+            }
+        });
+
+        /**
+         * onClick sends user to profile page
+         */
+        b_profile.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent k = new Intent(MainActivity.this, ProfileActivity.class);
+                k.putExtra("Uname", userName);
+                k.putExtra("Pword", passWord);
+                startActivity(k);
             }
         });
 
@@ -153,7 +183,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
 
     /**
-     * Call this method to start location updates
+     * Start location updates
      */
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -172,7 +202,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     }
 
     /**
-     * Call this method to stop location updates
+     * Stops location updates
      */
     private void stopLocationUpdates(){
         tv_Lat.setText("Location Disabled");
@@ -199,7 +229,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
     }
 
     /**
-     * Updates gps
+     * Updates users current location
      */
     private void updateGPS(){
         //get permissions from the user to track GPS

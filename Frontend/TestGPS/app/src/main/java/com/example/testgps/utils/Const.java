@@ -1,7 +1,7 @@
 package com.example.testgps.utils;
 
 /**
- * sample links for our network calls
+ * links for our network calls
  */
 public class Const {
     public static final String URL_JSON_OBJECT = "http://coms-309-009.cs.iastate.edu:8080/users/1";

@@ -42,8 +42,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-//THIS VERSION OF OUR CODE HAS FUSEDLOCATIONSERVCIES DIRECLTY IN THE MAP ACTIVITY
+/**
+ * Displays a map of all users in the games. Places a pin with name on each users location
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
@@ -116,13 +117,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        Intent j = getIntent();
+        Intent k = getIntent();
         if(getIntent().getExtras() != null)
 
         {
             Log.v(TAG, "We see the password" + passWord);
-            userName = j.getStringExtra("Uname");
-            passWord = j.getStringExtra("Pword");
+            userName = k.getStringExtra("Uname");
+            passWord = k.getStringExtra("Pword");
             Log.v(TAG, "Uname = " + userName);
             //postJsonObjReq(); //uncomment to post Json obj req
         }
