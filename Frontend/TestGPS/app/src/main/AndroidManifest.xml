@@ -20,7 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestGPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LeaderboardActivity"></activity>
+        <activity android:name=".CreateTeamActivity"></activity>
+        <activity android:name=".JoinTeamActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".LeaderboardActivity" />
         <activity android:name=".ProfileActivity" />
 
         <meta-data
