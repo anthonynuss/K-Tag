@@ -1,7 +1,4 @@
-lazertag\users\Admin\AdminRepository.class
 lazertag\users\User\User.class
 lazertag\users\User\UserRepository.class
 lazertag\users\User\UserController.class
 lazertag\users\Main.class
-lazertag\users\Admin\AdminController.class
-lazertag\users\Admin\Admin.class

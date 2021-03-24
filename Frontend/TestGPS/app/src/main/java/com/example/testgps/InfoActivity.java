@@ -7,23 +7,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Login page for user, asks for users information
+ * @author Anthony Nuss
+ * Login page for user, asks for user info to login
  */
+
 public class InfoActivity extends AppCompatActivity {
 
-    //TODO
-    //Make is so this data is sent somewhere
-    //Declairing user input fields
 
-    //text views for input
+    //variables to hold and print username and password
     TextView ip_userName, ip_password;
     String userName, password;
-    //button to login
+    //login button to end intent
     Button b_Login;
+    //log.v tag for debugging
     private static final String TAG = "InfoActivity";
 
     /**
