@@ -21,7 +21,7 @@ public class InfoActivity extends AppCompatActivity {
     TextView ip_userName, ip_password;
     String userName, password;
     //login button to end intent
-    Button b_Login;
+    Button b_Login, b_signUp;
     //log.v tag for debugging
     private static final String TAG = "InfoActivity";
 
@@ -38,6 +38,7 @@ public class InfoActivity extends AppCompatActivity {
         ip_userName = findViewById(R.id.ip_userName);
         ip_password = findViewById(R.id.ip_password);
         b_Login = findViewById(R.id.b_Login);
+        b_signUp = findViewById(R.id.buttonSignUp);
 
         b_Login.setOnClickListener(new View.OnClickListener() {
             /**
@@ -58,6 +59,14 @@ public class InfoActivity extends AppCompatActivity {
                 Log.v(TAG, "UserName: " + userName);
                 Log.v(TAG, "Password: " + password);
                 startActivity(k);
+            }
+        });
+
+        b_signUp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(InfoActivity.this, CreateAccActivity.class);
+                startActivity(i);
             }
         });
 
