@@ -134,13 +134,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        Intent j = getIntent();
+        Intent k = getIntent();
         if(getIntent().getExtras() != null)
 
         {
             Log.v(TAG, "We see the password" + passWord);
-            userName = j.getStringExtra("Uname");
-            passWord = j.getStringExtra("Pword");
+            userName = k.getStringExtra("Uname");
+            passWord = k.getStringExtra("Pword");
             Log.v(TAG, "Uname = " + userName);
             //postJsonObjReq(); //uncomment to post Json obj req
         }

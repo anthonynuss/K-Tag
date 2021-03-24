@@ -26,7 +26,8 @@ public class InfoActivity extends AppCompatActivity {
     private static final String TAG = "InfoActivity";
 
     /**
-     * onCreate sets text views for user to enter info and button to login
+     * onCreate, set textviews for users to enter info and button to login
+     * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,8 @@ public class InfoActivity extends AppCompatActivity {
         b_Login = findViewById(R.id.b_Login);
 
         b_Login.setOnClickListener(new View.OnClickListener() {
-
             /**
-             * onClick sets user enterd info into variables to be used in other classes
+             * onClick stores user entered information to able to be used in other classes. Sends user to main activity
              * @param v
              */
             @Override
@@ -50,14 +50,14 @@ public class InfoActivity extends AppCompatActivity {
                 //getting username and password from the login page
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
-                Intent i = new Intent(InfoActivity.this, MainActivity.class);
-                //setting the username and password into intent i (the main activity)
-                i.putExtra("Uname", userName);
-                i.putExtra("Pword", password);
+                Intent k = new Intent(InfoActivity.this, MainActivity.class);
+
+                k.putExtra("Uname", userName);
+                k.putExtra("Pword", password);
 
                 Log.v(TAG, "UserName: " + userName);
                 Log.v(TAG, "Password: " + password);
-                startActivity(i);
+                startActivity(k);
             }
         });
 
