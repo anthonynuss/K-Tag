@@ -1,17 +1,17 @@
 #Example .gitlab-ci.yml
 stages:
- #- maventry
+  - maventry
   - mavenbuild
   - maventest
   - androidtry
  
-#maven-build: #this is a job
-# stage: maventry
-# tags:
- # - spring_tag #this is LINK to the shell runner on the remote-server
-# script:
- # - cd Backend/lazertag-springboot
- # - mvn package
+maven-build: #this is a job
+ stage: maventry
+ tags:
+  - spring_tag #this is LINK to the shell runner on the remote-server
+ script:
+  - cd Backend/lazertag-springboot
+  - mvn package
     
 maven-build: #build job for springboot
  stage: mavenbuild
