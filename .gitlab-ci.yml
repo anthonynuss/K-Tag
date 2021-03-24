@@ -1,0 +1,24 @@
+#Example .gitlab-ci.yml
+stages:
+    - maventry
+    - androidtry
+ 
+maven-build: #this is a job
+    stage: maventry
+    tags:
+       - spring #this is LINK to the shell runner on the remote-server
+    script:
+    - cd Backend
+    - mvn package
+    
+android-build: #this is another job
+    image: javiersantos/android-ci:latest   #this is a directive to DOCKER
+    stage: androidtry
+    tags:
+    - android   #this is LINK to the docker runner on the remote-server
+    before_script:
+     - export GRADLE_USER_HOME='pwd'/.gradle
+     - chmod +x ./Frontend/TestGPS/gradlew
+    script:
+    - cd Frontend
+    - ./gradlew assemble
