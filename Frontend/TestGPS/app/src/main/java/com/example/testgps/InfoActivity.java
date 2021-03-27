@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Anthony Nuss
@@ -46,17 +47,17 @@ public class InfoActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-
+                UserSingleton user = UserSingleton.getInstance();
                 //getting username and password from the login page
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
+                user.setName(userName);
+                user.setPass(password);
+
+                Log.v(TAG, "UserName using singleton " + user.getName());
+                Log.v(TAG, "Password using singleton " + user.getPass());
                 Intent k = new Intent(InfoActivity.this, MainActivity.class);
 
-                k.putExtra("Uname", userName);
-                k.putExtra("Pword", password);
-
-                Log.v(TAG, "UserName: " + userName);
-                Log.v(TAG, "Password: " + password);
                 startActivity(k);
             }
         });
