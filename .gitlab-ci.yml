@@ -1,8 +1,7 @@
-#Example .gitlab-ci.yml
 stages:
   - maventry
-  - mavenbuild
-  - maventest
+  # - mavenbuild
+  # - maventest
   - androidtry
  
 maven-build: #this is a job
@@ -13,24 +12,24 @@ maven-build: #this is a job
   - cd Backend/lazertag-springboot
   - mvn package
     
-maven-build: #build job for springboot
- stage: mavenbuild
- tags:
-  - spring_tag 
-  script:
-   - cd Backend/lazertag-springboot
-   - mvn package -B
+# maven-build: #build job for springboot
+ # stage: mavenbuild
+ # tags:
+  # - spring_tag 
+  # script:
+   # - cd Backend/lazertag-springboot
+   # - mvn package -B
     
-maven-build: #test job for springboot
- stage: maventest
- tags:
-  - spring_tag 
- script:
-  - cd Backend/lazertag-springboot
-  - mvn test
- artifacts:
-  paths:
-   - Backend/lazertag-springboot/target/*.jar
+# maven-build: #test job for springboot
+ # stage: maventest
+ # tags:
+  # - spring_tag 
+ # script:
+  # - cd Backend/lazertag-springboot
+  # - mvn test
+ # artifacts:
+  # paths:
+   # - Backend/lazertag-springboot/target/*.jar
     
 android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
