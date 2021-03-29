@@ -7,12 +7,12 @@ stages:
 maven-build: #this is a job
  stage: maventry
  tags:
-  - spring_tag #this is LINK to the shell runner on the remote-server
+  spring_tag #this is LINK to the shell runner on the remote-server
  script:
   - cd Backend/lazertag-springboot
   - mvn package
     
-# maven-build: #build job for springboot
+# maven-build: #maven build job for springboot
  # stage: mavenbuild
  # tags:
   # - spring_tag 
@@ -20,7 +20,7 @@ maven-build: #this is a job
    # - cd Backend/lazertag-springboot
    # - mvn package -B
     
-# maven-build: #test job for springboot
+# maven-build: #maven test job for springboot
  # stage: maventest
  # tags:
   # - spring_tag 
@@ -35,7 +35,7 @@ android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
  stage: androidtry
  tags:
-  - android_tag   #this is LINK to the docker runner on the remote-server
+  android_tag   #this is LINK to the docker runner on the remote-server
  before_script:
   - export GRADLE_USER_HOME='pwd'/.gradle
   - chmod +x ./Frontend/TestGPS/gradlew
