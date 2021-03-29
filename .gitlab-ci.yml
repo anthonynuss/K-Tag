@@ -40,5 +40,5 @@ android-build: #this is another job
   - export GRADLE_USER_HOME='pwd'/.gradle
   - chmod +x ./Frontend/TestGPS/gradlew
   script:
-  - cd Frontend/TestGPS/gradlew
+  - cd Frontend/TestGPS
   - ./gradlew assemble
