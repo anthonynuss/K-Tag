@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.testgps.InfoActivity;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -26,13 +28,10 @@ public class ProfileActivity extends AppCompatActivity {
         b_createteam = findViewById(R.id.buttonCreateTeam);
         user_name = findViewById(R.id.myName);
         user_name.setText("No user selected");
+        UserSingleton user = UserSingleton.getInstance();
 
-        Intent k = getIntent();
-        if(getIntent().getExtras() != null) {
-            userName = k.getStringExtra("Uname");
-            k.putExtra("Uname", userName);
-            user_name.setText(userName);
-        }
+        user_name.setText(user.getName());
+
 
         /**
          * Goes to create team on click

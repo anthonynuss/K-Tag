@@ -118,21 +118,11 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 updateUIValues(locationResult.getLastLocation());
             }
         };
+        //Using singleton to set username and password
+        UserSingleton user = UserSingleton.getInstance();
+        userName = user.getName();
+        passWord = user.getPass();
 
-        //gets user info from InfoActivity
-        Intent k = getIntent();
-        if(getIntent().getExtras() != null)
-        {
-            userName = k.getStringExtra("Uname");
-            passWord = k.getStringExtra("Pword");
-            Log.v(TAG, "password: " + passWord);
-            Intent j = new Intent(MainActivity.this, MapsActivity.class);
-
-
-
-
-            user_name.setText(userName); //Updates user name
-        }
 
         /**
          * Sends user and info to the map page if and only if users info is entered
@@ -144,8 +134,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                     user_name.setText("PLEASE ENTER INFO");
                 }else {
                     Intent k = new Intent(MainActivity.this, MapsActivity.class);
-                    k.putExtra("Uname", userName);
-                    k.putExtra("Pword", passWord);
+
                     startActivity(k);
                 }
             }
@@ -170,8 +159,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent k = new Intent(MainActivity.this, ProfileActivity.class);
-                k.putExtra("Uname", userName);
-                k.putExtra("Pword", passWord);
+
                 startActivity(k);
             }
         });
@@ -188,6 +176,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //startLocationUpdates();
 
         updateGPS();
+        Toast.makeText(getApplicationContext(), "THIS IS A TOAST", Toast.LENGTH_LONG);
     } // end onCreate method
 
 
