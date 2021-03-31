@@ -2,6 +2,7 @@ package com.example.testgps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,8 @@ public class InfoActivity extends AppCompatActivity {
 
     //log.v tag for debugging
     private static final String TAG = "InfoActivity";
-    boolean userFound = false;
+    private static boolean userFound = true; //delete true
+    private ProgressDialog pDialog;
 
 
     /**
@@ -55,6 +57,10 @@ public class InfoActivity extends AppCompatActivity {
         b_Login = findViewById(R.id.b_Login);
         b_signUp = findViewById(R.id.buttonSignUp);
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
+
         b_Login.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick finds user info in database. Sends user to main activity
@@ -68,7 +74,7 @@ public class InfoActivity extends AppCompatActivity {
 
                 findLoginCredentials(); //find user
 
-                if(userFound) {
+                if(userFound == true) {
                     UserSingleton user = UserSingleton.getInstance();
                     user.setName(userName);
                     user.setPass(password);
@@ -94,13 +100,32 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     /**
+     * showProgressDialog is used to show the volley request progress graphically
+     */
+
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * hideProgressDialog is used to stop the graphical progress representation
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    /**
      * findLoginCredentials gets all users from server and finds the user that the person entered by comparing username and password.
      */
     private void findLoginCredentials() {
-
+        showProgressDialog();
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECTServer, null,
                 new Response.Listener<JSONArray>() {
+
+
 
                     /**
                      * onResponse loops through the received JSON array to find each user name
@@ -112,6 +137,7 @@ public class InfoActivity extends AppCompatActivity {
                         JSONArray serverArray;
                         String findUser;
                         String userPass;
+
 
                         Log.v(TAG, response.toString());
                         Log.v(TAG, "the server is here");
@@ -125,13 +151,15 @@ public class InfoActivity extends AppCompatActivity {
                                 Log.v(TAG, "User: " + findUser);
                                 //if we find a person with same name and password it is a valid user.
                                 if(findUser.equals(userName) && userPass.equals(password)){
+                                    InfoActivity.userFound = true;
                                     Log.v(TAG, "We found the user: " + findUser);
-                                    userFound = true;
+
                                     break;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            hideProgressDialog();
                         }
 
                     }
@@ -144,7 +172,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "Error: " + error.getMessage());
-
+                hideProgressDialog();
             }
         });
 
