@@ -49,10 +49,10 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     TextView tv_Lat, tv_Long, my_location, user_name; //textViews for screen
 
-    Button b_ShowMap, b_profile, b_enterInfo, b_leaderboard; //buttons for screen
+    Button b_ShowMap, b_profile, b_leaderboard; //buttons for screen
 
-    String userName = ""; //Hasn't entered info yet
-    String passWord = "";
+    String userName;
+    String passWord;
 
     //variables to set the default and fast update intervals
     public static final int DEFAULT_UPDATE_INTERVAL = 1;
@@ -89,7 +89,6 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //buttons
         b_ShowMap = findViewById(R.id.buttonShowMap);
         b_profile = findViewById(R.id.buttonProfile);
-        b_enterInfo = findViewById(R.id.buttonEnterInfo);
         b_leaderboard = findViewById(R.id.buttonLeaderboard);
 
         //set all properties of LocationRequest
@@ -118,50 +117,24 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
                 updateUIValues(locationResult.getLastLocation());
             }
         };
+        //Using singleton to set username and password
+        UserSingleton user = UserSingleton.getInstance();
+        userName = user.getName();
+        passWord = user.getPass();
+        user_name.setText(userName);
 
-        //gets user info from InfoActivity
-        Intent k = getIntent();
-        if(getIntent().getExtras() != null)
-        {
-            userName = k.getStringExtra("Uname");
-            passWord = k.getStringExtra("Pword");
-            Log.v(TAG, "password: " + passWord);
-            Intent j = new Intent(MainActivity.this, MapsActivity.class);
-
-
-
-
-            user_name.setText(userName); //Updates user name
-        }
 
         /**
-         * Sends user and info to the map page if and only if users info is entered
+         * Sends user and info to the map page.
          */
         b_ShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userName == ""){
-                    user_name.setText("PLEASE ENTER INFO");
-                }else {
-                    Intent k = new Intent(MainActivity.this, MapsActivity.class);
-                    k.putExtra("Uname", userName);
-                    k.putExtra("Pword", passWord);
-                    startActivity(k);
-                }
+                Intent k = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(k);
             }
         });
 
-
-        /**
-         * onClick sends user to Info page
-         */
-        b_enterInfo.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, InfoActivity.class);
-                startActivity(i);
-            }
-        });
 
         /**
          * onClick sends user to profile page
@@ -170,12 +143,14 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent k = new Intent(MainActivity.this, ProfileActivity.class);
-                k.putExtra("Uname", userName);
-                k.putExtra("Pword", passWord);
+
                 startActivity(k);
             }
         });
 
+        /**
+         * onclick sends user to leader board page
+         */
         b_leaderboard.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -188,6 +163,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         //startLocationUpdates();
 
         updateGPS();
+        Toast.makeText(getApplicationContext(), "THIS IS A TOAST", Toast.LENGTH_LONG);
     } // end onCreate method
 
 

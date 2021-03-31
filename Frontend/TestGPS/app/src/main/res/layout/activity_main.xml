@@ -40,7 +40,7 @@
         android:id="@+id/buttonEnterInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Enter info!"
+        android:text="To-be changed"
         android:textColor="#FFFFFF"
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"

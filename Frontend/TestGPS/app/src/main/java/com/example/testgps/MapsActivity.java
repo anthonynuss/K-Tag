@@ -134,16 +134,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        Intent k = getIntent();
-        if(getIntent().getExtras() != null)
+        //using singleton to get username and password
+        UserSingleton user = UserSingleton.getInstance();
+        userName = user.getName();
+        passWord = user.getPass();
 
-        {
-            Log.v(TAG, "We see the password" + passWord);
-            userName = k.getStringExtra("Uname");
-            passWord = k.getStringExtra("Pword");
-            Log.v(TAG, "Uname = " + userName);
-            //postJsonObjReq(); //uncomment to post Json obj req
-        }
+            postJsonObjReq(); //uncomment to post Json obj req
+
 
         Log.v(TAG, "Logs work!");
         //Hopefully getting friend name first
