@@ -1,16 +1,16 @@
 image: maven:latest
 
 stages:
-  - mavenbuild
+  - maventest
   - androidtry
  
 maven-build: #this is a job
- stage: mavenbuild
+ stage: maventest
  tags:
   - spring_tag #this is LINK to the shell runner on the remote-server
  script:
   - cd Backend/lazertag-springboot
-  - mvn package -B
+  - mvn test
         
 android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
