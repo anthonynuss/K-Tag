@@ -7,7 +7,7 @@ maven-build: #this is a job
  tags:
   - spring_tag #this is LINK to the shell runner on the remote-server
  script:
-  - - $MAVEN_HOME/bin/mvn clean
+  - $MAVEN_HOME/bin/mvn clean
   - cd Backend/lazertag-springboot
   - mvn package
         
