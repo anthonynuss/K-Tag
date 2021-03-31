@@ -139,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userName = user.getName();
         passWord = user.getPass();
 
-            postJsonObjReq(); //uncomment to post Json obj req
+        postJsonObjReq(); //uncomment to post Json obj req
 
 
         Log.v(TAG, "Logs work!");
