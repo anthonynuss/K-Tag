@@ -5,6 +5,7 @@ stages:
   - maventest
   - androidbuild
   - androidtest
+  - mavenDeploy
   
 maven-build: #maven build job for springboot
   stage: mavenbuild
@@ -51,3 +52,14 @@ android-build:
  script:
   - cd Frontend/TestGPS
   - ./gradlew test
+  
+autoDeploy:
+  stage: mavenDeploy
+  tags:
+   - spring_tag
+  script:
+    - cd Backend/lazertag-springboot
+    - mvn package
+    - sudo mv target/*.jar /target/web-demo.jar
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
