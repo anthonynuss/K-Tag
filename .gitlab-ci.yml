@@ -1,8 +1,17 @@
 image: maven:latest
 
 stages:
+  - mavenbuild
   - maventest
   - androidbuild
+  
+maven-build: #maven build job for springboot
+ stage: mavenbuild
+ tags:
+  - spring_tag 
+  script:
+   - cd Backend/lazertag-springboot
+   - mvn package -B
  
 maven-build: #this is a job
  stage: maventest
@@ -11,6 +20,9 @@ maven-build: #this is a job
  script:
   - cd Backend/lazertag-springboot
   - mvn test
+  artifacts:
+    paths:
+      - Backend/lazertag-springboot/target/*.jar
         
 android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
@@ -25,4 +37,4 @@ android-build: #this is another job
   - ./gradlew assemble
  artifacts:
    paths:
-   - outputs/
+   - outputs/  #TODO
