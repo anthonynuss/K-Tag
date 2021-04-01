@@ -60,6 +60,6 @@ autoDeploy:
   script:
     - cd Backend/lazertag-springboot
     - mvn package
-    - mv target/*.jar /target/web-demo.jar
+    - sudo mv target/*.jar /target/web-demo.jar
     - systemctl stop system-web-demo
-    - Ssystemctl start system-web-demo
+    - systemctl start system-web-demo
