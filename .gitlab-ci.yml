@@ -15,7 +15,7 @@ maven-build: #maven build job for springboot
     - cd Backend/lazertag-springboot
     - mvn package -B
  
-maven-build: #this is a job
+maven-test: #this is a job
   stage: maventest
   tags:
     - spring_tag #this is LINK to the shell runner on the remote-server
@@ -41,7 +41,7 @@ android-build: #this is another job
    paths:
    - outputs/  #TODO
    
-android-build: 
+android-test: 
  image: javiersantos/android-ci:latest   
  stage: androidtest
  before_script:
