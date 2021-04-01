@@ -60,6 +60,6 @@ autoDeploy:
   script:
     - cd Backend/lazertag-springboot
     - mvn package
-    - mv /var/lib/docker/volumes/runner-ta9ucd4u-project-5924-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/cs309/spring2021/mc_2/Backend/lazertag-springboot/target/*.jar /target/web-demo.jar
+    - mv /var/lib/docker/volumes/runner-ta9ucd4u-project-5924-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/cs309/spring2021/mc_2/Backend/lazertag-springboot/*.jar /target/web-demo.jar
     - systemctl stop system-web-demo
     - systemctl start system-web-demo
