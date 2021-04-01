@@ -8,7 +8,7 @@ stages:
 maven-build: #maven build job for springboot
  stage: mavenbuild
  tags:
-  - spring_tag 
+   - spring_tag 
   script:
    - cd Backend/lazertag-springboot
    - mvn package -B
