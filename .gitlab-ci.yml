@@ -6,9 +6,9 @@ stages:
   - androidbuild
   
 maven-build: #maven build job for springboot
- stage: mavenbuild
- tags:
-  - spring_tag 
+  stage: mavenbuild
+  tags:
+    - spring_tag 
   script:
    - cd Backend/lazertag-springboot
    - mvn package -B
