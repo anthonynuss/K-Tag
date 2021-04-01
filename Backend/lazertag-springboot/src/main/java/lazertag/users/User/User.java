@@ -1,11 +1,8 @@
 package lazertag.users.User;
 
-//import java.util.Date;
-
+import java.util.List;
 import javax.persistence.*;
 import io.swagger.annotations.*;
-
-//import lazertag.users.Team.Team;
 
 @Entity
 public class User {
@@ -22,42 +19,37 @@ public class User {
     private double lat;
     @ApiModelProperty(notes = "Longitude of the User",name="longitude",required=false,value="long")
     private double lng;
-
-    /*
-     * Team object creation and constructors that use Teams and join dates are not working correctly as the moment.
-     * These are features that will work later.
-     * 
-    @ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "team_name")
-    private Team team;*/
-
-     // =============================== Constructors ================================== //
-    /* team things
-    public User(String name, String password, Date joiningDate, Team team) {
-        this.name = name;
-        this.password = password;
-        this.joiningDate = joiningDate;
-        this.team = team;
-    }
-
-    public User(String name, String password, Date joiningDate) {
-        this.name = name;
-        this.password = password;
-        this.joiningDate = joiningDate;
-    }*/
+    @ApiModelProperty(notes = "User's friends list",name="friends",required=false,value="friends")
+    //private ArrayList<User> friends = new ArrayList<User>();
     
-    /*
-     * Creates a user object with the given username and password
-     */
+    
+    @ManyToMany
+    @JoinTable(name="friends",
+     joinColumns=@JoinColumn(name="person"),
+     inverseJoinColumns=@JoinColumn(name="friend")
+    )
+    private List<User> friends;
+
+    @ManyToMany
+    @JoinTable(name="friends",
+     joinColumns=@JoinColumn(name="friend"),
+     inverseJoinColumns=@JoinColumn(name="person")
+    )
+    private List<User> friendOf;
+    
+    //TODO:Implement these variables
+    private int wins;
+    private int loses;
+
     public User(String name, String password) {
         this.name = name;
         this.password = password;
     }
-
+    
     public User() {
-
+        this.name = null;
+        this.password = null;
     }
-
     
     // =============================== Getters and Setters for each field ================================== //
 
@@ -103,20 +95,6 @@ public class User {
     public void setPassword(String password){
         this.password = password;
     }
-
-    /*
-     * gets and sets the user's date they joined. Does not work yet. will be implemented later
-     */
-    /*
-    public Date getJoiningDate(){
-        return joiningDate;
-    }
-
-    public void setJoiningDate(Date joiningDate){
-        this.joiningDate = joiningDate;
-    }*/
-    
-    
     /*
      * gets the user's latitude
      */
@@ -144,8 +122,36 @@ public class User {
     public void setLongitude(double lng){
         this.lng = lng;
     }
-
-
+    
+    /*
+    public List<User> getFriends() {
+    	return friends;
+    }
+    
+    public void addFriend(User friend) {
+    	if(friends==null) {
+    		friends.add(friend);
+    	}
+    	for(int i =0;i<friends.size();i++) {
+    		if(friends.get(i).getId()>friend.getId()) {
+    			friends.add(i, friend);
+    			return;
+    		}
+    	}
+    	
+    }
+    
+    public void removeFriend(User friend) {
+    	if(friends.size()>0) {
+    		for(int i =0;i<friends.size();i++) {
+        		if(friends.get(i).getId()==friend.getId()) {
+        			friends.remove(i);
+        			return;
+        		}
+        	}
+    	}
+    }*/
+    
     /*
      * gets the user's team. Teams do not work yet, will be implemented later
      */
