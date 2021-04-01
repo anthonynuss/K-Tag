@@ -4,6 +4,7 @@ stages:
   - mavenbuild
   - maventest
   - androidbuild
+  - androidtest
   
 maven-build: #maven build job for springboot
  stage: mavenbuild
@@ -38,3 +39,15 @@ android-build: #this is another job
  artifacts:
    paths:
    - outputs/  #TODO
+   
+android-build: 
+ image: javiersantos/android-ci:latest   
+ stage: androidtest
+ before_script:
+  - export GRADLE_USER_HOME='pwd'/.gradle
+  - chmod +x ./Frontend/TestGPS/gradlew
+ tags:
+  - android_tag   
+ script:
+  - cd Frontend/TestGPS
+  - ./gradlew test
