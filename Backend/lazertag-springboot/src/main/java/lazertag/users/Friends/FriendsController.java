@@ -5,6 +5,7 @@ import java.util.List;
 
 //import lazertag.users.Team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class FriendsController {
 
     @GetMapping(path = "/friends/{id}")
     List<Friends> getFriendsById(@PathVariable int id){
-        return friendsRepository.findByPerson(id);
+        return friendsRepository.getByPerson(id);
     }
     
     @PostMapping(path = "/friends/{id1}/{id2}")
@@ -40,5 +41,14 @@ public class FriendsController {
         friendsRepository.save(friends1);
         friendsRepository.save(friends2);
         return userRepository.findById(id1).getName()+" and "+userRepository.findById(id2).getName()+" are now friends.";
+    }
+    
+    @DeleteMapping(path = "/friends/{id1}/{id2}")
+    String deleteFriendship(@PathVariable int id1, @PathVariable int id2){
+        Friends friends1 = friendsRepository.getByPersonAndFriend(id1, id2);
+        Friends friends2 = friendsRepository.getByPersonAndFriend(id2, id1);
+        friendsRepository.deleteById(friends1.getId());
+        friendsRepository.deleteById(friends2.getId());
+        return userRepository.findById(id1).getName()+" and "+userRepository.findById(id2).getName()+" are no longer friends. :(";
     }
 }

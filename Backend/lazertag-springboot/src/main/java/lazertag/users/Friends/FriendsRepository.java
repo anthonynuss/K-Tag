@@ -5,6 +5,7 @@ import java.util.List;
 
 
 public interface FriendsRepository extends JpaRepository<Friends, Long> {
-	List<Friends> findByPerson(int person);
+	Friends getByPersonAndFriend(int person, int friend);
+	List<Friends> getByPerson(int person);
     void deleteById(int id);
 }
