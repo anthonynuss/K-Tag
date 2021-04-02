@@ -56,7 +56,7 @@ android-test:
 autoDeploy:
   stage: mavenDeploy
   tags:
-   - spring_tag
+   - maven_runner
   script:
     - cd Backend/lazertag-springboot
     - mvn package
