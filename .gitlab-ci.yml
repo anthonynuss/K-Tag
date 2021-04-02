@@ -10,7 +10,7 @@ stages:
 maven-build: #maven build job for springboot
   stage: mavenbuild
   tags:
-    - spring_tag 
+    - maven_runner 
   script:
     - cd Backend/lazertag-springboot
     - mvn package -B
@@ -18,7 +18,7 @@ maven-build: #maven build job for springboot
 maven-test: #this is a job
   stage: maventest
   tags:
-    - spring_tag #this is LINK to the shell runner on the remote-server
+    - maven_runner
   script:
     - cd Backend/lazertag-springboot
     - mvn test
