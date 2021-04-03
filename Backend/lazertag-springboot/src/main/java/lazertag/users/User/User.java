@@ -2,7 +2,13 @@ package lazertag.users.User;
 
 import java.util.List;
 import javax.persistence.*;
+
+import org.springframework.lang.NonNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.*;
+import lazertag.users.Team.Team;
 
 @Entity
 public class User {
@@ -37,18 +43,41 @@ public class User {
     )
     private List<User> friendOf;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teamId")
+    private Team team;
+    
     //TODO:Implement these variables
+    @NonNull
     private int wins;
-    private int loses;
+    @NonNull
+    private int losses;
+    @NonNull
+    private int tags;
+    @NonNull
+    private int knockouts;
 
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        wins = 0;
+    	losses = 0;
+    	tags = 0;
+    	knockouts = 0;
+    }
+    
+    public User(String name, String password, int wins, int losses) {
+        this.name = name;
+        this.password = password;
+        this.wins = wins;
+        this.losses = losses;
     }
     
     public User() {
-        this.name = null;
-        this.password = null;
+    	wins = 0;
+    	losses = 0;
+    	tags = 0;
+    	knockouts = 0;
     }
     
     // =============================== Getters and Setters for each field ================================== //
@@ -124,47 +153,58 @@ public class User {
     }
     
     /*
-    public List<User> getFriends() {
-    	return friends;
-    }
-    
-    public void addFriend(User friend) {
-    	if(friends==null) {
-    		friends.add(friend);
-    	}
-    	for(int i =0;i<friends.size();i++) {
-    		if(friends.get(i).getId()>friend.getId()) {
-    			friends.add(i, friend);
-    			return;
-    		}
-    	}
-    	
-    }
-    
-    public void removeFriend(User friend) {
-    	if(friends.size()>0) {
-    		for(int i =0;i<friends.size();i++) {
-        		if(friends.get(i).getId()==friend.getId()) {
-        			friends.remove(i);
-        			return;
-        		}
-        	}
-    	}
-    }*/
-    
-    /*
-     * gets the user's team. Teams do not work yet, will be implemented later
+     * gets the user's wins
      */
-    /* team things
-    public Team getTeam(){
-        return team;
+    
+   //GETTERS AND SETTERS FOR WINS
+    public int getWins(){
+        return wins;
     }
 
-	/*
-     * sets the user's team. Teams do not work yet, will be implemented later
-     */
-    /*
-    public void setTeam(Team team){
-        this.team = team;
-    }*/
+    public void setWins(int wins){
+        this.wins = wins;
+    }
+    
+    public void addWin() {
+    	this.wins++;
+    }
+    
+    //GETTERS AND SETTERS FOR LOSSES
+    public int getLosses(){
+        return losses;
+    }
+
+    public void setLosses(int losses){
+        this.losses = losses;
+    }
+    
+    public void addLosses() {
+    	this.losses++;
+    }
+    
+    //GETTERS AND SETTERS FOR TAGS
+    public int getTags(){
+        return tags;
+    }
+
+    public void setTags(int tags){
+        this.tags = tags;
+    }
+    
+    public void addTag() {
+    	this.tags++;
+    }
+    
+    //GETTERS AND SETTERS FOR KNOCKOUTS
+    public int getKnockouts(){
+        return knockouts;
+    }
+
+    public void setKnockouts(int knockouts){
+        this.knockouts = knockouts;
+    }
+    
+    public void addKnockouts() {
+    	this.knockouts++;
+    }
 }

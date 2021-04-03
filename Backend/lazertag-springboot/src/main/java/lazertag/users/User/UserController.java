@@ -40,7 +40,7 @@ public class UserController {
     
     @ApiOperation(value = "Get list of users in the System ", response = User.class, tags = "getUser")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
-    @GetMapping("/user/{usern}")
+    @GetMapping("/usersn/{name}")
     User getUserbyName(@PathVariable String name){
     	return userRepository.findByName(name);
     }   
@@ -70,13 +70,21 @@ public class UserController {
         	user.setLongitude(request.getLongitude());
         if(request.getLatitude() != 0.0) 
         	user.setLatitude(request.getLatitude());
+        if(!(request.getWins() <0)) 
+        	user.setWins(request.getWins());
+        if(!(request.getLosses() <0)) 
+        	user.setLosses(request.getLosses());
+        if(!(request.getTags() <0)) 
+        	user.setTags(request.getTags());
+        if(!(request.getKnockouts() <0)) 
+        	user.setKnockouts(request.getKnockouts());
         userRepository.save(user);
         return userRepository.findById(id);
     }   
     
     @ApiOperation(value = "Updates user coordinates data with given username", response = User.class, tags = "updateUser")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
-    @PutMapping("/user/{name}")
+    @PutMapping("/usersn/{name}")
     User updateName(@PathVariable String name, @RequestBody User request){
     	User user = userRepository.findByName(name);
     	if(user == null) {
@@ -91,6 +99,14 @@ public class UserController {
             	user.setLongitude(request.getLongitude());
             if(request.getLatitude() != 0.0) 
             	user.setLatitude(request.getLatitude());
+            if(!(request.getWins() <0)) 
+            	user.setWins(request.getWins());
+            if(!(request.getLosses() <0)) 
+            	user.setLosses(request.getLosses());
+            if(!(request.getTags() <0)) 
+            	user.setTags(request.getTags());
+            if(!(request.getKnockouts() <0)) 
+            	user.setKnockouts(request.getKnockouts());
             userRepository.save(user);
             return user;
     	}
@@ -108,53 +124,5 @@ public class UserController {
         return success;
     }
     
-    /*
-    @ApiOperation(value = "Get this user's friendslist", response = User.class, tags = "getFriends")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Suceess|OK"),
-            @ApiResponse(code = 401, message = "not authorized"),
-            @ApiResponse(code = 403, message = "forbidden"),
-            @ApiResponse(code = 404, message = "not found") })
-    @GetMapping(path = "/friends/{id}")
-    ArrayList<User> getFriendsOfId(@PathVariable int id){
-        return userRepository.findById(id).getFriends();
-    }
     
-    @ApiOperation(value = "Adds a friend to the user's friendslist with given ID", response = User.class, tags = "addFriend")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Suceess|OK"),
-            @ApiResponse(code = 401, message = "not authorized"),
-            @ApiResponse(code = 403, message = "forbidden"),
-            @ApiResponse(code = 404, message = "not found") })
-    @PutMapping(path = "/friends/{id}/{id2}")
-    String addFriendOfId(@PathVariable int id, @PathVariable int id2){
-    	if(userRepository.findById(id)==null) {
-    		return "User id "+id+" not found";
-    	}
-    	else if(userRepository.findById(id2)==null) {
-    		return "User id "+id2+" not found";
-    	}
-    	userRepository.findById(id).addFriend(userRepository.findById(id2));
-    	userRepository.findById(id2).addFriend(userRepository.findById(id));
-        return success;
-    }
-    
-    @ApiOperation(value = "removes a friend from both user's friendslists with given IDs", response = User.class, tags = "addFriend")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Suceess|OK"),
-            @ApiResponse(code = 401, message = "not authorized"),
-            @ApiResponse(code = 403, message = "forbidden"),
-            @ApiResponse(code = 404, message = "not found") })
-    @DeleteMapping(path = "/friends/{id}/{id2}")
-    String removeFriendOfId(@PathVariable int id, @PathVariable int id2){
-    	if(userRepository.findById(id)==null) {
-    		return "User id "+id+" not found";
-    	}
-    	else if(userRepository.findById(id2)==null) {
-    		return "User id "+id2+" not found";
-    	}
-    	userRepository.findById(id).removeFriend(userRepository.findById(id2));
-    	userRepository.findById(id2).removeFriend(userRepository.findById(id));
-        return success;
-    }*/
 }
