@@ -55,6 +55,7 @@ android-test:
   
 autoDeploy:
   stage: mavenDeploy
+  become: true
   tags:
    - maven_runner
   script:
