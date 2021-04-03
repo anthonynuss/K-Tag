@@ -10,7 +10,7 @@ stages:
 maven-build: #maven build job for springboot
   stage: mavenbuild
   tags:
-    - spring_tag 
+    - maven_runner 
   script:
     - cd Backend/lazertag-springboot
     - mvn package -B
@@ -18,7 +18,7 @@ maven-build: #maven build job for springboot
 maven-test: #this is a job
   stage: maventest
   tags:
-    - spring_tag #this is LINK to the shell runner on the remote-server
+    - maven_runner
   script:
     - cd Backend/lazertag-springboot
     - mvn test
@@ -56,10 +56,10 @@ android-test:
 autoDeploy:
   stage: mavenDeploy
   tags:
-   - spring_tag
+   - maven_runner
   script:
     - cd Backend/lazertag-springboot
     - mvn package
-    - mv /target/*.jar /var/lib/docker/volumes/runner-ta9ucd4u-project-5924-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/cs309/spring2021/mc_2/Backend/lazertag-springboot/web-demo.jar
+    - mv target/*.jar /target/web-demo.jar
     - systemctl stop system-web-demo
     - systemctl start system-web-demo
