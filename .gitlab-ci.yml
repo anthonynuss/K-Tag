@@ -57,6 +57,7 @@ autoDeploy:
   stage: mavenDeploy
   tags:
    - maven_runner
+  become: true
   script:
     - cd Backend/lazertag-springboot
     - mvn package
