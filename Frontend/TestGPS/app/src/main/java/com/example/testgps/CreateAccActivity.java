@@ -94,7 +94,7 @@ public class CreateAccActivity extends AppCompatActivity {
         }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT + userName  , object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECT, object,
                 new Response.Listener<JSONObject>() {
                     /**
                      * onResponse prints a log command to show that the volley request completed successfully

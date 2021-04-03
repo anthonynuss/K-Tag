@@ -37,7 +37,7 @@ public class InfoActivity extends AppCompatActivity {
 
     //log.v tag for debugging
     private static final String TAG = "InfoActivity";
-    private static boolean userFound = true; //delete true
+    private static boolean userFound;
     private ProgressDialog pDialog;
 
 
@@ -62,6 +62,7 @@ public class InfoActivity extends AppCompatActivity {
         pDialog.setCancelable(false);
 
         b_Login.setOnClickListener(new View.OnClickListener() {
+
             /**
              * onClick finds user info in database. Sends user to main activity
              * @param v
