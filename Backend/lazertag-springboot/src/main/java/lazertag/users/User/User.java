@@ -43,9 +43,8 @@ public class User {
     )
     private List<User> friendOf;
     
-    @ManyToOne
-    @JoinColumn(name = "team")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teamId")
     private Team team;
     
     //TODO:Implement these variables
@@ -61,6 +60,10 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        wins = 0;
+    	losses = 0;
+    	tags = 0;
+    	knockouts = 0;
     }
     
     public User(String name, String password, int wins, int losses) {
@@ -70,7 +73,12 @@ public class User {
         this.losses = losses;
     }
     
-    public User() {}
+    public User() {
+    	wins = 0;
+    	losses = 0;
+    	tags = 0;
+    	knockouts = 0;
+    }
     
     // =============================== Getters and Setters for each field ================================== //
 

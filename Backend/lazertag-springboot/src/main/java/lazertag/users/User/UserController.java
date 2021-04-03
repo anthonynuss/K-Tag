@@ -40,7 +40,7 @@ public class UserController {
     
     @ApiOperation(value = "Get list of users in the System ", response = User.class, tags = "getUser")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
-    @GetMapping("/user/{name}")
+    @GetMapping("/usersn/{name}")
     User getUserbyName(@PathVariable String name){
     	return userRepository.findByName(name);
     }   
@@ -70,13 +70,21 @@ public class UserController {
         	user.setLongitude(request.getLongitude());
         if(request.getLatitude() != 0.0) 
         	user.setLatitude(request.getLatitude());
+        if(!(request.getWins() <0)) 
+        	user.setWins(request.getWins());
+        if(!(request.getLosses() <0)) 
+        	user.setLosses(request.getLosses());
+        if(!(request.getTags() <0)) 
+        	user.setTags(request.getTags());
+        if(!(request.getKnockouts() <0)) 
+        	user.setKnockouts(request.getKnockouts());
         userRepository.save(user);
         return userRepository.findById(id);
     }   
     
     @ApiOperation(value = "Updates user coordinates data with given username", response = User.class, tags = "updateUser")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
-    @PutMapping("/user/{name}")
+    @PutMapping("/usersn/{name}")
     User updateName(@PathVariable String name, @RequestBody User request){
     	User user = userRepository.findByName(name);
     	if(user == null) {
@@ -91,6 +99,14 @@ public class UserController {
             	user.setLongitude(request.getLongitude());
             if(request.getLatitude() != 0.0) 
             	user.setLatitude(request.getLatitude());
+            if(!(request.getWins() <0)) 
+            	user.setWins(request.getWins());
+            if(!(request.getLosses() <0)) 
+            	user.setLosses(request.getLosses());
+            if(!(request.getTags() <0)) 
+            	user.setTags(request.getTags());
+            if(!(request.getKnockouts() <0)) 
+            	user.setKnockouts(request.getKnockouts());
             userRepository.save(user);
             return user;
     	}

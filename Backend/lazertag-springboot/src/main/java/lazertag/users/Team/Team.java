@@ -23,7 +23,7 @@ public class Team {
     //private ArrayList<User> friends = new ArrayList<User>();
     
     
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     private List<User> teammates;
     
     /*
