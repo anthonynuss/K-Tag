@@ -1,9 +1,7 @@
 package lazertag.users.Team;
 
-import java.util.ArrayList;
-import java.util.List;
 
-//import lazertag.users.Team.TeamRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.*;
+import lazertag.users.User.User;
 import lazertag.users.User.UserRepository;
 
 @Api(value = "UserController", description = "REST APIs related to Team Entity")
@@ -47,6 +46,13 @@ public class TeamController {
     @GetMapping("/teams/{name}")
     Team getTeambyName(@PathVariable String name){
     	return teamRepository.findByName(name);
+    }   
+    
+    @ApiOperation(value = "Get list of teammates in the given team", response = Team.class, tags = "getTeamName")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
+    @GetMapping("/teamsm/{id}")
+    List<User> getTeammatesById(@PathVariable int id){
+    	return teamRepository.findById(id).getTeammates();
     }   
     
     @ApiOperation(value = "Create a team in the system ", response = Team.class, tags = "createTeam")
@@ -98,6 +104,32 @@ public class TeamController {
         return teamRepository.findById(team.getId());
     }   
 
+    @PutMapping("/teams/{id}/{userid}")
+    Team addUserToTeam(@PathVariable int id, @PathVariable int userid){
+    	Team team = teamRepository.findById(id);
+    	User user = userRepository.findById(userid);
+    	
+    	user.setTeam(team);
+    	team.addTeammate(user);
+    	
+    	userRepository.save(user);
+        teamRepository.save(team);
+        return teamRepository.findById(team.getId());
+    }
+    
+    @DeleteMapping("/teams/{id}/{userid}")
+    Team removeUserToTeam(@PathVariable int id, @PathVariable int userid){
+    	Team team = teamRepository.findById(id);
+    	User user = userRepository.findById(userid);
+    	
+    	user.setTeam(null);
+    	team.removeTeammate(user);
+    	
+    	userRepository.save(user);
+        teamRepository.save(team);
+        return teamRepository.findById(team.getId());
+    }   
+    
     @ApiOperation(value = "Deletes a team with a given ID", response = Team.class, tags = "updateTeam")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),

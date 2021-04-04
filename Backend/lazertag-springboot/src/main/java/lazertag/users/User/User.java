@@ -30,21 +30,16 @@ public class User {
     
     
     @ManyToMany
-    @JoinTable(name="friends",
-     joinColumns=@JoinColumn(name="person"),
-     inverseJoinColumns=@JoinColumn(name="friend")
-    )
+    @JoinTable(name="friends", joinColumns=@JoinColumn(name="person"), inverseJoinColumns=@JoinColumn(name="friend"))
     private List<User> friends;
 
     @ManyToMany
-    @JoinTable(name="friends",
-     joinColumns=@JoinColumn(name="friend"),
-     inverseJoinColumns=@JoinColumn(name="person")
-    )
+    @JoinTable(name="friends", joinColumns=@JoinColumn(name="friend"), inverseJoinColumns=@JoinColumn(name="person"))
     private List<User> friendOf;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teamId")
+    @JsonIgnore
     private Team team;
     
     //TODO:Implement these variables
@@ -207,4 +202,14 @@ public class User {
     public void addKnockouts() {
     	this.knockouts++;
     }
+    
+    public Team getTeam() {
+    	return this.team;
+    }
+    
+    public void setTeam(Team team) {
+    	this.team = team;
+    }
+    
+    
 }
