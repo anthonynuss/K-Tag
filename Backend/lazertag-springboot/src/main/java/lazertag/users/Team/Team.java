@@ -19,22 +19,11 @@ public class Team {
     private int wins;
     
     private int losses;
-
-    //private ArrayList<User> friends = new ArrayList<User>();
     
     
     @OneToMany(mappedBy = "team")
     private List<User> teammates;
-    
-    /*
-    @ManyToMany
-    @JoinTable(name="friends",
-     joinColumns=@JoinColumn(name="friend"),
-     inverseJoinColumns=@JoinColumn(name="person")
-    )
-    private List<Team> friendOf;
-    */
-    
+
 
     public Team(String name, int captainId) {
         this.name = name;
@@ -114,5 +103,22 @@ public class Team {
     
     public void addLosses() {
     	this.losses++;
+    }
+    
+    public void addTeammate(User user) {
+    	this.teammates.add(user);
+    }
+    
+    public void removeTeammate(User user) {
+    	for(int i = 0;i<teammates.size();i++) {
+    		if(teammates.get(i) == user) {
+    			teammates.remove(i);
+    			break;
+    		}
+    	}
+    }
+    
+    public List<User> getTeammates(){
+		return teammates;
     }
 }
