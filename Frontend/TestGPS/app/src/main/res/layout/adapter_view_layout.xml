@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:layout_weight="0" >
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView1"
             android:gravity="center"
             android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_weight="33.3"
-            android:text="TextView3" />
+            android:layout_weight="20"
+            android:text="TextView1" />
 
         <TextView
             android:id="@+id/textView2"
@@ -26,16 +26,32 @@
             android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_weight="33.3"
+            android:layout_weight="20"
             android:text="TextView2" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textView3"
             android:gravity="center"
             android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_weight="33.3"
-            android:text="TextView1" />
+            android:layout_weight="20"
+            android:text="TextView3" />
+        <TextView
+            android:id="@+id/textView4"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="20"
+            android:text="TextView4" />
+        <TextView
+            android:id="@+id/textView5"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="20"
+            android:text="TextView5" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

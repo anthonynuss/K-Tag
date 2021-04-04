@@ -3,16 +3,16 @@ package com.example.testgps;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
+
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,16 +27,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 public class LeaderboardActivity extends AppCompatActivity {
     Button b_back;
 
     ListView listView; //listview of players stats
     //ArrayList<JSONObject> infoList = new ArrayList(); //the list of player info
-    //LeaderBoardAdapter adapter; //used by list
+    SimpleAdapter adapter; //used by list
     ArrayList<HashMap<String, String>> infoList = new ArrayList<HashMap<String, String>>();
-    HashMap<String, String> map = new HashMap<String, String>();
 
     private ProgressDialog pDialog;
     private static final String TAG = "LeaderboardActivity";
@@ -53,12 +52,18 @@ public class LeaderboardActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        getAllPlayerInfo();
+        getAllUserInfo(); //get all user info
 
         //users info
         UserSingleton user = UserSingleton.getInstance();
-        //userInfo.setText(user.getName());
 
+        //adapter for the listview layout.
+        adapter = new SimpleAdapter(this, infoList, R.layout.adapter_view_layout,
+                new String[] {"name", "wins", "losses", "tags", "knockouts"}, new int[] {R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4, R.id.textView5});
+
+        /**
+         * onclick go back to profile
+         */
         b_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,9 +91,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     /**
-     * findLoginCredentials gets all users from server and finds the user that the person entered by comparing username and password.
+     * findLoginCredentials gets all users from server and puts their info into the leaderBoard
      */
-    private void getAllPlayerInfo() {
+    private void getAllUserInfo() {
         showProgressDialog();
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECTServer, null,
@@ -112,15 +117,16 @@ public class LeaderboardActivity extends AppCompatActivity {
                             try {
                                 userObject = serverArray.getJSONObject(i);
 
-                                map.put(userObject.get("name").toString(), userObject.get("id").toString());
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("name", userObject.get("name").toString());
+                                map.put("wins", userObject.get("wins").toString());
+                                map.put("losses", userObject.get("losses").toString());
+                                map.put("tags", userObject.get("tags").toString());
+                                map.put("knockouts", userObject.get("knockouts").toString());
                                 infoList.add(map);
-                                listView.setAdapter(new SimpleAdapter(null, infoList, R.layout.adapter_view_layout,
-                                        new String[] {"train", "from", "gif"}, new int[] {R.id.textView1, R.id.textView2, R.id.imageView}));
 
-                                //adapter = new LeaderBoardAdapter((Context)this, R.layout.adapter_view_layout, infoList);
-                                //listView.setAdapter(adapter);
-
-
+                                listView.setAdapter(adapter);
+                                
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
