@@ -3,14 +3,16 @@ package com.example.testgps;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.SimpleAdapter;
+
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,16 +26,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+
 
 public class LeaderboardActivity extends AppCompatActivity {
     Button b_back;
-    ListView listView; //listview of players stats
-    List infoList = new ArrayList(); //the list of player info
-    ArrayAdapter adapter; //used by list
 
-   // private ProgressDialog pDialog;
+    ListView listView; //listview of players stats
+    //ArrayList<JSONObject> infoList = new ArrayList(); //the list of player info
+    SimpleAdapter adapter; //used by list
+    ArrayList<HashMap<String, String>> infoList = new ArrayList<HashMap<String, String>>();
+
+    private ProgressDialog pDialog;
     private static final String TAG = "LeaderboardActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +48,22 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         b_back = findViewById(R.id.buttonBack);
         listView = findViewById(R.id.list_view);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
 
-        getAllPlayerInfo();
-
-        adapter = new ArrayAdapter(LeaderboardActivity.this, android.R.layout.simple_list_item_1, infoList);
-        listView.setAdapter(adapter);
+        getAllUserInfo(); //get all user info
 
         //users info
         UserSingleton user = UserSingleton.getInstance();
-        //userInfo.setText(user.getName());
 
+        //adapter for the listview layout.
+        adapter = new SimpleAdapter(this, infoList, R.layout.adapter_view_layout,
+                new String[] {"name", "wins", "losses", "tags", "knockouts"}, new int[] {R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4, R.id.textView5});
 
-
-
-
-
+        /**
+         * onclick go back to profile
+         */
         b_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,15 +74,30 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     /**
-     * findLoginCredentials gets all users from server and finds the user that the person entered by comparing username and password.
+     * showProgressDialog is used to show the volley request progress graphically
      */
-    private void getAllPlayerInfo() {
-        //showProgressDialog();
+
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * hideProgressDialog is used to stop the graphical progress representation
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    /**
+     * findLoginCredentials gets all users from server and puts their info into the leaderBoard
+     */
+    private void getAllUserInfo() {
+        showProgressDialog();
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECTServer, null,
                 new Response.Listener<JSONArray>() {
-
-
 
                     /**
                      * onResponse loops through the received JSON array to find each user name
@@ -94,14 +116,21 @@ public class LeaderboardActivity extends AppCompatActivity {
                         for(int i = 0; i < serverArray.length(); i++){
                             try {
                                 userObject = serverArray.getJSONObject(i);
-                                infoList.add(findUser = userObject.get("name").toString());
 
-                                Log.v(TAG, "User: " + findUser);
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("name", userObject.get("name").toString());
+                                map.put("wins", userObject.get("wins").toString());
+                                map.put("losses", userObject.get("losses").toString());
+                                map.put("tags", userObject.get("tags").toString());
+                                map.put("knockouts", userObject.get("knockouts").toString());
+                                infoList.add(map);
 
+                                listView.setAdapter(adapter);
+                                
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            //hideProgressDialog();
+                            hideProgressDialog();
                         }
 
                     }
@@ -114,10 +143,12 @@ public class LeaderboardActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "Error: " + error.getMessage());
-                //hideProgressDialog();
+                hideProgressDialog();
             }
         });
 
         AppController.getInstance().addToRequestQueue(jsonArrReq, "jobj_req");
     }
+
+
 }
