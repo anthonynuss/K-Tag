@@ -356,7 +356,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
-
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //HERE STARTS THE WORK OF MODULARIZATION FOR VOLLEY
 
     //method to handleJsonResponses
@@ -403,28 +403,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    //Onresponse cartragte for getJsonArrReqInitial
-    private void teamMaker() {
-
-        for (int i = 0; i < serverArray.length(); i++) {
-            try {
-                friendObject = serverArray.getJSONObject(i);
-                friendName = friendObject.get("name").toString();
-                friendId = friendObject.get("id").toString();
-                Log.v(TAG, "Friend name: " + friendName);
-                if (!friendName.equals(userName)) {
-                    Log.v(TAG, "This is the name we use as friend!!!!: " + friendName);
-                    break;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
+    //On response cartridge for getJsonArrReqInitial
+    //This method will be called every time we update the map
+    private void teamMaker(JSONArray team) {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        userTeam.setTeam(team);
     }
 
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     /**
      * getJsonArrReqInitial is the function used to request all user data from the server initially so each user name can be used to make individual volley request
      */
