@@ -14,7 +14,7 @@ import io.swagger.annotations.*;
 import lazertag.users.User.User;
 import lazertag.users.User.UserRepository;
 
-@Api(value = "UserController", description = "REST APIs related to Team Entity")
+@Api(value = "TeamController", description = "REST APIs related to Team Entity")
 @RestController
 public class TeamController {
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.*;
+import lazertag.users.Team.Team;
+import lazertag.users.Team.TeamRepository;
 
 @Api(value = "UserController", description = "REST APIs related to User Entity")
 @RestController
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    TeamRepository teamRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
@@ -43,7 +48,14 @@ public class UserController {
     @GetMapping("/usersn/{name}")
     User getUserbyName(@PathVariable String name){
     	return userRepository.findByName(name);
-    }   
+    }  
+    
+    @ApiOperation(value = "Get list of users in the System ", response = User.class, tags = "getUser")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
+    @GetMapping("/userst/{id}")
+    int getUsersTeam(@PathVariable int id){
+    	return userRepository.findById(id).getTeam().getId();
+    } 
     
     @ApiOperation(value = "Create a user in the system ", response = User.class, tags = "createUser")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
