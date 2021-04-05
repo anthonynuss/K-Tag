@@ -44,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * @author bendu
  *
@@ -289,6 +288,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param permissions
      * @param grantResults
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -334,7 +334,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new Response.Listener<JSONObject>() {
 
                     /**
-                     * onResponse parses the user data once a sucessfull volley call has been completed.
+                     * onResponse parses the user data once a successful volley call has been completed.
                      * @param response
                      */
                     @Override
@@ -342,18 +342,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         //Log.v(TAG, response.toString());
                         //Log.v(TAG, "the friend is initialized!");
                         //friendObject = response;
-                        try {
-                           //Parsing the friend object to receive lat and lng coords
-                           friendLat = friendObject.isNull("latitude") ? null : friendObject.getDouble("latitude");
-                           friendLng = friendObject.isNull("longitude") ? null : friendObject.getDouble("longitude");
-                           friendName = friendObject.isNull("name") ? null : friendObject.getString("name");
-                            Log.v(TAG, "Testing to make sure the friend is still" + friendName + ": " + friendObject.get("name").toString());
-                            Log.v(TAG, "friendLat: "+ friendLat);
-                            Log.v(TAG, "friendLng: " + friendLng);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        handleJsonResponse(response);
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -369,6 +358,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    private void handleJsonResponse(JSONObject response)
+    {
+        try {
+            //Parsing the friend object to receive lat and lng coords
+            friendLat = friendObject.isNull("latitude") ? null : friendObject.getDouble("latitude");
+            friendLng = friendObject.isNull("longitude") ? null : friendObject.getDouble("longitude");
+            friendName = friendObject.isNull("name") ? null : friendObject.getString("name");
+            Log.v(TAG, "Testing to make sure the friend is still" + friendName + ": " + friendObject.get("name").toString());
+            Log.v(TAG, "friendLat: "+ friendLat);
+            Log.v(TAG, "friendLng: " + friendLng);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

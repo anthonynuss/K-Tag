@@ -1,8 +1,7 @@
 package com.example.testgps;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -19,6 +18,14 @@ import static org.mockito.Mockito.when;
 public class FirstMockitoTest {
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+
+    @Test
+    public void zero() throws JSONException{
+        JSONObject testObject = new JSONObject();
+        testObject.put("Boolean", true);
+        System.out.println(testObject.getBoolean("Boolean"));
+    }
+
     @Test
     public void testMethod() throws JSONException {
         //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
@@ -27,29 +34,41 @@ public class FirstMockitoTest {
         MapsActivity mapsActivity = new MapsActivity();
 
         //creating two arbitrary user generated GPS locations that would come from the server
-        LatLng userLatLng = new LatLng(0, 0);
+        LatLng userLatLng = new LatLng(1, 1);
         LatLng friendLatLng = new LatLng(1, 1);
+        JSONObject user = new JSONObject().put("latitude", userLatLng.latitude).put("longitude", userLatLng.longitude);
 
-        JSONObject user = new JSONObject();
+        System.out.println(user.toString());
+        System.out.println(user);
         JSONObject friend = new JSONObject();
+        try {
+            friend.put("latitude", friendLatLng.latitude);
+            friend.put("longitude", friendLatLng.longitude);
 
-        //creating the mocked JSONObjects for user and friend
-        user.put("latitude", userLatLng.latitude);
-        user.put("longitude", userLatLng.longitude);
-        friend.put("latitude", friendLatLng.latitude);
-        friend.put("longitude", friendLatLng.longitude);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+      //  JSONObject user = new JSONObject();
 
-        when(volleyHandler.getJsonObjReq()).thenReturn(user);
-        when(volleyHandler.getJsonObjReq()).thenReturn(friend);
+        //JSONObject friend = new JSONObject();
 
+
+
+        when(volleyHandler.getJsonObjReq()).thenReturn(user).thenReturn(friend);
+
+        JSONObject result = volleyHandler.getJsonObjReq();
+        System.out.println(result);
         //Checking that user lat matches
-        Assert.assertEquals(java.util.Optional.of(userLatLng.latitude),  user.isNull("latitude") ? null : user.getDouble("latitude"));
+        Assert.assertEquals((Double)userLatLng.latitude, (Double)result.getDouble("latitude"));
         //Checking that user lng matches
-        Assert.assertEquals(java.util.Optional.of(userLatLng.longitude),  user.isNull("longitude") ? null : user.getDouble("longitude"));
+        Assert.assertEquals((Double)userLatLng.longitude,  (Double)result.getDouble("longitude"));
 
-        //Checking that friend lat matches
-        Assert.assertEquals(java.util.Optional.of(friendLatLng.latitude),  friend.isNull("latitude") ? null : friend.getDouble("latitude"));
-        //Checking that friend lng matches
-        Assert.assertEquals(java.util.Optional.of(friendLatLng.longitude),  friend.isNull("longitude") ? null : friend.getDouble("longitude"));
+        //when(volleyHandler.getJsonObjReq()).thenReturn(friend);
+
+        result = volleyHandler.getJsonObjReq();
+        //Checking that user lat matches
+        Assert.assertEquals((Double)friendLatLng.latitude, (Double)result.getDouble("latitude"));
+        //Checking that user lng matches
+        Assert.assertEquals((Double)friendLatLng.longitude,  (Double)result.getDouble("longitude"));
     }
 }
