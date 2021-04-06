@@ -1,4 +1,5 @@
 package com.example.testgps;
+import org.json.JSONArray;
 import org.json.JSONObject;
 public class VolleyMethods {
 
@@ -9,7 +10,7 @@ public class VolleyMethods {
 
     public JSONObject getJsonObjReq(){return null;}
 
-     public void getJsonArrReqInitial(){}
+     public JSONArray getJsonArrReqInitial(){return null;}
 
      public void postJsonObjReq(){}
 

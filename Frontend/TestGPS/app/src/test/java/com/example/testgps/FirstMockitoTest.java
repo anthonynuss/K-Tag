@@ -47,7 +47,7 @@ public class FirstMockitoTest {
         JSONObject user = new JSONObject();
         user.put("latitude", userLatLng.latitude);
         user.put("longitude", userLatLng.longitude);
-        user.put("name", "Jimbob")
+        user.put("name", "Jimbob");
 
         //creating friend JSON Object
         JSONObject friend = new JSONObject();
@@ -205,47 +205,43 @@ public class FirstMockitoTest {
         //creating a maps activity to use the fake volley method stuff!
         MapsActivity mapsActivity = new MapsActivity();
 
-        //creating two arbitrary user generated GPS locations that would come from the server
-        LatLng userLatLng = new LatLng(1, 1);
-        LatLng friendLatLng = new LatLng(1, 1);
+        //creating two arbitrary teams that would come from the server
+        JSONArray userTeam = new JSONArray();
+        JSONObject player1 = new JSONObject().put("name", "Joe");
+        JSONObject player2 = new JSONObject().put("name", "Steve");
+        JSONObject player3 = new JSONObject().put("name", "Roger");
 
-        //creating user JSON Object
-        JSONObject user = new JSONObject();
-        user.put("latitude", userLatLng.latitude);
-        user.put("longitude", userLatLng.longitude);
-        user.put("name", "Jimbob");
-
-        //creating empty friend JSON Object
-        JSONObject friend = new JSONObject();
+        //creating two arbitrary teams that would come from the server
+        JSONArray opponentTeam = new JSONArray();
+        JSONObject player4 = new JSONObject().put("name", "Jack");
+        JSONObject player5 = new JSONObject().put("name", "Vickey");
+        JSONObject player6 = new JSONObject().put("name", "Carly");
 
 
-        when(volleyHandler.getJsonObjReq()).thenReturn(user);
+        when(volleyHandler.getJsonArrReqInitial()).thenReturn(userTeam).thenReturn(opponentTeam);
 
         //Mocking volley call to get JSONObject
-        JSONObject result = volleyHandler.getJsonObjReq();
+        JSONArray result = volleyHandler.getJsonArrReqInitial();
         System.out.println(result);
-        //Checking that user lat matches
-        Assert.assertEquals((Double)userLatLng.latitude, (Double)result.getDouble("latitude"));
-        //Checking that user lng matches
-        Assert.assertEquals((Double)userLatLng.longitude,  (Double)result.getDouble("longitude"));
+        //creating userTeam
+        mapsActivity.userTeamCreate(result);
 
-        //accessing the second .thenReturn from line 56
-        result = volleyHandler.getJsonObjReq();
-        //Checking that user lat matches
-        Assert.assertNotEquals((Double)friendLatLng.latitude, (Double)result.getDouble("latitude"));
-        //Checking that user lng matches
-        Assert.assertNotEquals((Double)friendLatLng.longitude,  (Double)result.getDouble("longitude"));
+        //creating opponentTeam
+        result = volleyHandler.getJsonArrReqInitial();
+        System.out.println(result);
+        mapsActivity.oppTeamCreate(result);
 
-        //Creating text version of the map output
-        for(int i = 0; i < 2; i++){
-            if(user != friend){
-                mapOutput = "User location is " + userLatLng + " friend is an invalid object";
-            }
-            else{
-                mapOutput = "User location is " + userLatLng;
-            }
-        }
-        Assert.assertEquals(("User location is " + userLatLng + " friend is an invalid object"), mapOutput);
+        //Accessing singleton to build expected string
+        UserTeamSingletonTest Team = new UserTeamSingletonTest().getInstance();
+        String actual = mapsActivity.teamPingTest();
+
+        String expected = "User player1 location is " + Team.getTeamMate(0) + "\n"
+                + "User player2 location is " + Team.getTeamMate(1) + "\n"
+                +"User player3 location is " + Team.getTeamMate(2) + "\n"
+                +"User player4 location is " + Team.getOpponent(0) + "\n"
+                +"User player5 location is " + Team.getOpponent(1) + "\n"
+                +"User player6 location is " + Team.getOpponent(2) + "\n";
+        Assert.assertEquals(expected, actual);
 
     }
 }
