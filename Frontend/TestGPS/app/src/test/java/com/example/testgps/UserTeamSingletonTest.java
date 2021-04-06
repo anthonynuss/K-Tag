@@ -1,29 +1,29 @@
 package com.example.testgps;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This class will be the singleton for user data to be accessed by multiple instances across the app
  */
-public class UserTeamSingleton {
+public class UserTeamSingletonTest {
 
-    private static UserTeamSingleton team_instance = null;
+    private static UserTeamSingletonTest team_instance = null;
 
     //Teammates in team (this can be added too if needed
     private JSONArray teamList, opponentList;
 
     //constructor for user_instance singleton
-    private UserTeamSingleton(){
+    UserTeamSingletonTest(){
        teamList = null;
        opponentList = null;
     }
 
     //method to get an instance of user_instance in other classes
-    public synchronized static UserTeamSingleton getInstance(){
+    public synchronized static UserTeamSingletonTest getInstance(){
         if(team_instance == null){
-            team_instance = new UserTeamSingleton();
+            team_instance = new UserTeamSingletonTest();
         }
         return team_instance;
     }

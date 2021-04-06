@@ -9,25 +9,87 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.Assert.assertSame;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+//Test cases
+//TODO Test 1: Give two different users
+//TODO Test 2: Give two of the same user
+//TODO Test 3: Give empty element
+//TODO Test 4: Give two teams to test team sorting
+
 
 public class FirstMockitoTest {
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-
     @Test
     public void zero() throws JSONException{
         JSONObject testObject = new JSONObject();
-        testObject.put("Boolean", true);
+        testObject.put("Boolean", "true");
         System.out.println(testObject.getBoolean("Boolean"));
     }
 
+    //TEST 1:
     @Test
-    public void testMethod() throws JSONException {
+    public void Test1() throws JSONException {
+        String mapOutput = null;
+        //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
+        VolleyMethods volleyHandler = mock(VolleyMethods.class);
+        //creating a maps activity to use the fake volley method stuff!
+        MapsActivity mapsActivity = new MapsActivity();
+
+        //creating two arbitrary user generated GPS locations that would come from the server
+        LatLng userLatLng = new LatLng(1, 1);
+        LatLng friendLatLng = new LatLng(2, 2);
+
+        //creating user JSON Object
+        JSONObject user = new JSONObject();
+        user.put("latitude", userLatLng.latitude);
+        user.put("longitude", userLatLng.longitude);
+        user.put("name", "Jimbob");
+
+        //creating friend JSON Object
+        JSONObject friend = new JSONObject();
+        friend.put("latitude", friendLatLng.latitude);
+        friend.put("longitude", friendLatLng.longitude);
+        friend.put("name", "Joe");
+
+
+        when(volleyHandler.getJsonObjReq()).thenReturn(user).thenReturn(friend);
+
+        //Mocking volley call to get JSONObject
+        JSONObject result = volleyHandler.getJsonObjReq();
+        System.out.println(result);
+        //Checking that user lat matches
+        Assert.assertEquals((Double)userLatLng.latitude, (Double)result.getDouble("latitude"));
+        //Checking that user lng matches
+        Assert.assertEquals((Double)userLatLng.longitude,  (Double)result.getDouble("longitude"));
+
+        //accessing the second .thenReturn from line 56
+        result = volleyHandler.getJsonObjReq();
+        //Checking that user lat matches
+        Assert.assertEquals((Double)friendLatLng.latitude, (Double)result.getDouble("latitude"));
+        //Checking that user lng matches
+        Assert.assertEquals((Double)friendLatLng.longitude,  (Double)result.getDouble("longitude"));
+
+        //Creating text version of the map output
+        for(int i = 0; i < 2; i++){
+            if(user.getString("name") != friend.getString("name")){
+                mapOutput = "User location is " + userLatLng + " and Friend location is " + friendLatLng;
+            }
+            else{
+                mapOutput = "User location is " + userLatLng;
+            }
+        }
+        Assert.assertEquals(("User location is " + userLatLng + " and Friend location is " + friendLatLng), mapOutput);
+
+    }
+
+    //TEST 2:
+    @Test
+    public void Test2() throws JSONException {
+        String mapOutput = null;
         //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
         VolleyMethods volleyHandler = mock(VolleyMethods.class);
         //creating a maps activity to use the fake volley method stuff!
@@ -36,26 +98,23 @@ public class FirstMockitoTest {
         //creating two arbitrary user generated GPS locations that would come from the server
         LatLng userLatLng = new LatLng(1, 1);
         LatLng friendLatLng = new LatLng(1, 1);
-        JSONObject user = new JSONObject().put("latitude", userLatLng.latitude).put("longitude", userLatLng.longitude);
 
-        System.out.println(user.toString());
-        System.out.println(user);
+        //creating user JSON Object
+        JSONObject user = new JSONObject();
+        user.put("latitude", userLatLng.latitude);
+        user.put("longitude", userLatLng.longitude);
+        user.put("name", "Jimbob");
+
+        //creating friend JSON Object
         JSONObject friend = new JSONObject();
-        try {
-            friend.put("latitude", friendLatLng.latitude);
-            friend.put("longitude", friendLatLng.longitude);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-      //  JSONObject user = new JSONObject();
-
-        //JSONObject friend = new JSONObject();
-
+        friend.put("latitude", friendLatLng.latitude);
+        friend.put("longitude", friendLatLng.longitude);
+        friend.put("name", "Jimbob");
 
 
         when(volleyHandler.getJsonObjReq()).thenReturn(user).thenReturn(friend);
 
+        //Mocking volley call to get JSONObject
         JSONObject result = volleyHandler.getJsonObjReq();
         System.out.println(result);
         //Checking that user lat matches
@@ -63,12 +122,126 @@ public class FirstMockitoTest {
         //Checking that user lng matches
         Assert.assertEquals((Double)userLatLng.longitude,  (Double)result.getDouble("longitude"));
 
-        //when(volleyHandler.getJsonObjReq()).thenReturn(friend);
-
+        //accessing the second .thenReturn from line 56
         result = volleyHandler.getJsonObjReq();
         //Checking that user lat matches
         Assert.assertEquals((Double)friendLatLng.latitude, (Double)result.getDouble("latitude"));
         //Checking that user lng matches
         Assert.assertEquals((Double)friendLatLng.longitude,  (Double)result.getDouble("longitude"));
+
+        //Creating text version of the map output
+        for(int i = 0; i < 2; i++){
+            if(user != friend){
+                mapOutput = "User location is " + userLatLng + " and Friend location is " + friendLatLng;
+            }
+            else{
+                mapOutput = "User location is " + userLatLng;
+            }
+        }
+        Assert.assertEquals(("User location is " + userLatLng + " and Friend location is " + friendLatLng), mapOutput);
+
+    }
+
+    //TEST 3:
+    @Test
+    public void Test3() throws JSONException {
+        String mapOutput = null;
+        //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
+        VolleyMethods volleyHandler = mock(VolleyMethods.class);
+        //creating a maps activity to use the fake volley method stuff!
+        MapsActivity mapsActivity = new MapsActivity();
+
+        //creating two arbitrary user generated GPS locations that would come from the server
+        LatLng userLatLng = new LatLng(1, 1);
+        LatLng friendLatLng = new LatLng(1, 1);
+
+        //creating user JSON Object
+        JSONObject user = new JSONObject();
+        user.put("latitude", userLatLng.latitude);
+        user.put("longitude", userLatLng.longitude);
+        user.put("name", "Jimbob");
+
+        //creating empty friend JSON Object
+        JSONObject friend = new JSONObject();
+
+
+        when(volleyHandler.getJsonObjReq()).thenReturn(user);
+
+        //Mocking volley call to get JSONObject
+        JSONObject result = volleyHandler.getJsonObjReq();
+        System.out.println(result);
+        //Checking that user lat matches
+        Assert.assertEquals((Double)userLatLng.latitude, (Double)result.getDouble("latitude"));
+        //Checking that user lng matches
+        Assert.assertEquals((Double)userLatLng.longitude,  (Double)result.getDouble("longitude"));
+
+        //accessing the second .thenReturn from line 56
+        result = volleyHandler.getJsonObjReq();
+        //Checking that user lat matches
+        Assert.assertNotEquals((Double)friendLatLng.latitude, (Double)result.getDouble("latitude"));
+        //Checking that user lng matches
+        Assert.assertNotEquals((Double)friendLatLng.longitude,  (Double)result.getDouble("longitude"));
+
+        //Creating text version of the map output
+        for(int i = 0; i < 2; i++){
+            if(user != friend){
+                mapOutput = "User location is " + userLatLng + " friend is an invalid object";
+            }
+            else{
+                mapOutput = "User location is " + userLatLng;
+            }
+        }
+        Assert.assertEquals(("User location is " + userLatLng + " friend is an invalid object"), mapOutput);
+
+    }
+
+    //TEST 4:
+    //Handling two whole teams!
+    @Test
+    public void Test4() throws JSONException {
+        String mapOutput = null;
+        //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
+        VolleyMethods volleyHandler = mock(VolleyMethods.class);
+        //creating a maps activity to use the fake volley method stuff!
+        MapsActivity mapsActivity = new MapsActivity();
+
+        //creating two arbitrary teams that would come from the server
+        JSONArray userTeam = new JSONArray();
+        JSONObject player1 = new JSONObject().put("name", "Joe");
+        JSONObject player2 = new JSONObject().put("name", "Steve");
+        JSONObject player3 = new JSONObject().put("name", "Roger");
+
+        //creating two arbitrary teams that would come from the server
+        JSONArray opponentTeam = new JSONArray();
+        JSONObject player4 = new JSONObject().put("name", "Jack");
+        JSONObject player5 = new JSONObject().put("name", "Vickey");
+        JSONObject player6 = new JSONObject().put("name", "Carly");
+
+
+        when(volleyHandler.getJsonArrReqInitial()).thenReturn(userTeam).thenReturn(opponentTeam);
+
+        //Mocking volley call to get JSONObject
+        JSONArray result = volleyHandler.getJsonArrReqInitial();
+        System.out.println(result);
+        //creating userTeam
+        mapsActivity.userTeamCreate(result);
+
+        //creating opponentTeam
+        result = volleyHandler.getJsonArrReqInitial();
+        System.out.println(result);
+        mapsActivity.oppTeamCreate(result);
+
+        //Accessing singleton to build expected string
+        UserTeamSingletonTest Team = new UserTeamSingletonTest().getInstance();
+        String actual = mapsActivity.teamPingTest();
+
+        String expected = "User player1 location is " + Team.getTeamMate(0) + "\n"
+                + "User player2 location is " + Team.getTeamMate(1) + "\n"
+                +"User player3 location is " + Team.getTeamMate(2) + "\n"
+                +"User player4 location is " + Team.getOpponent(0) + "\n"
+                +"User player5 location is " + Team.getOpponent(1) + "\n"
+                +"User player6 location is " + Team.getOpponent(2) + "\n";
+        Assert.assertEquals(expected, actual);
+
     }
 }

@@ -375,15 +375,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    //Method to handle creating the users team, and the opponents team
-    private void userTeamCreate(JSONArray teamArray) {
+    //Methods to handle creating the users team, and the opponents team
+    public void userTeamCreate(JSONArray teamArray) {
         UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
         userTeam.setTeam(teamArray);
+    }
+    public void oppTeamCreate(JSONArray oppArray){
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        userTeam.setOpp(oppArray);
     }
 
 
     //Method to print out user team mates to map screen
-    private void teamPing() throws JSONException {
+    public void teamPing() throws JSONException {
         UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
         //looping through and updating team pins
         for (int i = 0; i < userTeam.teamLength(); i++) {
@@ -401,6 +405,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng opponentLocation = new LatLng(opponentLat, opponentLng);
             mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).position(opponentLocation).title(opponentName));
         }
+    }
+
+    //Mock method that's results are text representations of the Map
+    public String teamPingTest() throws JSONException {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        String actual = null;
+        //looping through and updating team pins
+        for (int i = 0; i < userTeam.teamLength(); i++) {
+            double teamMateLat = userTeam.getTeamMate(i).isNull("latitude") ? null : userTeam.getTeamMate(i).getDouble("latitude");
+            double teamMateLng = userTeam.getTeamMate(i).isNull("longitude") ? null : userTeam.getTeamMate(i).getDouble("longitude");
+            String teamMateName = userTeam.getTeamMate(i).isNull("name") ? null : userTeam.getTeamMate(i).getString("name");
+            LatLng teamMateLocation = new LatLng(teamMateLat, teamMateLng);
+            actual += "User " + teamMateName + " location is " + teamMateLocation + "\n";
+            System.out.println("User " + teamMateName + " location is " + teamMateLocation);
+        }
+        //looping through and updating opponent pins
+        for (int i = 0; i < userTeam.opponentLength(); i++) {
+            double opponentLat = userTeam.getOpponent(i).isNull("latitude") ? null : userTeam.getOpponent(i).getDouble("latitude");
+            double opponentLng = userTeam.getOpponent(i).isNull("longitude") ? null : userTeam.getOpponent(i).getDouble("longitude");
+            String opponentName = userTeam.getOpponent(i).isNull("name") ? null : userTeam.getOpponent(i).getString("name");
+            LatLng opponentLocation = new LatLng(opponentLat, opponentLng);
+            actual += "User " + opponentName + " location is " + opponentLocation + "\n";
+            System.out.println("User " + opponentName + " location is " + opponentLocation);
+        }
+        return actual;
     }
 
     //On response cartridge for getJsonArrReqInitial
