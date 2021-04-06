@@ -41,6 +41,7 @@ dependencies {
     androidTestImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
     androidTestImplementation 'org.mockito:mockito-android:3.3.0'
     testImplementation 'org.mockito:mockito-core:3.8.0'
+    testImplementation 'org.json:json:20080701'
 
     testImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
