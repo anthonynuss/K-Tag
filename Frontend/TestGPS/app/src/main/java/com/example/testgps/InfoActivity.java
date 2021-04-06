@@ -77,11 +77,9 @@ public class InfoActivity extends AppCompatActivity {
 
                 if(userFound == true) {
                     UserSingleton user = UserSingleton.getInstance();
-                    user.setName(userName);
-                    user.setPass(password);
                     Log.v(TAG, "UserName using singleton " + user.getName());
                     Log.v(TAG, "Password using singleton " + user.getPass());
-
+                    Log.v(TAG, "Id using singleton " + user.getID());
                     Intent k = new Intent(InfoActivity.this, MainActivity.class);
                     startActivity(k);
                 }else {
@@ -153,6 +151,11 @@ public class InfoActivity extends AppCompatActivity {
                                 //if we find a person with same name and password it is a valid user.
                                 if(findUser.equals(userName) && userPass.equals(password)){
                                     InfoActivity.userFound = true;
+                                    UserSingleton user = UserSingleton.getInstance();
+                                    user.setName(userName);
+                                    user.setPass(password);
+                                    user.setID(userObject.get("id").toString());
+
                                     Log.v(TAG, "We found the user: " + findUser);
 
                                     break;
