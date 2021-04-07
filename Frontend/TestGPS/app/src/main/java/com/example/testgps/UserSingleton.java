@@ -34,8 +34,6 @@ public class UserSingleton {
     public synchronized  static String getPass(){
         return user_instance.password;
     }
-    //method to get user_instance id in other classes
-    public synchronized static String getID() { return user_instance.id; }
 
     //method to get user_instance teamID in other classes
     public synchronized static int getTeamID(){return user_instance.teamID;}
