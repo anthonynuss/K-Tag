@@ -7,6 +7,7 @@ import org.json.JSONObject;
 /**
  * This class will be the singleton for user data to be accessed by multiple instances across the app
  */
+
 public class UserTeamSingletonTest {
 
     private static UserTeamSingletonTest team_instance = null;
