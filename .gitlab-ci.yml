@@ -14,6 +14,7 @@ maven-build: #maven build job for springboot
   script:
     - cd Backend/lazertag-springboot
     - mvn package -B
+    - mvn clean install -DskipTests
  
 #maven-test: #this is a job
 #  stage: maventest
