@@ -51,20 +51,20 @@ public class EventController {
             event.changeLocation(request.getLocation());
         if(request.getTime() != null && request.getTime() != "")
             event.changeTime(request.getTime());
-        if(request.getOrganizer() != null)
+        if(request.getOrganizer() != 0)
             event.changeOrganizer(request.getOrganizer());
         if(request.getGameDescription() !=null && request.getGameDescription() != "")
             event.changeGameDescription(request.getGameDescription());
-        if(request.getTeam1() != null)
-            event.changeTeam1(request.getTeam1());
-        if(request.getTeam2() != null)
-            event.changeTeam2(request.getTeam2());
+        if(request.getTeam1Id() != 0)
+            event.changeTeam1(request.getTeam1Id());
+        if(request.getTeam2Id() != 0)
+            event.changeTeam2(request.getTeam2Id());
         eventRepository.save(event);
         return eventRepository.findById(id);
     }
 
-    @PutMapping("/events/{id}")
-    Event updateEventn(@PathVariable String name, @RequestBody Event request){
+    @PutMapping("/events/{name}")
+    Event updateEventN(@PathVariable String name, @RequestBody Event request){
         Event event = eventRepository.findByName(name);
         if(event == null)
             return null;
@@ -74,14 +74,14 @@ public class EventController {
             event.changeLocation(request.getLocation());
         if(request.getTime() != null && request.getTime() != "")
             event.changeTime(request.getTime());
-        if(request.getOrganizer() != null)
+        if(request.getOrganizer() != 0)
             event.changeOrganizer(request.getOrganizer());
         if(request.getGameDescription() !=null && request.getGameDescription() != "")
             event.changeGameDescription(request.getGameDescription());
-        if(request.getTeam1() != null)
-            event.changeTeam1(request.getTeam1());
-        if(request.getTeam2() != null)
-            event.changeTeam2(request.getTeam2());
+        if(request.getTeam1Id() != 0)
+            event.changeTeam1(request.getTeam1Id());
+        if(request.getTeam2Id() != 0)
+            event.changeTeam2(request.getTeam2Id());
         eventRepository.save(event);
         return eventRepository.findByName(name);
     }

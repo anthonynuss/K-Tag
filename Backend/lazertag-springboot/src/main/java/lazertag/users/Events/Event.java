@@ -18,29 +18,26 @@ public class Event {
 
     private String time;    //TODO change to date datatype later
 
-    @OneToOne(mappedBy = "organizer")
-    private User organizer;
+    private int organizerId;
 
     private String gameDescription;
 
-    @OneToOne(mappedBy = "team1")
-    private Team team1;
+    private int team1Id;
 
-    @OneToOne(mappedBy = "team2")
-    private Team team2;
+    private int team2Id;
 
     /**
      * creates a new event
      * @param name - name of the event
      * @param location - location of the event
      * @param time - time the event will take place
-     * @param organizer - user who create the evetn
+     * @param organizerId - user who create the evetn
      */
-    public Event(String name, String location, String time, User organizer){
+    public Event(String name, String location, String time, int organizerId){
         this.name = name;
         this.location = location;
         this.time = time;
-        this.organizer = organizer;
+        this.organizerId = organizerId;
     }
 
     /**
@@ -92,16 +89,16 @@ public class Event {
     public void changeTime(String time) {this.time = time;}
 
     /**
-     * gets the event organizer
-     * @return organizer - user who created the event
+     * gets the event organizerId
+     * @return organizerId - user who created the event
      */
-    public User getOrganizer() {return organizer;}
+    public int getOrganizer() {return organizerId;}
 
     /**
      * changes the event organizer
      * @param organizer
      */
-    public void changeOrganizer(User organizer) {this.organizer = organizer;}
+    public void changeOrganizer(int organizerId) {this.organizerId = organizerId;}
 
     /**
      * gets the game description
@@ -119,24 +116,24 @@ public class Event {
      * gets team1 of the event
      * @return
      */
-    public Team getTeam1() {return team1;}
+    public int getTeam1Id() {return team1Id;}
 
     /**
      * changes team1 of the event
-     * @param team1
+     * @param team1Id
      */
-    public void changeTeam1(Team team1) {this.team1 = team1;}
+    public void changeTeam1(int team1Id) {this.team1Id = team1Id;}
 
     /**
      * gets team2 of the event
      * @return
      */
-    public Team getTeam2() {return team2;}
+    public int getTeam2Id() {return team2Id;}
 
     /**
      * changes team2 of the event
-     * @param team2
+     * @param team2Id
      */
-    public void changeTeam2(Team team2) {this.team2 = team2;}
+    public void changeTeam2(int team2Id) {this.team2Id = team2Id;}
 
 }
