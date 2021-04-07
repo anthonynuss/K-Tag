@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test:rules:0.5'
-    //androidTestImplementation 'org.mockito:mockito-core:2.6.3'
+    testImplementation 'org.mockito:mockito-inline:3.8.0'
     androidTestImplementation 'com.crittercism.dexmaker:dexmaker:1.4'
     androidTestImplementation 'com.crittercism.dexmaker:dexmaker-dx:1.4'
     androidTestImplementation 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
