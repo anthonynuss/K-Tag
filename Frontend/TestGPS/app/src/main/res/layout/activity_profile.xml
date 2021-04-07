@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.963" />
 
     <TextView
-        android:id="@+id/tagView2"
+        android:id="@+id/knockoutView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Knockouts: "

@@ -2,24 +2,64 @@ image: maven:latest
 
 stages:
   - mavenbuild
-  - androidtry
+  - maventest
+  - androidbuild
+  - androidtest
+  - mavenDeploy
+  
+maven-build: #maven build job for springboot
+  stage: mavenbuild
+  tags:
+    - maven_runner 
+  script:
+    - cd Backend/lazertag-springboot
+    - mvn package -B
  
-maven-build: #this is a job
- stage: mavenbuild
- tags:
-  - spring_tag #this is LINK to the shell runner on the remote-server
- script:
-  - cd Backend/lazertag-springboot
-  - mvn package -B
+maven-test: #this is a job
+  stage: maventest
+  tags:
+    - maven_runner
+  script:
+    - cd Backend/lazertag-springboot
+    - mvn test
+  artifacts:
+    paths:
+      - Backend/lazertag-springboot/target/*.jar
         
 android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
- stage: androidtry
- tags:
-  - android_tag   #this is LINK to the docker runner on the remote-server
+ stage: androidbuild
  before_script:
   - export GRADLE_USER_HOME='pwd'/.gradle
   - chmod +x ./Frontend/TestGPS/gradlew
+ tags:
+  - android_tag   #this is LINK to the docker runner on the remote-server
  script:
   - cd Frontend/TestGPS
   - ./gradlew assemble
+ artifacts:
+   paths:
+   - outputs/  #TODO
+   
+android-test: 
+ image: javiersantos/android-ci:latest   
+ stage: androidtest
+ before_script:
+  - export GRADLE_USER_HOME='pwd'/.gradle
+  - chmod +x ./Frontend/TestGPS/gradlew
+ tags:
+  - android_tag   
+ script:
+  - cd Frontend/TestGPS
+  - ./gradlew test
+  
+autoDeploy:
+  stage: mavenDeploy
+  tags:
+   - maven_runner
+  script:
+    - cd Backend/lazertag-springboot
+    - mvn package
+    - mv target/*.jar /target/web-demo.jar
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
