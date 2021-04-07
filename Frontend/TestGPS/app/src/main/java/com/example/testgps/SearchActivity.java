@@ -55,6 +55,8 @@ public class SearchActivity extends AppCompatActivity {
                 code = f_code.getText().toString();
                 //findUser();
                 addFriend();
+                Intent i = new Intent(SearchActivity.this, FriendsActivity.class);
+                startActivity(i);
             }
         });
 
