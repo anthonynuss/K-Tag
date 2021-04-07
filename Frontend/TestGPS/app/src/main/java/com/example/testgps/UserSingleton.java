@@ -15,7 +15,7 @@ public class UserSingleton {
         userName = null;
         password = null;
         id = null;
-        teamID = Integer.parseInt(null);
+        //teamID = Integer.parseInt(null);
 
     }
 
