@@ -53,7 +53,42 @@ public class EventController {
             event.changeTime(request.getTime());
         if(request.getOrganizer() != null)
             event.changeOrganizer(request.getOrganizer());
+        if(request.getGameDescription() !=null && request.getGameDescription() != "")
+            event.changeGameDescription(request.getGameDescription());
+        if(request.getTeam1() != null)
+            event.changeTeam1(request.getTeam1());
+        if(request.getTeam2() != null)
+            event.changeTeam2(request.getTeam2());
         eventRepository.save(event);
         return eventRepository.findById(id);
+    }
+
+    @PutMapping("/events/{id}")
+    Event updateEventn(@PathVariable String name, @RequestBody Event request){
+        Event event = eventRepository.findByName(name);
+        if(event == null)
+            return null;
+        if(request.getName() != null && request.getName() != "")
+            event.changeName(request.getName());
+        if(request.getLocation() != null && request.getLocation() != "")
+            event.changeLocation(request.getLocation());
+        if(request.getTime() != null && request.getTime() != "")
+            event.changeTime(request.getTime());
+        if(request.getOrganizer() != null)
+            event.changeOrganizer(request.getOrganizer());
+        if(request.getGameDescription() !=null && request.getGameDescription() != "")
+            event.changeGameDescription(request.getGameDescription());
+        if(request.getTeam1() != null)
+            event.changeTeam1(request.getTeam1());
+        if(request.getTeam2() != null)
+            event.changeTeam2(request.getTeam2());
+        eventRepository.save(event);
+        return eventRepository.findByName(name);
+    }
+
+    @DeleteMapping(path = "/events/{id}")
+    String deleteEvent(@PathVariable int id){
+        eventRepository.deleteById(id);
+        return success;
     }
 }
