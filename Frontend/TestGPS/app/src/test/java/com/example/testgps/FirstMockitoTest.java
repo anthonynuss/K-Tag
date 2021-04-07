@@ -143,7 +143,7 @@ public class FirstMockitoTest {
     }
 
     //TEST 3:
-    @Test
+    /*@Test
     public void Test3() throws JSONException {
         String mapOutput = null;
         //Creating a mock object of the VolleyMethods class (because it isn't created yet!)
@@ -194,7 +194,7 @@ public class FirstMockitoTest {
         Assert.assertEquals(("User location is " + userLatLng + " friend is an invalid object"), mapOutput);
 
     }
-
+*/
     //TEST 4:
     //Handling two whole teams!
     @Test
