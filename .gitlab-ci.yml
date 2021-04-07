@@ -2,9 +2,9 @@ image: maven:latest
 
 stages:
   - mavenbuild
-  - maventest
+  #- maventest
   - androidbuild
-  - androidtest
+  #- androidtest
   - mavenDeploy
   
 maven-build: #maven build job for springboot
@@ -15,16 +15,16 @@ maven-build: #maven build job for springboot
     - cd Backend/lazertag-springboot
     - mvn package -B
  
-maven-test: #this is a job
-  stage: maventest
-  tags:
-    - maven_runner
-  script:
-    - cd Backend/lazertag-springboot
-    - mvn test
-  artifacts:
-    paths:
-      - Backend/lazertag-springboot/target/*.jar
+#maven-test: #this is a job
+#  stage: maventest
+#  tags:
+#    - maven_runner
+#  script:
+#    - cd Backend/lazertag-springboot
+#    - mvn test
+#  artifacts:
+#    paths:
+#      - Backend/lazertag-springboot/target/*.jar
         
 android-build: #this is another job
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
@@ -41,17 +41,17 @@ android-build: #this is another job
    paths:
    - outputs/  #TODO
    
-android-test: 
- image: javiersantos/android-ci:latest   
- stage: androidtest
- before_script:
-  - export GRADLE_USER_HOME='pwd'/.gradle
-  - chmod +x ./Frontend/TestGPS/gradlew
- tags:
-  - android_tag   
- script:
-  - cd Frontend/TestGPS
-  - ./gradlew test
+#android-test: 
+# image: javiersantos/android-ci:latest   
+# stage: androidtest
+# before_script:
+#  - export GRADLE_USER_HOME='pwd'/.gradle
+#  - chmod +x ./Frontend/TestGPS/gradlew
+# tags:
+#  - android_tag   
+# script:
+#  - cd Frontend/TestGPS
+#  - ./gradlew test
   
 autoDeploy:
   stage: mavenDeploy
