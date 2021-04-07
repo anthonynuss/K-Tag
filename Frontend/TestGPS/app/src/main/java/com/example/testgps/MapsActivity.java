@@ -410,10 +410,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Mock method that's results are text representations of the Map
     public String teamPingTest() throws JSONException {
         UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
-        String actual = null;
+        String actual = "";
         //looping through and updating team pins
         for (int i = 0; i < userTeam.teamLength(); i++) {
-            double teamMateLat = userTeam.getTeamMate(i).isNull("latitude") ? null : userTeam.getTeamMate(i).getDouble("latitude");
+            double teamMateLat = userTeam.getTeamMate(i).isNull("location") ? null : userTeam.getTeamMate(i).getDouble("latitude");
             double teamMateLng = userTeam.getTeamMate(i).isNull("longitude") ? null : userTeam.getTeamMate(i).getDouble("longitude");
             String teamMateName = userTeam.getTeamMate(i).isNull("name") ? null : userTeam.getTeamMate(i).getString("name");
             LatLng teamMateLocation = new LatLng(teamMateLat, teamMateLng);
