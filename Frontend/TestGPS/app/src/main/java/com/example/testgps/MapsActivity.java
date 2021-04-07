@@ -44,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * @author bendu
  *
@@ -93,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v(TAG, "entered on create");
-        Log.v(TAG, "This is our userName" +  userName);
+        Log.v(TAG, "This is our userName" + userName);
         //seting properites of LocationRequest
         locationRequest = new LocationRequest();
         //How often defualt location request occurs
@@ -120,14 +119,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
 
-
-
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
 
         pDialog = new ProgressDialog(this);
@@ -144,8 +140,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.v(TAG, "Logs work!");
         //Hopefully getting friend name first
+
         getJsonArrReqInitial();
-       // Log.v(TAG, "friend name" + friendName);
+        // Log.v(TAG, "friend name" + friendName);
         //getJsonObjReq();
 
         updateGPS();
@@ -177,14 +174,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //user provided the permission
-           // fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-             //   @Override
-               // public void onSuccess(Location location) {
-                    // we got permission. Put the values of location into the UI components
-                 //   CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
-                   // myLocation.location = location;
-                    //updateUIValues(location);
-                //}
+            // fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            //   @Override
+            // public void onSuccess(Location location) {
+            // we got permission. Put the values of location into the UI components
+            //   CurrentLocation myLocation = (CurrentLocation) getApplicationContext();
+            // myLocation.location = location;
+            //updateUIValues(location);
+            //}
             //});
             fusedLocationProviderClient.getCurrentLocation(100, null).addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 /**
@@ -212,6 +209,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /**
      * updateUIValues takes the location given by the updateGPS function and places all locations within it onto the map
+     *
      * @param location
      * @throws JSONException
      */
@@ -225,18 +223,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         LatLng coords = new LatLng(location.getLatitude(), location.getLongitude());
         LatLng friend = new LatLng(friendLat, friendLng);
-        Log.v(TAG, "Lat:" + coords.latitude +  "Lng: " + coords.longitude);
+        Log.v(TAG, "Lat:" + coords.latitude + "Lng: " + coords.longitude);
         Log.v(TAG, "Friend lat: " + friendLat + "Lng: " + friendLng);
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).position(coords).title(userName));
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).position(friend).title(friendName));
-       // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLevel));
+        // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coords, zoomLevel));
         postJsonObjReq();
     }
 
     /**
      * startLocationUpdates is used to start up the fusedLocationProviderClient and then updates the GPS for the first time
-     *
-     *
      */
     private void startLocationUpdates() {
 
@@ -271,7 +267,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * onMapReady initializes the map
      *
-     *
      * @param googleMap
      */
     @Override
@@ -289,6 +284,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param permissions
      * @param grantResults
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -334,7 +330,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new Response.Listener<JSONObject>() {
 
                     /**
-                     * onResponse parses the user data once a sucessfull volley call has been completed.
+                     * onResponse parses the user data once a successful volley call has been completed.
                      * @param response
                      */
                     @Override
@@ -342,18 +338,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         //Log.v(TAG, response.toString());
                         //Log.v(TAG, "the friend is initialized!");
                         //friendObject = response;
-                        try {
-                           //Parsing the friend object to receive lat and lng coords
-                           friendLat = friendObject.isNull("latitude") ? null : friendObject.getDouble("latitude");
-                           friendLng = friendObject.isNull("longitude") ? null : friendObject.getDouble("longitude");
-                           friendName = friendObject.isNull("name") ? null : friendObject.getString("name");
-                            Log.v(TAG, "Testing to make sure the friend is still" + friendName + ": " + friendObject.get("name").toString());
-                            Log.v(TAG, "friendLat: "+ friendLat);
-                            Log.v(TAG, "friendLng: " + friendLng);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        handleJsonResponse(response);
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -371,18 +356,99 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //HERE STARTS THE WORK OF MODULARIZATION FOR VOLLEY
 
+    //method to handleJsonResponses
+    private void handleJsonResponse(JSONObject response) {
+        try {
+            //Parsing the friend object to receive lat and lng coords
+            friendLat = friendObject.isNull("latitude") ? null : friendObject.getDouble("latitude");
+            friendLng = friendObject.isNull("longitude") ? null : friendObject.getDouble("longitude");
+            friendName = friendObject.isNull("name") ? null : friendObject.getString("name");
+            Log.v(TAG, "Testing to make sure the friend is still" + friendName + ": " + friendObject.get("name").toString());
+            Log.v(TAG, "friendLat: " + friendLat);
+            Log.v(TAG, "friendLng: " + friendLng);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Methods to handle creating the users team, and the opponents team
+    public void userTeamCreate(JSONArray teamArray) {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        userTeam.setTeam(teamArray);
+    }
+    public void oppTeamCreate(JSONArray oppArray){
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        userTeam.setOpp(oppArray);
+    }
+
+
+    //Method to print out user team mates to map screen
+    public void teamPing() throws JSONException {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        //looping through and updating team pins
+        for (int i = 0; i < userTeam.teamLength(); i++) {
+            double teamMateLat = userTeam.getTeamMate(i).isNull("latitude") ? null : userTeam.getTeamMate(i).getDouble("latitude");
+            double teamMateLng = userTeam.getTeamMate(i).isNull("longitude") ? null : userTeam.getTeamMate(i).getDouble("longitude");
+            String teamMateName = userTeam.getTeamMate(i).isNull("name") ? null : userTeam.getTeamMate(i).getString("name");
+            LatLng teamMateLocation = new LatLng(teamMateLat, teamMateLng);
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).position(teamMateLocation).title(teamMateName));
+        }
+        //looping through and updating opponent pins
+        for (int i = 0; i < userTeam.opponentLength(); i++) {
+            double opponentLat = userTeam.getOpponent(i).isNull("latitude") ? null : userTeam.getOpponent(i).getDouble("latitude");
+            double opponentLng = userTeam.getOpponent(i).isNull("longitude") ? null : userTeam.getOpponent(i).getDouble("longitude");
+            String opponentName = userTeam.getOpponent(i).isNull("name") ? null : userTeam.getOpponent(i).getString("name");
+            LatLng opponentLocation = new LatLng(opponentLat, opponentLng);
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).position(opponentLocation).title(opponentName));
+        }
+    }
+
+    //Mock method that's results are text representations of the Map
+    public String teamPingTest() throws JSONException {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        String actual = "";
+        //looping through and updating team pins
+        for (int i = 0; i < userTeam.teamLength(); i++) {
+            double teamMateLat = userTeam.getTeamMate(i).isNull("location") ? null : userTeam.getTeamMate(i).getDouble("latitude");
+            double teamMateLng = userTeam.getTeamMate(i).isNull("longitude") ? null : userTeam.getTeamMate(i).getDouble("longitude");
+            String teamMateName = userTeam.getTeamMate(i).isNull("name") ? null : userTeam.getTeamMate(i).getString("name");
+            LatLng teamMateLocation = new LatLng(teamMateLat, teamMateLng);
+            actual += "User " + teamMateName + " location is " + teamMateLocation + "\n";
+            System.out.println("User " + teamMateName + " location is " + teamMateLocation);
+        }
+        //looping through and updating opponent pins
+        for (int i = 0; i < userTeam.opponentLength(); i++) {
+            double opponentLat = userTeam.getOpponent(i).isNull("latitude") ? null : userTeam.getOpponent(i).getDouble("latitude");
+            double opponentLng = userTeam.getOpponent(i).isNull("longitude") ? null : userTeam.getOpponent(i).getDouble("longitude");
+            String opponentName = userTeam.getOpponent(i).isNull("name") ? null : userTeam.getOpponent(i).getString("name");
+            LatLng opponentLocation = new LatLng(opponentLat, opponentLng);
+            actual += "User " + opponentName + " location is " + opponentLocation + "\n";
+            System.out.println("User " + opponentName + " location is " + opponentLocation);
+        }
+        return actual;
+    }
+
+    //On response cartridge for getJsonArrReqInitial
+    //This method will be called every time we update the map
+    private void teamMaker(JSONArray team) {
+        UserTeamSingleton userTeam = UserTeamSingleton.getInstance();
+        userTeam.setTeam(team);
+    }
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     /**
      * getJsonArrReqInitial is the function used to request all user data from the server initially so each user name can be used to make individual volley request
      */
     private void getJsonArrReqInitial() {
         showProgressDialog();
-
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECTServer, null,
                 new Response.Listener<JSONArray>() {
-
-
                     /**
                      * onResponse loops through the recieved JSON array to find each user name
                      * @param response
@@ -392,14 +458,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.v(TAG, response.toString());
                         Log.v(TAG, "the server is here");
 
-                        serverArray = response;
-                        for(int i = 0; i < serverArray.length(); i++){
+                        for (int i = 0; i < serverArray.length(); i++) {
                             try {
                                 friendObject = serverArray.getJSONObject(i);
                                 friendName = friendObject.get("name").toString();
                                 friendId = friendObject.get("id").toString();
                                 Log.v(TAG, "Friend name: " + friendName);
-                                if(!friendName.equals(userName)){
+                                if (!friendName.equals(userName)) {
                                     Log.v(TAG, "This is the name we use as friend!!!!: " + friendName);
                                     break;
                                 }
@@ -407,7 +472,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 e.printStackTrace();
                             }
                         }
-
 
 
                         hideProgressDialog();
@@ -443,13 +507,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT + userName  , object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT + userName, object,
                 new Response.Listener<JSONObject>() {
                     /**
                      * onResponse prints a log command to show that the volley request completed successfully
-                      * @param response
+                     * @param response
                      */
-                @Override
+                    @Override
                     public void onResponse(JSONObject response) {
                         Log.v(TAG, response.toString());
 
@@ -461,10 +525,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              */
             @Override
             public void onErrorResponse(VolleyError error) {
-               // volleyRec.setText("Error getting response");
+                // volleyRec.setText("Error getting response");
             }
         });
         hideProgressDialog();
         requestQueue.add(jsonObjectRequest);
     }
 }
+
+

@@ -17,6 +17,8 @@ public class JoinTeamActivity extends AppCompatActivity {
 
         b_back = findViewById(R.id.buttonBack);
 
+
+
         /**
          * When back button clicked go back to MainActivity
          */
