@@ -1,4 +1,10 @@
+lazertag\users\Friends\FriendsController.class
 lazertag\users\User\User.class
 lazertag\users\User\UserRepository.class
 lazertag\users\User\UserController.class
+lazertag\users\Friends\FriendsRepository.class
 lazertag\users\Main.class
+lazertag\users\Team\TeamController.class
+lazertag\users\Team\Team.class
+lazertag\users\Team\TeamRepository.class
+lazertag\users\Friends\Friends.class
