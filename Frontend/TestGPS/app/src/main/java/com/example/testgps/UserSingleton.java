@@ -8,12 +8,13 @@ public class UserSingleton {
     private static UserSingleton user_instance = null;
 
     //user variables (this can be added too if needed
-    private String userName, password;
+    private String userName, password, id;
     private int teamID;
     //constructor for user_instance singleton
     private UserSingleton(){
         userName = null;
         password = null;
+        id = null;
         teamID = Integer.parseInt(null);
 
     }
@@ -25,6 +26,9 @@ public class UserSingleton {
         }
         return user_instance;
     }
+
+    //method to get user_instance id in other classes
+    public synchronized static String getID() { return user_instance.id; }
 
     //method to get user_instance name in other classes
     public synchronized static String getName(){
