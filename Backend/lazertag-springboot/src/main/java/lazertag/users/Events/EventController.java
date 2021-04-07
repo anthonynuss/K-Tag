@@ -55,10 +55,10 @@ public class EventController {
             event.changeOrganizer(request.getOrganizer());
         if(request.getGameDescription() !=null && request.getGameDescription() != "")
             event.changeGameDescription(request.getGameDescription());
-        if(request.getTeam1Id() != 0)
-            event.changeTeam1(request.getTeam1Id());
-        if(request.getTeam2Id() != 0)
-            event.changeTeam2(request.getTeam2Id());
+        if(request.getTeam1() != null && request.getTeam1() != "")
+            event.changeTeam1(request.getTeam1());
+        if(request.getTeam2() != null && request.getTeam2() != "")
+            event.changeTeam2(request.getTeam2());
         eventRepository.save(event);
         return eventRepository.findById(id);
     }
@@ -78,10 +78,10 @@ public class EventController {
             event.changeOrganizer(request.getOrganizer());
         if(request.getGameDescription() !=null && request.getGameDescription() != "")
             event.changeGameDescription(request.getGameDescription());
-        if(request.getTeam1Id() != 0)
-            event.changeTeam1(request.getTeam1Id());
-        if(request.getTeam2Id() != 0)
-            event.changeTeam2(request.getTeam2Id());
+        if(request.getTeam1() != null && request.getTeam1() != "")
+            event.changeTeam1(request.getTeam1());
+        if(request.getTeam2() != null && request.getTeam2() != "")
+            event.changeTeam2(request.getTeam2());
         eventRepository.save(event);
         return eventRepository.findByName(name);
     }

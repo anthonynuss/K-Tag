@@ -18,13 +18,16 @@ public class Event {
 
     private String time;    //TODO change to date datatype later
 
+    //points to userId
     private int organizerId;
 
     private String gameDescription;
 
-    private int team1Id;
+    //points to one teamId
+    private String team1;
 
-    private int team2Id;
+    //points
+    private String team2;
 
     /**
      * creates a new event
@@ -116,24 +119,24 @@ public class Event {
      * gets team1 of the event
      * @return
      */
-    public int getTeam1Id() {return team1Id;}
+    public String getTeam1() {return team1;}
 
     /**
      * changes team1 of the event
-     * @param team1Id
+     * @param team1
      */
-    public void changeTeam1(int team1Id) {this.team1Id = team1Id;}
+    public void changeTeam1(String team1) {this.team1 = team1;}
 
     /**
      * gets team2 of the event
      * @return
      */
-    public int getTeam2Id() {return team2Id;}
+    public String getTeam2() {return team2;}
 
     /**
      * changes team2 of the event
-     * @param team2Id
+     * @param team2
      */
-    public void changeTeam2(int team2Id) {this.team2Id = team2Id;}
+    public void changeTeam2(String team2) {this.team2 = team2;}
 
 }
