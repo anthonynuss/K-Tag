@@ -27,35 +27,35 @@ public class TeamController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
-    @ApiOperation(value = "Get list of teams in the System ", response = Team.class, tags = "getTeam")
+    @ApiOperation(value = "Get list of all teams in the System", response = Team.class, tags = "getTeam")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"),@ApiResponse(code = 401, message = "not authorized"),@ApiResponse(code = 403, message = "forbidden"),@ApiResponse(code = 404, message = "not found") })
     @GetMapping(path = "/teams")
     List<Team> getAllTeams(){
         return teamRepository.findAll();
     }
 
-    @ApiOperation(value = "Get a team in the system with an ID ", response = Team.class, tags = "getTeamID")
+    @ApiOperation(value = "Get a team in the system with the given ID ", response = Team.class, tags = "getTeamID")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @GetMapping(path = "/teams/{id}")
     Team getTeamById(@PathVariable int id){
         return teamRepository.findById(id);
     }
     
-    @ApiOperation(value = "Get list of teams in the System ", response = Team.class, tags = "getTeamName")
+    @ApiOperation(value = "Gets a team with the given name", response = Team.class, tags = "getTeamName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @GetMapping("/teams/{name}")
     Team getTeambyName(@PathVariable String name){
     	return teamRepository.findByName(name);
     }   
     
-    @ApiOperation(value = "Get list of teammates in the given team", response = Team.class, tags = "getTeamName")
+    @ApiOperation(value = "Gets a list of teammates in the given team", response = Team.class, tags = "getTeammates")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @GetMapping("/teamsm/{id}")
     List<User> getTeammatesById(@PathVariable int id){
     	return teamRepository.findById(id).getTeammates();
     }   
     
-    @ApiOperation(value = "Create a team in the system ", response = Team.class, tags = "createTeam")
+    @ApiOperation(value = "Creates a team in the system", response = Team.class, tags = "createTeam")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @PostMapping(path = "/teams")
     String createTeam(@RequestBody Team team){
@@ -65,7 +65,7 @@ public class TeamController {
         return success;
     }
 
-    @ApiOperation(value = "Updates team with the given ID", response = Team.class, tags = "updateTeam")
+    @ApiOperation(value = "Updates the data of the team with the given ID", response = Team.class, tags = "updateTeam")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @PutMapping("/teams/{id}")
     Team updateTeam(@PathVariable int id, @RequestBody Team request){
@@ -84,7 +84,7 @@ public class TeamController {
         return teamRepository.findById(id);
     }   
     
-    @ApiOperation(value = "Updates team data with given team name", response = Team.class, tags = "updateTeam")
+    @ApiOperation(value = "Updates the team with the given name's data", response = Team.class, tags = "updateTeamByName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @PutMapping("/teams/{name}")
     Team updateTeamByName(@PathVariable String name, @RequestBody Team request){
@@ -104,6 +104,12 @@ public class TeamController {
         return teamRepository.findById(team.getId());
     }   
 
+    @ApiOperation(value = "Adds a user with the given userid to a team with a given ID", response = Team.class, tags = "addUserTeam")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @PutMapping("/teams/{id}/{userid}")
     Team addUserToTeam(@PathVariable int id, @PathVariable int userid){
     	Team team = teamRepository.findById(id);
@@ -117,6 +123,12 @@ public class TeamController {
         return teamRepository.findById(team.getId());
     }
     
+    @ApiOperation(value = "Removes a user with the given userid from a team with a given ID", response = Team.class, tags = "removeUserTeam")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized"),
+            @ApiResponse(code = 403, message = "forbidden"),
+            @ApiResponse(code = 404, message = "not found") })
     @DeleteMapping("/teams/{id}/{userid}")
     Team removeUserToTeam(@PathVariable int id, @PathVariable int userid){
     	Team team = teamRepository.findById(id);
@@ -130,7 +142,7 @@ public class TeamController {
         return teamRepository.findById(team.getId());
     }   
     
-    @ApiOperation(value = "Deletes a team with a given ID", response = Team.class, tags = "updateTeam")
+    @ApiOperation(value = "Deletes a team with a given ID", response = Team.class, tags = "removeTeam")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Suceess|OK"),
             @ApiResponse(code = 401, message = "not authorized"),

@@ -1,5 +1,6 @@
 package lazertag.users.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import io.swagger.annotations.*;
@@ -22,7 +23,7 @@ public class Team {
     
     
     @OneToMany(mappedBy = "team")
-    private List<User> teammates;
+    private List<User> teammates = new ArrayList<User>();
 
 
     public Team(String name, int captainId) {
