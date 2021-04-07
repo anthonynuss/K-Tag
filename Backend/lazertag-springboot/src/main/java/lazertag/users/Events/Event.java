@@ -23,10 +23,8 @@ public class Event {
 
     private String gameDescription;
 
-    //points to one teamId
     private String team1;
 
-    //points
     private String team2;
 
     /**
@@ -99,7 +97,7 @@ public class Event {
 
     /**
      * changes the event organizer
-     * @param organizer
+     * @param organizerId
      */
     public void changeOrganizer(int organizerId) {this.organizerId = organizerId;}
 
