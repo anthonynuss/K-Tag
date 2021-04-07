@@ -52,6 +52,12 @@ public class UserSingleton {
         this.password = passVar;
     }
 
+    //method to set user_instance id
+    public synchronized void setID(String idVar){
+        this.id = idVar;
+    }
+
+
     //method to set user_instance teamID
     public synchronized void setTeamID(int teamID){this.teamID = teamID;}
 }
