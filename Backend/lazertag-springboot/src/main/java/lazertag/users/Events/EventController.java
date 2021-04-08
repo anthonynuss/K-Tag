@@ -19,19 +19,23 @@ public class EventController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
+    //returns all events in database
     @GetMapping(path = "/events")
     List<Event> getAllEvents(){ return eventRepository.findAll(); }
 
+    //returns a event by id numbers
     @GetMapping(path = "/events/{id}")
     Event getEventById(@PathVariable int id){
         return eventRepository.findById(id);
     }
 
+    //returns events that match given name
     @GetMapping(path = "/eventsn/{name}")
     Event getEventById(@PathVariable String name){
         return eventRepository.findByName(name);
     }
 
+    //creates a new event
     @PostMapping(path = "/events")
     String createUser(@RequestBody Event event){
         if (event == null)
@@ -40,6 +44,7 @@ public class EventController {
         return success;
     }
 
+    //updates an event with given event id
     @PutMapping("/events/{id}")
     Event updateEvent(@PathVariable int id, @RequestBody Event request){
         Event event = eventRepository.findById(id);
@@ -63,6 +68,7 @@ public class EventController {
         return eventRepository.findById(id);
     }
 
+    //updates an event based on name
     @PutMapping("/events/{name}")
     Event updateEventN(@PathVariable String name, @RequestBody Event request){
         Event event = eventRepository.findByName(name);
@@ -86,6 +92,7 @@ public class EventController {
         return eventRepository.findByName(name);
     }
 
+    //delete an event with a given id
     @DeleteMapping(path = "/events/{id}")
     String deleteEvent(@PathVariable int id){
         eventRepository.deleteById(id);

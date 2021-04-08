@@ -10,21 +10,27 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id; //generate id for event to be identified with
 
+    //name of the event
     private String name;
 
+    //physical location of lazertag game
     private String location;
 
+    //date and time of event, could be split into date and time data types
     private String time;    //TODO change to date datatype later
 
     //points to userId
     private int organizerId;
 
+    //general description of the event, set by organizer
     private String gameDescription;
 
+    //name of first team in event
     private String team1;
 
+    //name of second team in event
     private String team2;
 
     /**
