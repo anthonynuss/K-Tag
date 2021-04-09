@@ -1,9 +1,6 @@
-package lazertag.users.Events;
+package lazertag.users.Event;
 
 import javax.persistence.*;
-
-import lazertag.users.Team.Team;
-import lazertag.users.User.User;
 
 @Entity
 public class Event {

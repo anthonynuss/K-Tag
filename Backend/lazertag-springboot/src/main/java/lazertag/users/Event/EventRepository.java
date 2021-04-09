@@ -1,4 +1,4 @@
-package lazertag.users.Events;
+package lazertag.users.Event;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

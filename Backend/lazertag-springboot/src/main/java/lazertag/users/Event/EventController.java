@@ -1,10 +1,8 @@
-package lazertag.users.Events;
+package lazertag.users.Event;
 
 import io.swagger.annotations.Api;
-import lazertag.users.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import lazertag.users.Team.TeamRepository;
 
 import java.util.List;
 
