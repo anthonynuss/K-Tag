@@ -1,5 +1,6 @@
 package lazertag.users.Events;
 
+import io.swagger.annotations.Api;
 import lazertag.users.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,14 +8,12 @@ import lazertag.users.Team.TeamRepository;
 
 import java.util.List;
 
+@Api(value = "EventController", description = "REST APIs related to Event Entity")
 @RestController
 public class EventController {
 
     @Autowired
     EventRepository eventRepository;
-
-    @Autowired
-    TeamRepository teamRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
