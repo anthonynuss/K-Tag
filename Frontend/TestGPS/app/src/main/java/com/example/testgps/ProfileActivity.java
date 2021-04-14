@@ -32,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     UserSingleton user;
 
     private ProgressDialog pDialog;
-    private static final String TAG = "LeaderboardActivity";
+    private static final String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

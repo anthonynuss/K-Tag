@@ -76,6 +76,7 @@ public class InfoActivity extends AppCompatActivity {
                 findLoginCredentials(); //find user
 
                 if(userFound == true) {
+                    //findUserTeam();
                     UserSingleton user = UserSingleton.getInstance();
                     Log.v(TAG, "UserName using singleton " + user.getName());
                     Log.v(TAG, "Password using singleton " + user.getPass());
@@ -123,8 +124,6 @@ public class InfoActivity extends AppCompatActivity {
         JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
                 Const.URL_JSON_OBJECTServer, null,
                 new Response.Listener<JSONArray>() {
-
-
 
                     /**
                      * onResponse loops through the received JSON array to find each user name
@@ -182,4 +181,66 @@ public class InfoActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(jsonArrReq, "jobj_req");
     }
+
+//    /**
+//     * finds the team info for the user
+//     */
+//    private void findUserTeam() {
+//        showProgressDialog();
+//        JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
+//                Const.URL_JSON_OBJECTTEAM +userName, null,
+//                new Response.Listener<JSONArray>() {
+//
+//                    /**
+//                     * onResponse loops through the received JSON array to find each user name
+//                     * @param response
+//                     */
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        JSONObject userObject;
+//                        JSONArray serverArray;
+//                        String findUser;
+//                        String userPass;
+//
+//
+//                        Log.v(TAG, response.toString());
+//                        Log.v(TAG, "the server is here");
+//
+//                        serverArray = response;
+//                        for(int i = 0; i < serverArray.length(); i++){
+//                            try {
+//                                userObject = serverArray.getJSONObject(i);
+//                                findUser = userObject.get("name").toString();
+//                                userPass = userObject.get("password").toString();
+//                                Log.v(TAG, "User: " + findUser);
+//                                //if we find a person with same name and password it is a valid user.
+//                                if(findUser.equals(userName) && userPass.equals(password)){
+//                                    UserTeamSingleton team = UserTeamSingleton.getInstance();
+//                                    team.setTeam(userObject);
+//                                    Log.v(TAG, "We found the user: " + findUser);
+//
+//                                    break;
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            hideProgressDialog();
+//                        }
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//
+//            /**
+//             * onErrorResponse responds to errors if there is an unsuccessful volley request
+//             * @param error
+//             */
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.v(TAG, "Error: " + error.getMessage());
+//                hideProgressDialog();
+//            }
+//        });
+//
+//        AppController.getInstance().addToRequestQueue(jsonArrReq, "jobj_req");
+//    }
 }
