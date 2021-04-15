@@ -28,8 +28,10 @@ import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
     Button b_back, b_friends, b_jointeam, b_createteam;
-    TextView user_name, wins_view, losses_view, tags_view, knockouts_view;
+    TextView user_name, team_view, wins_view, losses_view, tags_view, knockouts_view;
     UserSingleton user;
+
+    UserTeamSingleton team = UserTeamSingleton.getInstance();
 
     private ProgressDialog pDialog;
     private static final String TAG = "ProfileActivity";
@@ -43,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         b_friends = findViewById(R.id.buttonFriends);
         b_jointeam = findViewById(R.id.buttonJoinTeam);
         b_createteam = findViewById(R.id.buttonCreateTeam);
+        team_view = findViewById(R.id.teamView);
         user_name = findViewById(R.id.myName);
         wins_view = findViewById(R.id.winsView);
         losses_view = findViewById(R.id.lossesView);
@@ -52,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         user = UserSingleton.getInstance();
 
         user_name.setText(user.getName()); //sets users name
+        team_view.setText(team.getName());
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -157,7 +161,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     tags_view.setText("Tags: " +userObject.get("tags").toString());
                                     knockouts_view.setText("Knockouts: " +userObject.get("knockouts").toString());
 
-                                    break;
                                 }
 
                             } catch (JSONException e) {

@@ -70,9 +70,7 @@ public class CreateTeamActivity extends AppCompatActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("name", teamName);
-            object.put("captainId", Integer.parseInt(user.getID()));
-            object.put("wins", 0);
-            object.put("losses", 0);
+            object.put("captain", Integer.parseInt(user.getID()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
