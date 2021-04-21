@@ -56,6 +56,8 @@ public class InfoActivity extends AppCompatActivity {
         found_text = findViewById(R.id.userFoundText);
         b_Login = findViewById(R.id.b_Login);
         b_signUp = findViewById(R.id.buttonSignUp);
+        UserSingleton user = UserSingleton.getInstance();
+        user.setName(null);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -73,18 +75,8 @@ public class InfoActivity extends AppCompatActivity {
                 userName = ip_userName.getText().toString();
                 password = ip_password.getText().toString();
 
-                findLoginCredentials(); //find user
+                findLoginCredentials(); //find user. Login if found
 
-                if(userFound == true) {
-                    UserSingleton user = UserSingleton.getInstance();
-                    Log.v(TAG, "UserName using singleton " + user.getName());
-                    Log.v(TAG, "Password using singleton " + user.getPass());
-                    Log.v(TAG, "Id using singleton " + user.getID());
-                    Intent k = new Intent(InfoActivity.this, MainActivity.class);
-                    startActivity(k);
-                }else {
-                    found_text.setText("User not found");
-                }
             }
         });
 
@@ -124,8 +116,6 @@ public class InfoActivity extends AppCompatActivity {
                 Const.URL_JSON_OBJECTServer, null,
                 new Response.Listener<JSONArray>() {
 
-
-
                     /**
                      * onResponse loops through the received JSON array to find each user name
                      * @param response
@@ -158,14 +148,27 @@ public class InfoActivity extends AppCompatActivity {
 
                                     Log.v(TAG, "We found the user: " + findUser);
 
-                                    break;
+
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                             hideProgressDialog();
                         }
-
+                        //if user was found login. Else display not found message
+                        UserSingleton user = UserSingleton.getInstance();
+                        if(user.getName() != null) {
+                            //findUserTeam();
+                            //UserSingleton user = UserSingleton.getInstance();
+                            Log.v(TAG, "UserName using singleton " + user.getName());
+                            Log.v(TAG, "Password using singleton " + user.getPass());
+                            Log.v(TAG, "Id using singleton " + user.getID());
+                            Intent k = new Intent(InfoActivity.this, MainActivity.class);
+                            startActivity(k);
+                        }else {
+                            found_text.setText("User not found");
+                        }
                     }
                 }, new Response.ErrorListener() {
 
@@ -182,4 +185,6 @@ public class InfoActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(jsonArrReq, "jobj_req");
     }
+
+
 }
