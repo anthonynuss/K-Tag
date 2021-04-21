@@ -37,10 +37,10 @@
         tools:layout_editor_absoluteY="160dp" />
 
     <Button
-        android:id="@+id/buttonEnterInfo"
+        android:id="@+id/buttonShowMap"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="To-be changed"
+        android:text="Play"
         android:textColor="#FFFFFF"
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,11 +51,11 @@
         app:layout_constraintVertical_bias="0.581" />
 
     <Button
-        android:id="@+id/buttonShowMap"
+        android:id="@+id/buttonSignOut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:text="ShowMap"
+        android:text="Sign-out"
         android:textColor="#FFFFFF"
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"

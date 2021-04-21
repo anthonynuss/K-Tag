@@ -55,12 +55,13 @@ public class ProfileActivity extends AppCompatActivity {
         user = UserSingleton.getInstance();
 
         user_name.setText(user.getName()); //sets users name
-        team_view.setText(team.getName());
+
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
         getPlayerInfo();
+        findUserTeam();
 
 
         /**
@@ -167,6 +168,76 @@ public class ProfileActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             hideProgressDialog();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            /**
+             * onErrorResponse responds to errors if there is an unsuccessful volley request
+             * @param error
+             */
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(jsonArrReq, "jobj_req");
+    }
+
+    /**
+     * finds the team info for the user
+     */
+    private void findUserTeam() {
+        showProgressDialog();
+        JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
+                Const.URL_JSON_OBJECTTEAM, null,
+                new Response.Listener<JSONArray>() {
+
+                    /**
+                     * onResponse loops through the received JSON array to find each user name
+                     * @param response
+                     */
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        JSONObject teamObject;
+                        JSONArray serverArray;
+                        JSONArray teamMembers;
+                        JSONObject thisTeam;
+                        String userPass;
+
+                        Log.v(TAG, response.toString());
+                        Log.v(TAG, "the server is here");
+
+                        serverArray = response;
+                        //iterate whole team server page
+                        for(int i = 0; i < serverArray.length(); i++){
+
+                            try {
+                                teamObject = serverArray.getJSONObject(i);
+                                teamMembers = (JSONArray) teamObject.get("teammates");
+
+                                //iterate through the members of a team.
+                                for(int j = 0; j < teamMembers.length(); j++) {
+                                    if (user.getName().equals(teamMembers.getJSONObject(j).get("name"))) {
+                                        UserTeamSingleton team = UserTeamSingleton.getInstance();
+                                        team.setName(teamObject.get("name").toString());
+                                        team_view.setText(team.getName());
+                                        Log.v(TAG, "We found the user: " + teamMembers.getJSONObject(j).get("name"));
+
+
+                                    }
+                                }
+
+                                Log.v(TAG, "User: " + teamMembers);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            hideProgressDialog();
+
                         }
 
                     }

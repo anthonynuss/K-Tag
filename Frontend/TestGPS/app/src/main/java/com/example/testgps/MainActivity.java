@@ -49,7 +49,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
 
     TextView tv_Lat, tv_Long, my_location, user_name; //textViews for screen
 
-    Button b_ShowMap, b_profile, b_leaderboard; //buttons for screen
+    Button b_ShowMap, b_profile, b_leaderboard, b_signOut; //buttons for screen
 
     String userName;
     String passWord;
@@ -90,6 +90,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         b_ShowMap = findViewById(R.id.buttonShowMap);
         b_profile = findViewById(R.id.buttonProfile);
         b_leaderboard = findViewById(R.id.buttonLeaderboard);
+        b_signOut = findViewById(R.id.buttonSignOut);
 
         //set all properties of LocationRequest
         locationRequest = new LocationRequest();
@@ -155,6 +156,17 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent k = new Intent(MainActivity.this, LeaderboardActivity.class);
+                startActivity(k);
+            }
+        });
+
+        /**
+         * onclick signs the user out. Goes to sign in page
+         */
+        b_signOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent k = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(k);
             }
         });

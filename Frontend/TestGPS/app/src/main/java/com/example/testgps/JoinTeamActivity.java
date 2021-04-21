@@ -99,7 +99,7 @@ public class JoinTeamActivity extends AppCompatActivity {
              */
             @Override
             public void onErrorResponse(VolleyError error) {
-                // volleyRec.setText("Error getting response");
+
             }
         });
         requestQueue.add(jsonObjectRequest);
