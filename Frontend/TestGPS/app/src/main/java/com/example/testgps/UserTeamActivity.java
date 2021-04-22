@@ -2,63 +2,90 @@ package com.example.testgps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.testgps.app.AppController;
 import com.example.testgps.utils.Const;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SearchActivity extends AppCompatActivity {
-    Button b_back,b_search;
-    EditText f_code;
-    String code;
+import java.util.ArrayList;
+import java.util.List;
 
-    UserSingleton user = UserSingleton.getInstance(); //gets the logged in user info
+public class UserTeamActivity extends AppCompatActivity {
+    Button b_back, b_leave;
+    TextView t_view;
 
-    private ProgressDialog pDialog;
-    private static final String TAG = "SearchActivity";
+    //for list
+    ListView f_listView;
+    List membersList = new ArrayList();
+    ArrayAdapter adapter;
+
+    UserSingleton user = UserSingleton.getInstance();
+    //get an array of all the teammates on users team
+    UserTeamSingleton team = UserTeamSingleton.getInstance();
+    JSONArray teammates;
+    {
+        try {
+            teammates = team.getUserTeam().getJSONArray("teammates");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_user_team);
 
         b_back = findViewById(R.id.buttonBack);
-        b_search = findViewById(R.id.buttonSearch);
-        f_code = findViewById(R.id.codeText);
+        b_leave = findViewById(R.id.buttonLeaveTeam);
+        f_listView = findViewById(R.id.membersList);
+        t_view = findViewById(R.id.teamView);
 
-        //dialog loading animation
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setMessage("Loading...");
-//        pDialog.setCancelable(false);
+        //loop through teammate array and add them to list.
+        for(int i = 0; i < teammates.length(); i++) {
+            try {
+                membersList.add(teammates.getJSONObject(i).get("name"));
 
-        b_search.setOnClickListener(new View.OnClickListener() {
+                t_view.setText(team.getUserTeam().get("name").toString()); //set team name text
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //add list to listview
+        adapter = new ArrayAdapter(UserTeamActivity.this, android.R.layout.simple_list_item_1, membersList);
+        f_listView.setAdapter(adapter);
+
+
+        b_leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                code = f_code.getText().toString();
-                //findUser();
-                addFriend();
-                Intent i = new Intent(SearchActivity.this, FriendsActivity.class);
+                leaveTeam();
+                team.setUserTeam(null);
+                team.setTeamID(null);
+                team.setName(null);
+                Intent i = new Intent(UserTeamActivity.this, ProfileActivity.class);
                 startActivity(i);
             }
         });
+
 
         /**
          * When back button clicked go back to ProfileActivity
@@ -66,22 +93,21 @@ public class SearchActivity extends AppCompatActivity {
         b_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SearchActivity.this, FriendsActivity.class);
+                Intent i = new Intent(UserTeamActivity.this, ProfileActivity.class);
                 startActivity(i);
             }
         });
     }
 
-
     /**
-     * addFriend takes the found user from code and adds them to the logged in users friends list
+     * removes the user from the team
      */
-    private void addFriend() {
+    private void leaveTeam() {
         JSONObject object = new JSONObject();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Const.URL_JSON_OBJECTFRIENDS +user.getID()+"/"+code  , object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, Const.URL_JSON_OBJECTTEAM +team.getTeamID() +"/" +user.getID(), object,
                 new Response.Listener<JSONObject>() {
                     /**
                      * onResponse prints a log command to show that the volley request completed successfully
@@ -89,7 +115,6 @@ public class SearchActivity extends AppCompatActivity {
                      */
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v(TAG, response.toString());
 
                     }
                 }, new Response.ErrorListener() {
@@ -104,4 +129,5 @@ public class SearchActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
     }
+
 }

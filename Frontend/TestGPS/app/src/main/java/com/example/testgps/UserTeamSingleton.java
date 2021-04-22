@@ -13,12 +13,15 @@ public class UserTeamSingleton {
 
     //Teammates in team (this can be added too if needed
     private JSONArray teamList, opponentList;
-    private String name;
+    private JSONObject userTeam; //temp
+    private String name, id;
     //constructor for user_instance singleton
     private UserTeamSingleton(){
        teamList = null;
        opponentList = null;
        name = null;
+       id = null;
+       userTeam = null;
     }
 
     //method to get an instance of user_instance in other classes
@@ -56,7 +59,19 @@ public class UserTeamSingleton {
         return team_instance.opponentList.getJSONObject(opponentID);
     }
 
-
+    //temp methods. for JSONObject team
+    public synchronized static void setUserTeam(JSONObject userTeam){
+        team_instance.userTeam = userTeam;
+    }
+    public synchronized static  JSONObject getUserTeam() {
+        return team_instance.userTeam;
+    }
+    public synchronized static void setTeamID(String teamID){
+        team_instance.id = teamID;
+    }
+    public synchronized static String getTeamID() {
+        return team_instance.id;
+    }
 
     //small helper method to return the length of our teamArray
     public int teamLength() {
