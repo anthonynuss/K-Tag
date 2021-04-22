@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 public class FirstMockitoTest {
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Test
-    public void zero() throws JSONException{
-        JSONObject testObject = new JSONObject();
-        testObject.put("Boolean", "true");
-        System.out.println(testObject.getBoolean("Boolean"));
-    }
+  //  @Test
+  //  public void zero() throws JSONException{
+    //     JSONObject testObject = new JSONObject();
+       // testObject.put("Boolean", "true");
+       // System.out.println(testObject.getBoolean("Boolean"));
+   // }
 
     //TEST 1:
     @Test
@@ -83,7 +83,6 @@ public class FirstMockitoTest {
             }
         }
         Assert.assertEquals(("User location is " + userLatLng + " and Friend location is " + friendLatLng), mapOutput);
-
     }
 
     //TEST 2:
@@ -194,7 +193,7 @@ public class FirstMockitoTest {
         Assert.assertEquals(("User location is " + userLatLng + " friend is an invalid object"), mapOutput);
 
     }
-*/
+    */
     //TEST 4:
     //Handling two whole teams!
     @Test
