@@ -41,12 +41,13 @@ public class TeamController {
         return teamRepository.findById(id);
     }
     
+    /*
     @ApiOperation(value = "Gets a team with the given name", response = Team.class, tags = "getTeamName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
     @GetMapping("/teams/{name}")
     Team getTeambyName(@PathVariable String name){
     	return teamRepository.findByName(name);
-    }   
+    }*/
     
     @ApiOperation(value = "Gets a list of teammates in the given team", response = Team.class, tags = "getTeammates")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized"), @ApiResponse(code = 403, message = "forbidden"), @ApiResponse(code = 404, message = "not found") })
