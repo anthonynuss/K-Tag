@@ -63,9 +63,9 @@ public class VolleyMethods {
     }
 
     //This method is the getter for JSONArrays. Works the same as the JSONObject getter, but just bigger
-     public void getJsonArrReqInitial(Boolean Team){
+     public void getJsonArrReqInitial(Boolean Team, String requestPath){
          JsonArrayRequest jsonArrReq = new JsonArrayRequest(Request.Method.GET,
-                 Const.URL_JSON_OBJECTServer, null,
+                 requestPath, null,
                  new Response.Listener<JSONArray>() {
                      /**
                       * onResponse loops through the recieved JSON array to find each user name
@@ -112,7 +112,7 @@ public class VolleyMethods {
             //FIXME right now this line is broken because of getApplicationContext()
             //RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Const.URL_JSON_OBJECT + object.get("name"), object,
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, requestPath, object,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
