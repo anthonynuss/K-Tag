@@ -24,8 +24,7 @@ import lazertag.users.User.UserRepository;
 @ServerEndpoint(value = "/chat/{userId}") // this is Websocket url
 public class ChatSocket {
 
-	@Autowired
-	UserRepository userRepository;
+	private static UserRepository usrRepo;
 	
 	// cannot autowire static directly (instead we do it by the below
 	// method
@@ -40,6 +39,11 @@ public class ChatSocket {
 	@Autowired
 	public void setMessageRepository(MessageRepository repo) {
 		msgRepo = repo; // we are setting the static variable
+	}
+	
+	@Autowired
+	public void setUserRepository(UserRepository repo) {
+		usrRepo = repo; // we are setting the static variable
 	}
 
 	// Store all socket session and their corresponding userId.
@@ -58,10 +62,10 @@ public class ChatSocket {
 		useridSessionMap.put(userId, session);
 
 		// Send chat history to the newly connected user
-		sendMessageToPArticularUser(userId, getChatHistory());
+		sendMessageToParticularUser(userId, getChatHistory());
 
 		// broadcast that new user joined
-		String message = "User:" + userRepository.findById(userId).getName() + " has Joined the Chat";
+		String message = "User:" + usrRepo.findById(userId).getName() + " has Joined the Chat";
 		broadcast(message);
 	}
 
@@ -77,8 +81,8 @@ public class ChatSocket {
 			String destUsername = message.split(" ")[0].substring(1);
 
 			// send the message to the sender and receiver
-			sendMessageToPArticularUser(userRepository.findByName(destUsername).getId(),"[DM] " + userRepository.findById(userId).getName() + ": " + message);
-			sendMessageToPArticularUser(userId, "[DM] " + userRepository.findById(userId).getName() + ": " + message);
+			sendMessageToParticularUser(usrRepo.findByName(destUsername).getId(),"[DM] " + usrRepo.findById(userId).getName() + ": " + message);
+			sendMessageToParticularUser(userId, "[DM] " + usrRepo.findById(userId).getName() + ": " + message);
 
 		} else { // broadcast
 			broadcast(userId + ": " + message);
@@ -109,7 +113,7 @@ public class ChatSocket {
 		throwable.printStackTrace();
 	}
 
-	private void sendMessageToPArticularUser(int userId, String message) {
+	private void sendMessageToParticularUser(int userId, String message) {
 		try {
 			useridSessionMap.get(userId).getBasicRemote().sendText(message);
 		} catch (IOException e) {
@@ -139,7 +143,7 @@ public class ChatSocket {
 		StringBuilder sb = new StringBuilder();
 		if (messages != null && messages.size() != 0) {
 			for (Message message : messages) {
-				sb.append(userRepository.findById(message.getUserId()).getName() + ": " + message.getContent() + "\n");
+				sb.append(usrRepo.findById(message.getUserId()).getName() + ": " + message.getContent() + "\n");
 			}
 		}
 		return sb.toString();

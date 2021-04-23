@@ -8,7 +8,7 @@
   <table>
     <tr>
       <td colspan="2">
-        <input type="text" id="username" placeholder="Username" />
+        <input type="text" id="userId" placeholder="userId" />
         <button type="button" onclick="connect();">Connect</button>
       </td>
     </tr>
@@ -29,8 +29,8 @@
 var ws;
 
 function connect() {
-    var username = document.getElementById("username").value;
-    var url = "ws://localhost:8080/chat/" + username;
+    var userId = document.getElementById("userId").value;
+    var url = "ws://coms-309-009.cs.iastate.edu:8080/chat/" + userId;
 
     ws = new WebSocket(url);
 
