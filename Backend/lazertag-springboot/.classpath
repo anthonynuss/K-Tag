@@ -46,5 +46,35 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/Christian/.m2/repository/org/hibernate/hibernate-core/5.4.27.Final/hibernate-core-5.4.27.Final.jar" sourcepath="C:/Users/Christian/.m2/repository/org/hibernate/hibernate-core/5.4.27.Final/hibernate-core-5.4.27.Final-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Christian/.m2/repository/org/hibernate/hibernate-core/5.4.27.Final/hibernate-core-5.4.27.Final-javadoc.jar!/"/>
+			<attribute name="maven.groupId" value="org.hibernate"/>
+			<attribute name="maven.artifactId" value="hibernate-core"/>
+			<attribute name="maven.version" value="5.4.27.Final"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Christian/.m2/repository/org/mockito/mockito-core/3.6.28/mockito-core-3.6.28.jar" sourcepath="C:/Users/Christian/.m2/repository/org/mockito/mockito-core/3.6.28/mockito-core-3.6.28-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.groupId" value="org.mockito"/>
+			<attribute name="maven.artifactId" value="mockito-core"/>
+			<attribute name="maven.version" value="3.6.28"/>
+			<attribute name="maven.scope" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Christian/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.11/istack-commons-runtime-3.0.11.jar" sourcepath="C:/Users/Christian/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.11/istack-commons-runtime-3.0.11-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Christian/.m2/repository/com/sun/istack/istack-commons-runtime/3.0.11/istack-commons-runtime-3.0.11-javadoc.jar!/"/>
+			<attribute name="maven.groupId" value="com.sun.istack"/>
+			<attribute name="maven.artifactId" value="istack-commons-runtime"/>
+			<attribute name="maven.version" value="3.0.11"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
