@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserTeamActivity extends AppCompatActivity {
@@ -32,8 +34,8 @@ public class UserTeamActivity extends AppCompatActivity {
 
     //for list
     ListView f_listView;
-    List membersList = new ArrayList();
-    ArrayAdapter adapter;
+    SimpleAdapter adapter; //used by list
+    ArrayList<HashMap<String, String>> teammateList = new ArrayList<HashMap<String, String>>();
 
     UserSingleton user = UserSingleton.getInstance();
     //get an array of all the teammates on users team
@@ -55,13 +57,21 @@ public class UserTeamActivity extends AppCompatActivity {
 
         b_back = findViewById(R.id.buttonBack);
         b_leave = findViewById(R.id.buttonLeaveTeam);
-        f_listView = findViewById(R.id.membersList);
+        f_listView = findViewById(R.id.list_view);
         t_view = findViewById(R.id.teamView);
 
-        //loop through teammate array and add them to list.
+        //loop through teammate array and add them to map.
         for(int i = 0; i < teammates.length(); i++) {
             try {
-                membersList.add(teammates.getJSONObject(i).get("name"));
+                //creates a multi column list view
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("name", teammates.getJSONObject(i).get("name").toString());
+                map.put("wins", teammates.getJSONObject(i).get("wins").toString());
+                map.put("losses", teammates.getJSONObject(i).get("losses").toString());
+                map.put("tags", teammates.getJSONObject(i).get("tags").toString());
+                map.put("knockouts", teammates.getJSONObject(i).get("knockouts").toString());
+                teammateList.add(map);
+               // f_listView.setAdapter(adapter);
 
                 t_view.setText(team.getUserTeam().get("name").toString()); //set team name text
             } catch (JSONException e) {
@@ -70,7 +80,8 @@ public class UserTeamActivity extends AppCompatActivity {
         }
 
         //add list to listview
-        adapter = new ArrayAdapter(UserTeamActivity.this, android.R.layout.simple_list_item_1, membersList);
+        adapter = new SimpleAdapter(this, teammateList, R.layout.adapter_view_layout,
+                new String[] {"name", "wins", "losses", "tags", "knockouts"}, new int[] {R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4, R.id.textView5});
         f_listView.setAdapter(adapter);
 
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,9 +32,11 @@ public class FriendsActivity extends AppCompatActivity {
     Button b_back, b_search;
     //variable used to display a list
     ListView f_listView;
-    List idList = new ArrayList();
+    List idList = new ArrayList(); //order of friend added
+    List idFriendsList = new ArrayList(); //order in the list view
     List friendsList = new ArrayList();
     ArrayAdapter adapter;
+
 
     UserSingleton user = UserSingleton.getInstance(); //gets the logged in user info
 
@@ -46,6 +49,8 @@ public class FriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+
+
         b_back = findViewById(R.id.buttonBack);
         b_search = findViewById(R.id.buttonSearch);
         f_listView = findViewById(R.id.fiendsList);
@@ -55,8 +60,21 @@ public class FriendsActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
+
+
         getIDList();
         getFriendsList();
+
+        //when a name is clicked send their id to the DeleteFriend activity
+        f_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent (FriendsActivity.this, DeleteFriend.class);
+                i.putExtra("USER_IN_LIST", idFriendsList.get(position).toString());
+                System.out.println(idFriendsList.get(position).toString());
+                startActivity(i);
+            }
+        });
 
         b_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +96,10 @@ public class FriendsActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * showProgressDialog is used to show the volley request progress graphically
-     */
-
+//    /**
+//     * showProgressDialog is used to show the volley request progress graphically
+//     */
+//
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
@@ -181,6 +199,7 @@ public class FriendsActivity extends AppCompatActivity {
                                     if(userObject.get("id").toString() == idList.get(j)) {
                                         Log.v(TAG, "add friend");
                                         friendsList.add(userObject.get("name").toString());
+                                        idFriendsList.add(userObject.get("id").toString());
                                     }
                                 }
                             } catch (JSONException e) {
