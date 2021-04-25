@@ -25,6 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Search page for searching to add a friend
+ */
 public class SearchActivity extends AppCompatActivity {
     Button b_back,b_search;
     EditText f_code;
@@ -45,10 +48,11 @@ public class SearchActivity extends AppCompatActivity {
         f_code = findViewById(R.id.codeText);
 
         //dialog loading animation
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setMessage("Loading...");
-//        pDialog.setCancelable(false);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
 
+        //onclick add friend, go back to friends list
         b_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,11 +76,27 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * showProgressDialog is used to show the volley request progress graphically
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * hideProgressDialog is used to stop the graphical progress representation
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
 
     /**
      * addFriend takes the found user from code and adds them to the logged in users friends list
      */
     private void addFriend() {
+        showProgressDialog();
         JSONObject object = new JSONObject();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -90,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.v(TAG, response.toString());
-
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             /**\
@@ -99,7 +119,9 @@ public class SearchActivity extends AppCompatActivity {
              */
             @Override
             public void onErrorResponse(VolleyError error) {
-                // volleyRec.setText("Error getting response");
+
+                hideProgressDialog();
+
             }
         });
         requestQueue.add(jsonObjectRequest);

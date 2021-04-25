@@ -1,6 +1,7 @@
 package com.example.testgps;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,11 +19,15 @@ import com.example.testgps.utils.Const;
 
 import org.json.JSONObject;
 
-
+/**
+ * Popup window that allows a user to remove a friend
+ */
 public class DeleteFriend extends Activity {
     Button b_delete;
 
     UserSingleton user = UserSingleton.getInstance();
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,9 @@ public class DeleteFriend extends Activity {
 
         b_delete = findViewById(R.id.buttonDelete);
 
-
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
 
         //dimensions for the pop-up window
         DisplayMetrics dm = new DisplayMetrics();
@@ -42,7 +49,7 @@ public class DeleteFriend extends Activity {
 
         getWindow().setLayout((int) (width * .8), (int) (height *.2)); //80% * 20% of screen size
 
-
+        //onclick remove friend and go back to friends list
         b_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,11 +61,27 @@ public class DeleteFriend extends Activity {
 
     }
 
+    /**
+     * showProgressDialog is used to show the volley request progress graphically
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * hideProgressDialog is used to stop the graphical progress representation
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
 
     /**
      * removes the friendship between the users
      */
     private void removeFriend() {
+        showProgressDialog();
         JSONObject object = new JSONObject();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -71,7 +94,7 @@ public class DeleteFriend extends Activity {
                      */
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             /**\
@@ -80,7 +103,7 @@ public class DeleteFriend extends Activity {
              */
             @Override
             public void onErrorResponse(VolleyError error) {
-                // volleyRec.setText("Error getting response");
+                hideProgressDialog();
             }
         });
         requestQueue.add(jsonObjectRequest);
