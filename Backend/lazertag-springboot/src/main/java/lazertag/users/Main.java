@@ -1,4 +1,4 @@
-package lazertag;
+package lazertag.users;
 
 //import lazertag.users.Team.TeamRepository;
 //import lazertag.users.User.User;
