@@ -27,8 +27,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button b_back, b_friends, b_jointeam, b_createteam;
-    TextView user_name, team_view, wins_view, losses_view, tags_view, knockouts_view;
+    Button b_back, b_friends, b_jointeam, b_createteam, b_myteam;
+    TextView user_name, id_view, team_view, wins_view, losses_view, tags_view, knockouts_view, noTeam_view;
     UserSingleton user;
 
     UserTeamSingleton team = UserTeamSingleton.getInstance();
@@ -45,24 +45,28 @@ public class ProfileActivity extends AppCompatActivity {
         b_friends = findViewById(R.id.buttonFriends);
         b_jointeam = findViewById(R.id.buttonJoinTeam);
         b_createteam = findViewById(R.id.buttonCreateTeam);
+        b_myteam = findViewById(R.id.buttonTeam);
+        id_view = findViewById(R.id.textViewID);
         team_view = findViewById(R.id.teamView);
         user_name = findViewById(R.id.myName);
         wins_view = findViewById(R.id.winsView);
         losses_view = findViewById(R.id.lossesView);
         tags_view = findViewById(R.id.tagView);
         knockouts_view = findViewById(R.id.knockoutView);
+        noTeam_view = findViewById(R.id.textViewNoTeam);
 
         user = UserSingleton.getInstance();
 
         user_name.setText(user.getName()); //sets users name
+        id_view.setText("ID: " +user.getID());
 
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
         getPlayerInfo();
         findUserTeam();
-
 
         /**
          * Goes to create team on click
@@ -94,6 +98,21 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(ProfileActivity.this, FriendsActivity.class);
                 startActivity(i);
+            }
+        });
+
+        /**
+         * Goes to my team on click
+         */
+        b_myteam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(team.getUserTeam() != null) {
+                    Intent i = new Intent(ProfileActivity.this, UserTeamActivity.class);
+                    startActivity(i);
+                }else {
+                    noTeam_view.setText("Create or Join a team to view My Team.");
+                }
             }
         });
 
@@ -217,14 +236,17 @@ public class ProfileActivity extends AppCompatActivity {
 
                             try {
                                 teamObject = serverArray.getJSONObject(i);
-                                teamMembers = (JSONArray) teamObject.get("teammates");
+                                Log.v(TAG, "teamObject: " + teamObject);
+                                teamMembers = serverArray.getJSONObject(i).getJSONArray("teammates");
 
                                 //iterate through the members of a team.
                                 for(int j = 0; j < teamMembers.length(); j++) {
                                     if (user.getName().equals(teamMembers.getJSONObject(j).get("name"))) {
                                         UserTeamSingleton team = UserTeamSingleton.getInstance();
                                         team.setName(teamObject.get("name").toString());
-                                        team_view.setText(team.getName());
+                                        team.setUserTeam(teamObject);
+                                        team.setTeamID(teamObject.get("id").toString());
+                                        team_view.setText("Team " +team.getName());
                                         Log.v(TAG, "We found the user: " + teamMembers.getJSONObject(j).get("name"));
 
 
