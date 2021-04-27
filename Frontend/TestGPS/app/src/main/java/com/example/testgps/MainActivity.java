@@ -122,7 +122,7 @@ public class MainActivity<LocationCallBack> extends AppCompatActivity {
         UserSingleton user = UserSingleton.getInstance();
         userName = user.getName();
         passWord = user.getPass();
-        user_name.setText("Welcome " +userName +"!");
+        user_name.setText(userName);
 
 
         /**

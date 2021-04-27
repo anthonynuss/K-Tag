@@ -7,19 +7,34 @@
     tools:context=".ProfileActivity">
 
     <Button
-        android:id="@+id/buttonTeam"
+        android:id="@+id/buttonJoinTeam"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="My Team"
+        android:layout_height="51dp"
+        android:text="join team"
         android:textColor="#FFFFFF"
         app:backgroundTint="#000000"
+        app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.714"
-        app:strokeColor="#FFFFFF" />
+        app:layout_constraintVertical_bias="0.888" />
+
+    <Button
+        android:id="@+id/buttonCreateTeam"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:text="Create team"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#000000"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.963" />
 
     <TextView
         android:id="@+id/knockoutView"
@@ -32,6 +47,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.712" />
+
+    <TextView
+        android:id="@+id/tagView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tags: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.643" />
+
+    <TextView
+        android:id="@+id/lossesView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Losses: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.574" />
 
     <Button
         android:id="@+id/buttonBack"
@@ -56,42 +94,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.145"
+        app:layout_constraintVertical_bias="0.203"
         app:srcCompat="@drawable/depositphotos_134255634_stock_illustration_avatar_icon_male_profile_gray" />
 
     <TextView
-        android:id="@+id/lossesView"
+        android:id="@+id/myName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Losses: "
+        android:text="No User Found"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.544" />
-
-    <TextView
-        android:id="@+id/teamView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Team: no team"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.443" />
-
-    <TextView
-        android:id="@+id/tagView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tags: "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.594" />
+        app:layout_constraintVertical_bias="0.398" />
 
     <TextView
         android:id="@+id/winsView"
@@ -102,18 +118,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/myName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No User Found"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
+        app:layout_constraintVertical_bias="0.516" />
 
     <Button
         android:id="@+id/buttonFriends"
@@ -124,65 +130,21 @@
         app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.784"
+        app:layout_constraintVertical_bias="0.814"
         app:strokeColor="#FFFFFF" />
 
-    <Button
-        android:id="@+id/buttonCreateTeam"
-        android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:text="Create team"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#000000"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933" />
-
-    <Button
-        android:id="@+id/buttonJoinTeam"
-        android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:text="join team"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#000000"
-        app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.858" />
-
     <TextView
-        android:id="@+id/textViewNoTeam"
+        android:id="@+id/teamView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#FB0505"
+        android:text="Team: no team"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.646" />
-
-    <TextView
-        android:id="@+id/textViewID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID: "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.396" />
+        app:layout_constraintVertical_bias="0.455" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
