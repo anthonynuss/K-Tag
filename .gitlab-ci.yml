@@ -28,6 +28,11 @@ maven-build: #maven build job for springboot
 #      - Backend/lazertag-springboot/target/*.jar
         
 android-build: #this is another job
+ only:
+    refs:
+      - master
+    changes:
+      - Backend/**/*
  image: javiersantos/android-ci:latest   #this is a directive to DOCKER
  stage: androidbuild
  before_script:
