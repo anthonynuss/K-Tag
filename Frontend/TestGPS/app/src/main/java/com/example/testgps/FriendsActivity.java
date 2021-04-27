@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,17 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Shows the users list of friends and allows them to be added and deleted
- */
 public class FriendsActivity extends AppCompatActivity {
     Button b_back, b_search;
-
     //variable used to display a list
     ListView f_listView;
-    List idList = new ArrayList(); //order of friend added
-    List idFriendsList = new ArrayList(); //order of id in the list view
-    List friendsList = new ArrayList(); //list of name of friends
+    List idList = new ArrayList();
+    List friendsList = new ArrayList();
     ArrayAdapter adapter;
 
     UserSingleton user = UserSingleton.getInstance(); //gets the logged in user info
@@ -64,18 +58,6 @@ public class FriendsActivity extends AppCompatActivity {
         getIDList();
         getFriendsList();
 
-        //when a name in the list is clicked, send their id to the DeleteFriend activity
-        f_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent (FriendsActivity.this, DeleteFriend.class);
-                i.putExtra("USER_IN_LIST", idFriendsList.get(position).toString());
-                System.out.println(idFriendsList.get(position).toString());
-                startActivity(i);
-            }
-        });
-
-        //onclick go to search activity
         b_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +81,7 @@ public class FriendsActivity extends AppCompatActivity {
     /**
      * showProgressDialog is used to show the volley request progress graphically
      */
+
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
@@ -146,9 +129,9 @@ public class FriendsActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
+                            hideProgressDialog();
                         }
-                        hideProgressDialog();
+
                     }
                 }, new Response.ErrorListener() {
 
@@ -198,15 +181,13 @@ public class FriendsActivity extends AppCompatActivity {
                                     if(userObject.get("id").toString() == idList.get(j)) {
                                         Log.v(TAG, "add friend");
                                         friendsList.add(userObject.get("name").toString());
-                                        idFriendsList.add(userObject.get("id").toString());
                                     }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            hideProgressDialog();
                         }
-                        hideProgressDialog();
-
                         adapter = new ArrayAdapter(FriendsActivity.this, android.R.layout.simple_list_item_1, friendsList);
                         f_listView.setAdapter(adapter);
                     }
