@@ -3,7 +3,7 @@ image: maven:latest
 stages:
   - mavenbuild
   #- maventest
-  - androidbuild
+  #- androidbuild
   #- androidtest
   - mavenDeploy
   
@@ -27,25 +27,25 @@ maven-build: #maven build job for springboot
 #    paths:
 #      - Backend/lazertag-springboot/target/*.jar
         
-android-build: #this is another job
- only:
-    refs:
-      - master
-    changes:
-      - Backend/**/*
- image: javiersantos/android-ci:latest   #this is a directive to DOCKER
- stage: androidbuild
- before_script:
-  - export GRADLE_USER_HOME='pwd'/.gradle
-  - chmod +x ./Frontend/TestGPS/gradlew
- tags:
-  - android_tag   #this is LINK to the docker runner on the remote-server
- script:
-  - cd Frontend/TestGPS
-  - ./gradlew assemble
- artifacts:
-   paths:
-   - outputs/  #TODO
+#android-build: #this is another job
+# only:
+#    refs:
+#      - master
+#    changes:
+#      - Backend/**/*
+# image: javiersantos/android-ci:latest   #this is a directive to DOCKER
+# stage: androidbuild
+# before_script:
+#  - export GRADLE_USER_HOME='pwd'/.gradle
+#  - chmod +x ./Frontend/TestGPS/gradlew
+# tags:
+#  - android_tag   #this is LINK to the docker runner on the remote-server
+# script:
+#  - cd Frontend/TestGPS
+#  - ./gradlew assemble
+# artifacts:
+#   paths:
+#   - outputs/  #TODO
    
 #android-test: 
 # image: javiersantos/android-ci:latest   
