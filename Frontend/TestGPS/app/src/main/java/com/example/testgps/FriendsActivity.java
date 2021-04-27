@@ -205,10 +205,10 @@ public class FriendsActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        hideProgressDialog();
 
                         adapter = new ArrayAdapter(FriendsActivity.this, android.R.layout.simple_list_item_1, friendsList);
                         f_listView.setAdapter(adapter);
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
 

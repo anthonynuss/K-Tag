@@ -237,7 +237,7 @@ public class ProfileActivity extends AppCompatActivity {
                             try {
                                 teamObject = serverArray.getJSONObject(i);
                                 Log.v(TAG, "teamObject: " + teamObject);
-                                teamMembers = serverArray.getJSONObject(i).getJSONArray("teammates");
+                                teamMembers = teamObject.getJSONArray("teammates");
 
                                 //iterate through the members of a team.
                                 for(int j = 0; j < teamMembers.length(); j++) {
@@ -246,11 +246,16 @@ public class ProfileActivity extends AppCompatActivity {
                                         team.setName(teamObject.get("name").toString());
                                         team.setUserTeam(teamObject);
                                         team.setTeamID(teamObject.get("id").toString());
-                                        team_view.setText("Team " +team.getName());
+                                        team_view.setText("Team " + team.getName());
                                         Log.v(TAG, "We found the user: " + teamMembers.getJSONObject(j).get("name"));
-
-
                                     }
+
+                                }
+                                if(user.getID().equals(teamObject.get("captain").toString())) {
+                                    team.setName(teamObject.get("name").toString());
+                                    team.setUserTeam(teamObject);
+                                    team.setTeamID(teamObject.get("id").toString());
+                                    team_view.setText("Team Captain of " + team.getName());
                                 }
 
                                 Log.v(TAG, "User: " + teamMembers);

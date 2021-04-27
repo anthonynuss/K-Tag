@@ -26,6 +26,7 @@ public class CreateTeamActivity extends AppCompatActivity {
     String teamName;
 
     UserSingleton user = UserSingleton.getInstance(); //gets the logged in user info
+    UserTeamSingleton team = UserTeamSingleton.getInstance();
     private static final String TAG = "SearchActivity";
 
     @Override
@@ -86,7 +87,7 @@ public class CreateTeamActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.v(TAG, response.toString());
-
+                        team.setUserTeam(object);
                     }
                 }, new Response.ErrorListener() {
             /**\
