@@ -1,14 +1,9 @@
 package lazertag.users.Event;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.annotations.ApiModelProperty;
+import lazertag.users.Team.Team;
 
 import javax.persistence.*;
-
-import org.springframework.lang.Nullable;
-
-import lazertag.users.Team.Team;
-import lazertag.users.User.User;
 
 @Entity
 public class Event {
@@ -18,18 +13,23 @@ public class Event {
 	private int id; // generate id for event to be identified with
 
 	// name of the event
+	@ApiModelProperty(notes = "Name of the Event",name="name",required=true,value="name")
 	private String name;
 
 	// physical location of lazertag game
+	@ApiModelProperty(notes = "Location of the Event",name="location",required=true,value="location")
 	private String location;
 
 	// date and time of event, could be split into date and time data types
+	@ApiModelProperty(notes = "date and time of the Event",name="date",required=true,value="date")
 	private String time; // TODO change to date datatype later
 
 	// points to userId
+	@ApiModelProperty(notes = "organizer of the Event",name="organizer",required=true,value="organizer")
 	private int organizerId;
 
 	// general description of the event, set by organizer
+	@ApiModelProperty(notes = "description of the Event",name="description",required=false,value="description")
 	private String gameDescription;
 
 	// name of second team in event
