@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button b_back, b_friends, b_jointeam, b_createteam, b_myteam;
+    Button b_back, b_friends, b_jointeam, b_createteam, b_myteam, b_settings;
     TextView user_name, id_view, team_view, wins_view, losses_view, tags_view, knockouts_view, noTeam_view;
     UserSingleton user;
 
@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         b_jointeam = findViewById(R.id.buttonJoinTeam);
         b_createteam = findViewById(R.id.buttonCreateTeam);
         b_myteam = findViewById(R.id.buttonTeam);
+        b_settings = findViewById(R.id.buttonSettings);
         id_view = findViewById(R.id.textViewID);
         team_view = findViewById(R.id.teamView);
         user_name = findViewById(R.id.myName);
@@ -117,6 +118,17 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         /**
+         * When settings button clicked go back to SettingsActivity
+         */
+        b_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this, SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        /**
          * When back button clicked go back to MainActivity
          */
         b_back.setOnClickListener(new View.OnClickListener() {
@@ -177,10 +189,13 @@ public class ProfileActivity extends AppCompatActivity {
                                 //if we find a person with same name and password it is a valid user.
                                 if(findUser.equals(user.getName()) && userPass.equals(user.getPass())){
                                     wins_view.setText("Wins: " +userObject.get("wins").toString());
+                                    user.setWins(Integer.parseInt(userObject.get("wins").toString()));
                                     losses_view.setText("Losses: " +userObject.get("losses").toString());
+                                    user.setLosses(Integer.parseInt(userObject.get("losses").toString()));
                                     tags_view.setText("Tags: " +userObject.get("tags").toString());
+                                    user.setTags(Integer.parseInt(userObject.get("tags").toString()));
                                     knockouts_view.setText("Knockouts: " +userObject.get("knockouts").toString());
-
+                                    user.setKnockouts(Integer.parseInt(userObject.get("knockouts").toString()));
                                 }
 
                             } catch (JSONException e) {
