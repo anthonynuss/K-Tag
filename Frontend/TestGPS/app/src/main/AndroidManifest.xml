@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestGPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UserTeamActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".UserTeamActivity" />
         <activity android:name=".CreateAccActivity" />
         <activity android:name=".CreateTeamActivity" />
         <activity android:name=".JoinTeamActivity" />
@@ -56,9 +57,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DeleteFriend"
-            android:theme="@style/AppTheme.CustomTheme"
-        ></activity>
+        <activity
+            android:name=".DeleteFriend"
+            android:theme="@style/AppTheme.CustomTheme" />
     </application>
 
 </manifest>
