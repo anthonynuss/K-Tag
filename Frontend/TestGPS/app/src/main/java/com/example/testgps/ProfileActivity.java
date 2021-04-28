@@ -263,15 +263,17 @@ public class ProfileActivity extends AppCompatActivity {
                                         team.setTeamID(teamObject.get("id").toString());
                                         team_view.setText("Team " + team.getName());
                                         Log.v(TAG, "We found the user: " + teamMembers.getJSONObject(j).get("name"));
+
                                     }
 
                                 }
-                                if(user.getID().equals(teamObject.get("captain").toString())) {
-                                    team.setName(teamObject.get("name").toString());
-                                    team.setUserTeam(teamObject);
-                                    team.setTeamID(teamObject.get("id").toString());
-                                    team_view.setText("Team Captain of " + team.getName());
-                                }
+//                                if(user.getID().equals(teamObject.get("captain").toString())) {
+//                                            team.setName(teamObject.get("name").toString());
+//                                            team.setUserTeam(teamObject);
+//                                            team.setTeamID(teamObject.get("id").toString());
+//                                    team_view.setText("Team Captain of " + team.getName());
+//                                }
+
 
                                 Log.v(TAG, "User: " + teamMembers);
 
